@@ -158,7 +158,7 @@
             <h2>1. Informations que nous traitons à votre sujet</h2>
             <p>Yakabi ("l'Application") recueille des informations que vous nous fournissez directement, par le biais de votre utilisation de l'Application.</p>
             <h3>1.1 Données que vous nous fournissez</h3>
-            <p>Données de création de compte : lorsque vous créez un compte sur notre Application, nous vous demandons les informations suivantes. Sans ces informations, nous ne pourrons pas vous donner accès à l'Application :</p>
+            <p>Données de création de compte : lorsque vous créez un compte sur notre Application, nous vous demandons les informations suivantes. Sans ces informations, nous ne pourrions pas vous donner accès à l'Application :</p>
             <ul>
                 <li>Votre numéro de téléphone, votre nom, votre date de naissance, une photo de profil et votre nom d'utilisateur.</li>
             </ul>
@@ -321,16 +321,15 @@
                 targetPage.style.display = 'block';
             }
         }
-
         // Gestion des clics sur les liens du footer
         document.querySelectorAll('footer a').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const target = link.getAttribute('href').substring(1); // Retire le #
                 switchPage(target);
+                window.location.hash = target; // Met à jour l'URL avec le hash
             });
         });
-
         // Gestion du hash URL au chargement et au changement
         window.addEventListener('load', () => {
             const hash = window.location.hash.substring(1);
@@ -338,7 +337,6 @@
                 switchPage(hash);
             }
         });
-
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.substring(1);
             if (hash && document.getElementById(hash)) {
