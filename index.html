@@ -158,7 +158,7 @@
             <h2>1. Informations que nous traitons à votre sujet</h2>
             <p>Yakabi ("l'Application") recueille des informations que vous nous fournissez directement, par le biais de votre utilisation de l'Application.</p>
             <h3>1.1 Données que vous nous fournissez</h3>
-            <p>Données de création de compte : lorsque vous créez un compte sur notre Application, nous vous demandons les informations suivantes. Sans ces informations, nous ne pourrions pas vous donner accès à l'Application :</p>
+            <p>Données de création de compte : lorsque vous créez un compte sur notre Application, nous vous demandons les informations suivantes. Sans ces informations, nous ne pourrons pas vous donner accès à l'Application :</p>
             <ul>
                 <li>Votre numéro de téléphone, votre nom, votre date de naissance, une photo de profil et votre nom d'utilisateur.</li>
             </ul>
@@ -276,7 +276,7 @@
             <h1>Normes Communautaires</h1>
             <p>Dernière mise à jour : 26 novembre, 2025</p>
             <p>Yakabi, c’est une affaire de découverte. Nous prônons l'authenticité, la spontanéité et la bienveillance, et nous sommes fiers d’offrir une plateforme qui donne à des utilisateurs comme toi la possibilité de découvrir un peu plus tes amis. Notre souhait est de faire de Yakabi un espace où les gens peuvent jouer et s'amuser en toute sécurité.</p>
-            <p>Nous avons élaboré nos Normes communautaires pour veiller à ce que toi et tous nos utilisateurs puissiez utiliser nos services en toute sécurité, et ces normes doivent être respectées. Elles sont incluses dans nos Conditions et notre Politique de confidentialité (désignées ensemble comme l’« Accord utilisateur »). Si tu n’es pas d’accord avec une partie de l’Accord utilisateur, y compris les Normes communautaires, alors Yakabi n’est peut-être pas fait pour toi.</p>
+            <p>Nous avons élaboré nos Normes communautaires pour veiller à ce que toi et tous nos utilisateurs puissiez utiliser nos services en toute sécurité, et ces normes doivent être respectées. Elles sont incluses dans nos Conditions et notre Politique de confidentialité (désignées ensemble comme l*« Accord utilisateur »*). Si tu n’es pas d’accord avec une partie de l’Accord utilisateur, y compris les Normes communautaires, alors Yakabi n’est peut-être pas fait pour toi.</p>
             <p>Les Normes communautaires ne sont rien d’autre qu’un ensemble de points qui assurent le respect des autres. En bref, si tu fais à d’autres ce que tu n’aimerais pas qu’on te fasse sur Yakabi, il y a de grandes chances que tu sois en train de violer les Normes communautaires. Voici quelques exemples, au cas où tu aurais toujours des doutes :</p>
             <ul>
                 <li><strong>Intimidation, abus et harcèlement :</strong> Il est interdit de partager du contenu destiné à intimider, abuser ou harceler des tiers, qu'il s'agisse d'autres utilisateurs ou de non-utilisateurs.</li>
@@ -319,30 +319,41 @@
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
+
         // Gestion des clics sur les liens du footer
         document.querySelectorAll('footer a').forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = link.getAttribute('href').substring(1); // Retire le #
-                switchPage(target);
-                window.location.hash = target; // Met à jour l'URL avec le hash
+                const target = link.getAttribute('href').substring(1);
+                window.location.hash = target;
             });
         });
+
         // Gestion du hash URL au chargement et au changement
         window.addEventListener('load', () => {
             const hash = window.location.hash.substring(1);
             if (hash && document.getElementById(hash)) {
                 switchPage(hash);
+            } else {
+                // Par défaut, on affiche la home
+                window.location.hash = 'home';
+                switchPage('home');
             }
         });
+
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.substring(1);
             if (hash && document.getElementById(hash)) {
                 switchPage(hash);
+            } else {
+                // Si le hash n'existe pas, on affiche la home
+                window.location.hash = 'home';
+                switchPage('home');
             }
         });
     </script>
 </body>
 </html>
+
