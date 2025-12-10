@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejoins Yakabi - Daily Photo Roulette</title>
+    
+    <!-- Meta tags pour les réseaux sociaux -->
+    <meta property="og:title" content="Rejoins Yakabi - Daily Photo Roulette">
+    <meta property="og:description" content="Partage ta photo quotidienne et découvre celles de tes amis !">
+    <meta property="og:image" content="https://yakabi.app/yakabi-og-image.jpg">
+    <meta property="og:url" content="https://yakabi.app/join">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rejoins Yakabi">
+    <meta name="twitter:description" content="Partage ta photo quotidienne et découvre celles de tes amis !">
+    <meta name="twitter:image" content="https://yakabi.app/yakabi-og-image.jpg">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 30px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .loading {
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .logo {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Y</div>
+        <h1>Rejoins Yakabi !</h1>
+        <p>Partage ta photo quotidienne et découvre celles de tes amis dans cette roulette photo unique.</p>
+        
+        <a href="#" id="downloadBtn" class="download-btn">
+            Télécharger l'app
+        </a>
+        
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            Ouverture de l'app...
+        </div>
+    </div>
+
+    <script>
+        // ✅ Configuration
+        const APP_STORE_URL = 'https://apps.apple.com/fr/app/yakabi-daily-photo-roulette/id6744852802';
+        const APP_URL_SCHEME = 'yakabi://join';
+        
+        // ✅ Détecter le type d'appareil
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent);
+        }
+        
+        function isAndroid() {
+            return /Android/.test(navigator.userAgent);
+        }
+        
+        // ✅ Fonction principale de redirection
+        function handleRedirect() {
+            const downloadBtn = document.getElementById('downloadBtn');
+            const loading = document.getElementById('loading');
+            
+            if (isIOS()) {
+                // iOS: Essayer d'ouvrir l'app, sinon App Store
+                downloadBtn.textContent = 'Ouvrir Yakabi';
+                
+                downloadBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Afficher le loading
+                    downloadBtn.style.display = 'none';
+                    loading.style.display = 'block';
+                    
+                    // Essayer d'ouvrir l'app
+                    window.location.href = APP_URL_SCHEME;
+                    
+                    // Si l'app ne s'ouvre pas, rediriger vers l'App Store après 2s
+                    setTimeout(function() {
+                        window.location.href = APP_STORE_URL;
+                    }, 2000);
+                });
+                
+                // ✅ BONUS: Redirection automatique immédiate (optionnel)
+                // Décommenter pour redirection automatique sans clic
+                /*
+                setTimeout(function() {
+                    window.location.href = APP_URL_SCHEME;
+                    setTimeout(function() {
+                        window.location.href = APP_STORE_URL;
+                    }, 2000);
+                }, 1000);
+                */
+                
+            } else if (isAndroid()) {
+                // Android: Rediriger vers Google Play Store
+                downloadBtn.textContent = 'Télécharger sur Android';
+                downloadBtn.href = 'https://play.google.com/store/apps/details?id=com.yakabi.app'; // À remplacer par votre package Android
+                
+            } else {
+                // Desktop/Autres: Rediriger vers App Store
+                downloadBtn.textContent = 'Voir sur l\'App Store';
+                downloadBtn.href = APP_STORE_URL;
+            }
+        }
+        
+        // ✅ Analytics (optionnel)
+        function trackClick(action) {
+            // Ajouter votre code d'analytics ici
+            console.log('Action:', action);
+            
+            // Exemple avec Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click', {
+                    'event_category': 'smart_link',
+                    'event_label': action
+                });
+            }
+        }
+        
+        // ✅ Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            handleRedirect();
+            
+            // Track page view
+            trackClick('page_view');
+        });
+        
+        // ✅ Gestion du retour sur la page (si l'app ne s'ouvre pas)
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                const loading = document.getElementById('loading');
+                const downloadBtn = document.getElementById('downloadBtn');
+                
+                // Si on revient sur la page, cacher le loading et réafficher le bouton
+                setTimeout(function() {
+                    loading.style.display = 'none';
+                    downloadBtn.style.display = 'inline-block';
+                    downloadBtn.textContent = 'Télécharger l\'app';
+                }, 500);
+            }
+        });
+    </script>
+    
+    <!-- ✅ Google Analytics (optionnel) -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    -->
+</body>
+</html>
