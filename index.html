@@ -538,32 +538,44 @@ document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
 // Gestion des clics sur les liens du footer
 document.querySelectorAll('footer a').forEach(link => {
 link.addEventListener('click', (e) => {
+e.preventDefault(); // Empêcher le comportement par défaut
 const target = link.getAttribute('href').substring(1);
-window.location.hash = target;
+navigateToPage(target);
 });
 });
 
-// Gestion du hash URL au chargement et au changement
+// Gestion de la navigation sans hash (#)
+function navigateToPage(pageId) {
+switchPage(pageId);
+// Mettre à jour l'URL sans recharger la page
+const url = pageId === 'home' ? '/' : `/${pageId}`;
+history.pushState({ page: pageId }, '', url);
+}
+
+// Au chargement, déterminer quelle page afficher
 window.addEventListener('load', () => {
-const hash = window.location.hash.substring(1);
+const path = window.location.pathname.substring(1); // Enlever le /
+const hash = window.location.hash.substring(1); // Support ancien format avec #
+
 if (hash && document.getElementById(hash)) {
-switchPage(hash);
+// Support ancien format avec # (rediriger vers nouvelle URL)
+navigateToPage(hash);
+} else if (path && document.getElementById(path)) {
+switchPage(path);
 } else {
-// Afficher home SANS ajouter #home dans l'URL
 switchPage('home');
-// Supprimer le hash si présent
-if (window.location.hash) {
-history.replaceState(null, null, ' ');
-}
+// Remplacer l'URL sans ajouter à l'historique
+history.replaceState({ page: 'home' }, '', '/');
 }
 });
 
-window.addEventListener('hashchange', () => {
-const hash = window.location.hash.substring(1);
-if (hash && document.getElementById(hash)) {
-switchPage(hash);
+// Support du bouton retour du navigateur
+window.addEventListener('popstate', (event) => {
+if (event.state && event.state.page) {
+switchPage(event.state.page);
 } else {
-switchPage('home');
+const path = window.location.pathname.substring(1);
+switchPage(path || 'home');
 }
 });
 </script>
