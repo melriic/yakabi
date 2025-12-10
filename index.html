@@ -549,8 +549,12 @@ const hash = window.location.hash.substring(1);
 if (hash && document.getElementById(hash)) {
 switchPage(hash);
 } else {
-window.location.hash = 'home';
+// Afficher home SANS ajouter #home dans l'URL
 switchPage('home');
+// Supprimer le hash si présent
+if (window.location.hash) {
+history.replaceState(null, null, ' ');
+}
 }
 });
 
@@ -559,7 +563,6 @@ const hash = window.location.hash.substring(1);
 if (hash && document.getElementById(hash)) {
 switchPage(hash);
 } else {
-window.location.hash = 'home';
 switchPage('home');
 }
 });
@@ -567,4 +570,3 @@ switchPage('home');
 
 </body>
 </html>
-
