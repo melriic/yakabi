@@ -1,50 +1,49 @@
-  {
-     "redirects": [
-       {
-         "source": "https://www.yakabi.app/:path*",
-         "destination": "https://yakabi.app/:path*",
-         "permanent": true
-       }
-     ],
-     "rewrites": [
-       { 
-         "source": "/invite",
-         "destination": "/index.html"
-       },
-       {
-         "source": "/(cgu|privacy|rules|contact)",
-         "destination": "/index.html"
-       }
-     ],
-     "headers": [
-       {
-         "source": "/apple-app-site-association",
-         "headers": [
-           {
-             "key": "Content-Type",
-             "value": "application/json"
-           },
-           {
-             "key": "Cache-Control",
-             "value": "public, max-age=3600"
-           }
-         ]
-       },
-       {
-         "source": "/.well-known/apple-app-site-association",
-         "headers": [
-           {
-             "key": "Content-Type",
-             "value": "application/json"
-           },
-           {
-             "key": "Cache-Control",
-             "value": "public, max-age=3600"
-           }
-         ]
-       }
-     ],
-     "cleanUrls": false,
-     "trailingSlash": false
-   }
+{
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "https://www.yakabi.app/:path*",
+      "destination": "https://yakabi.app/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/invite",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/cgu",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/rules",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/.well-known/apple-app-site-association",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    }
+  ]
+}
 
