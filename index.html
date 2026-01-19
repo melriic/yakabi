@@ -455,247 +455,300 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
 <script>
 // Configuration de l'app Yakabi
 const APP_CONFIG = {
-// URL Scheme de votre app (défini dans Info.plist)
-urlScheme: 'yakabi://',
-// Deep link pour rejoindre depuis Instagram Story
-deepLinkPath: 'feed',
-// ID de votre app sur l'App Store
-appStoreId: '6744852802',
-// URL de l'App Store
-appStoreUrl: 'https://apps.apple.com/app/id6744852802'
+  urlScheme: 'yakabi://',
+  deepLinkPath: 'feed',
+  appStoreId: '6744852802',
+  appStoreUrl: 'https://apps.apple.com/app/id6744852802'
 };
+
+// ✅ NOUVEAU: Fonction pour détecter et gérer les liens d'invitation
+function handleInvitationLink() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const referrerId = urlParams.get('ref');
+  
+  console.log('🔗 [Invitation] URL complète:', window.location.href);
+  console.log('🔗 [Invitation] Query params:', window.location.search);
+  console.log('🔗 [Invitation] ReferrerId:', referrerId);
+  
+  // Si on a un referrerId
+  if (referrerId) {
+    console.log('🎉 [Invitation] Lien d\'invitation détecté:', referrerId);
+    
+    // Stocker le referrerId dans localStorage
+    localStorage.setItem('pendingReferrerId', referrerId);
+    console.log('💾 [Invitation] ReferrerId stocké:', referrerId);
+    
+    // Modifier le contenu de la page home
+    const homeTitle = document.querySelector('#home h1');
+    const homeDescription = document.querySelector('#home p');
+    const button = document.getElementById('joinGameBtn');
+    
+    if (homeTitle) {
+      homeTitle.textContent = '🎉 Tu as été invité sur Yakabi !';
+      homeTitle.style.animation = 'fadeIn 0.5s ease-in';
+      console.log('✅ [Invitation] Titre modifié');
+    }
+    
+    if (homeDescription) {
+      homeDescription.textContent = 'Télécharge l\'app pour rejoindre ton ami';
+      homeDescription.style.animation = 'fadeIn 0.5s ease-in 0.2s';
+      homeDescription.style.opacity = '0';
+      setTimeout(() => {
+        homeDescription.style.opacity = '1';
+      }, 200);
+      console.log('✅ [Invitation] Description modifiée');
+    }
+    
+    if (button) {
+      // Modifier le texte du bouton
+      const buttonText = button.querySelector('span:last-child');
+      if (buttonText) {
+        buttonText.textContent = 'Accepter l\'invitation';
+        console.log('✅ [Invitation] Texte bouton modifié');
+      }
+      
+      // Remplacer l'event listener
+      const newButton = button.cloneNode(true);
+      button.parentNode.replaceChild(newButton, button);
+      
+      newButton.addEventListener('click', () => {
+        console.log('🎮 [Invitation] Bouton cliqué avec referrerId:', referrerId);
+        joinGameWithInvitation(referrerId);
+      });
+      
+      console.log('✅ [Invitation] Bouton configuré pour invitation');
+    }
+    
+    // Forcer l'affichage de la page home
+    switchPage('home');
+    
+    // Ajouter une animation de confetti (optionnel)
+    addConfettiEffect();
+    
+    return true;
+  }
+  
+  return false;
+}
+
+// ✅ NOUVEAU: Rejoindre avec invitation
+function joinGameWithInvitation(referrerId) {
+  const button = document.getElementById('joinGameBtn');
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  console.log('🎮 [Invitation] Ouverture avec referrerId:', referrerId);
+  console.log('📱 [Invitation] Device - iOS:', isIOS, 'Mobile:', isMobile);
+  
+  if (!isMobile) {
+    console.log('💻 [Invitation] Desktop détecté - redirection App Store');
+    window.location.href = APP_CONFIG.appStoreUrl;
+    return;
+  }
+  
+  if (button) {
+    button.classList.add('loading');
+  }
+  
+  if (isIOS) {
+    // Essayer d'ouvrir l'app avec le deep link d'invitation
+    const deepLink = `${APP_CONFIG.urlScheme}invite?ref=${referrerId}`;
+    const appStoreUrl = APP_CONFIG.appStoreUrl;
+    
+    console.log('📱 [Invitation] Tentative ouverture deep link:', deepLink);
+    
+    const now = Date.now();
+    window.location.href = deepLink;
+    
+    const timeout = setTimeout(() => {
+      if (Date.now() - now < 3000) {
+        console.log('📲 [Invitation] App non installée - redirection App Store');
+        window.location.href = appStoreUrl;
+      }
+    }, 2000);
+    
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        clearTimeout(timeout);
+        if (button) button.classList.remove('loading');
+      }
+    });
+    
+    window.addEventListener('blur', () => {
+      clearTimeout(timeout);
+      if (button) button.classList.remove('loading');
+    });
+  } else {
+    console.log('🤖 [Invitation] Android/Autre - redirection App Store');
+    window.location.href = APP_CONFIG.appStoreUrl;
+  }
+  
+  setTimeout(() => {
+    if (button) button.classList.remove('loading');
+  }, 3000);
+}
+
+// ✅ NOUVEAU: Effet confetti pour les invitations
+function addConfettiEffect() {
+  const confettiCount = 50;
+  const colors = ['#667eea', '#764ba2', '#f093fb', '#4facfe'];
+  
+  for (let i = 0; i < confettiCount; i++) {
+    const confetti = document.createElement('div');
+    confetti.style.position = 'fixed';
+    confetti.style.width = '10px';
+    confetti.style.height = '10px';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.left = Math.random() * 100 + '%';
+    confetti.style.top = '-10px';
+    confetti.style.opacity = Math.random();
+    confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+    confetti.style.pointerEvents = 'none';
+    confetti.style.zIndex = '9999';
+    confetti.style.borderRadius = '50%';
+    
+    document.body.appendChild(confetti);
+    
+    const duration = Math.random() * 3 + 2;
+    const delay = Math.random() * 0.5;
+    
+    confetti.animate([
+      { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+      { transform: `translateY(${window.innerHeight + 10}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+    ], {
+      duration: duration * 1000,
+      delay: delay * 1000,
+      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    });
+    
+    setTimeout(() => {
+      confetti.remove();
+    }, (duration + delay) * 1000);
+  }
+}
 
 // Gestion des pages
 function switchPage(pageId) {
-document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-const targetPage = document.getElementById(pageId);
-if (targetPage) {
-targetPage.style.display = 'block';
-window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-}
-
-function handleInvitationLink() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const referrerId = urlParams.get('ref');
-    
-    console.log('🔗 [Invitation] Checking URL params:', window.location.search);
-    console.log('🔗 [Invitation] ReferrerId:', referrerId);
-    
-    // Si on a un referrerId (peu importe le path)
-    if (referrerId) {
-        console.log('🎉 [Invitation] Lien d\'invitation détecté:', referrerId);
-        
-        // Stocker le referrerId dans localStorage
-        localStorage.setItem('pendingReferrerId', referrerId);
-        console.log('💾 [Invitation] ReferrerId stocké dans localStorage');
-        
-        // ✅ CRITIQUE: Vérifier si l'utilisateur est déjà connecté
-        // (Tu peux ajouter une logique pour vérifier un token/cookie)
-        
-        // Afficher un message personnalisé
-        const homeTitle = document.querySelector('#home h1');
-        const homeDescription = document.querySelector('#home p');
-        
-        if (homeTitle && homeDescription) {
-            homeTitle.textContent = '🎉 Tu as été invité sur Yakabi !';
-            homeDescription.textContent = 'Télécharge l\'app pour rejoindre ton ami';
-            console.log('✅ [Invitation] Texte personnalisé affiché');
-        }
-        
-        // Modifier le bouton pour qu'il ouvre l'app avec le referrerId
-        const button = document.getElementById('joinGameBtn');
-        if (button) {
-            const buttonText = button.querySelector('span:last-child');
-            if (buttonText) {
-                buttonText.textContent = 'Accepter l\'invitation';
-            }
-            
-            // Remplacer l'event listener
-            const newButton = button.cloneNode(true);
-            button.parentNode.replaceChild(newButton, button);
-            
-            newButton.addEventListener('click', () => {
-                console.log('🎮 [Invitation] Bouton cliqué avec referrerId:', referrerId);
-                joinGameWithInvitation(referrerId);
-            });
-            
-            console.log('✅ [Invitation] Bouton configuré pour invitation');
-        }
-        
-        // Forcer l'affichage de la page home
-        switchPage('home');
-        
-        return true; // Indique qu'on a traité une invitation
-    }
-    
-    return false; // Pas d'invitation
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  const targetPage = document.getElementById(pageId);
+  if (targetPage) {
+    targetPage.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
-// ✅ INVITATION SYSTEM: Rejoindre avec invitation
-function joinGameWithInvitation(referrerId) {
-    const button = document.getElementById('joinGameBtn');
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    console.log('🎮 Ouverture avec invitation:', referrerId);
-    
-    if (!isMobile) {
-        window.location.href = APP_CONFIG.appStoreUrl;
-        return;
-    }
-    
-    button.classList.add('loading');
-    
-    if (isIOS) {
-        // Essayer d'ouvrir l'app avec le deep link d'invitation
-        const deepLink = `${APP_CONFIG.urlScheme}invite?ref=${referrerId}`;
-        const appStoreUrl = APP_CONFIG.appStoreUrl;
-        
-        console.log('📱 Tentative d\'ouverture:', deepLink);
-        
-        const now = Date.now();
-        window.location.href = deepLink;
-        
-        const timeout = setTimeout(() => {
-            if (Date.now() - now < 3000) {
-                console.log('📲 App non installée, redirection vers App Store');
-                window.location.href = appStoreUrl;
-            }
-        }, 2000);
-        
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-                clearTimeout(timeout);
-                button.classList.remove('loading');
-            }
-        });
-        
-        window.addEventListener('blur', () => {
-            clearTimeout(timeout);
-            button.classList.remove('loading');
-        });
-    } else {
-        window.location.href = APP_CONFIG.appStoreUrl;
-    }
-    
-    setTimeout(() => {
-        button.classList.remove('loading');
-    }, 3000);
+function navigateToPage(pageId) {
+  switchPage(pageId);
+  const url = pageId === 'home' ? '/' : `/${pageId}`;
+  history.pushState({ page: pageId }, '', url);
 }
-	
-// Gestion du bouton "Rejoindre une partie"
+
+// Gestion du bouton "Rejoindre une partie" (normal)
 function joinGame() {
-const button = document.getElementById('joinGameBtn');
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-if (!isMobile) {
-// Sur desktop, on redirige vers l'App Store
-window.location.href = APP_CONFIG.appStoreUrl;
-return;
+  const button = document.getElementById('joinGameBtn');
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  if (!isMobile) {
+    window.location.href = APP_CONFIG.appStoreUrl;
+    return;
+  }
+  
+  button.classList.add('loading');
+  
+  if (isIOS) {
+    const deepLink = `${APP_CONFIG.urlScheme}${APP_CONFIG.deepLinkPath}`;
+    const appStoreUrl = APP_CONFIG.appStoreUrl;
+    
+    const now = Date.now();
+    window.location.href = deepLink;
+    
+    const timeout = setTimeout(() => {
+      if (Date.now() - now < 3000) {
+        window.location.href = appStoreUrl;
+      }
+    }, 2000);
+    
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        clearTimeout(timeout);
+        button.classList.remove('loading');
+      }
+    });
+    
+    window.addEventListener('blur', () => {
+      clearTimeout(timeout);
+      button.classList.remove('loading');
+    });
+  } else {
+    window.location.href = APP_CONFIG.appStoreUrl;
+  }
+  
+  setTimeout(() => {
+    button.classList.remove('loading');
+  }, 3000);
 }
 
-// Ajouter état de chargement
-button.classList.add('loading');
-
-if (isIOS) {
-// iOS: Tentative d'ouverture avec Universal Link / URL Scheme
-const deepLink = `${APP_CONFIG.urlScheme}${APP_CONFIG.deepLinkPath}`;
-const appStoreUrl = APP_CONFIG.appStoreUrl;
-
-// Tentative d'ouverture de l'app
-const now = Date.now();
-window.location.href = deepLink;
-
-// Fallback vers l'App Store si l'app n'est pas installée
-// iOS bloque la navigation si l'app s'ouvre, sinon on redirige après timeout
-const timeout = setTimeout(() => {
-// Si toujours sur la page après 2s, l'app n'est probablement pas installée
-if (Date.now() - now < 3000) {
-window.location.href = appStoreUrl;
-}
-}, 2000);
-
-// Nettoyage si l'utilisateur revient sur la page
-document.addEventListener('visibilitychange', () => {
-if (!document.hidden) {
-clearTimeout(timeout);
-button.classList.remove('loading');
-}
-});
-
-// Nettoyage si la page perd le focus (app s'ouvre)
-window.addEventListener('blur', () => {
-clearTimeout(timeout);
-button.classList.remove('loading');
-});
-	} else {
-		// Autre plateforme (Android, Windows, etc.): redirige vers l'App Store
-		window.location.href = APP_CONFIG.appStoreUrl;
-	}
-
-// Retirer l'état de chargement après un délai
-setTimeout(() => {
-button.classList.remove('loading');
-}, 3000);
-}
-
-// Event listener pour le bouton
+// Event listener pour le bouton (sera remplacé si invitation)
 document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
 
 // Gestion des clics sur les liens du footer
 document.querySelectorAll('footer a').forEach(link => {
-link.addEventListener('click', (e) => {
-e.preventDefault(); // Empêcher le comportement par défaut
-const target = link.getAttribute('href').substring(1);
-navigateToPage(target);
-});
-});
-
-// Gestion de la navigation sans hash (#)
-function navigateToPage(pageId) {
-switchPage(pageId);
-// Mettre à jour l'URL sans recharger la page
-const url = pageId === 'home' ? '/' : `/${pageId}`;
-history.pushState({ page: pageId }, '', url);
-}
-
-// Au chargement, déterminer quelle page afficher
-window.addEventListener('load', () => {
-const path = window.location.pathname.substring(1); // Enlever le /
-const hash = window.location.hash.substring(1); // Support ancien format avec #
-
-if (hash && document.getElementById(hash)) {
-// Support ancien format avec # (rediriger vers nouvelle URL)
-navigateToPage(hash);
-} else if (path && document.getElementById(path)) {
-switchPage(path);
-} else {
-switchPage('home');
-// Remplacer l'URL sans ajouter à l'historique
-history.replaceState({ page: 'home' }, '', '/');
-}
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = link.getAttribute('href').substring(1);
+    navigateToPage(target);
+  });
 });
 
 // Support du bouton retour du navigateur
-window.addEventListener('load', () => {
-    // ✅ INVITATION SYSTEM: Vérifier si c'est un lien d'invitation
-    handleInvitationLink();
-    
-    const path = window.location.pathname.substring(1);
-    const hash = window.location.hash.substring(1);
-    
-    if (hash && document.getElementById(hash)) {
-        navigateToPage(hash);
-    } else if (path && document.getElementById(path)) {
-        switchPage(path);
-    } else {
-        switchPage('home');
-        history.replaceState({ page: 'home' }, '', '/');
-    }
+window.addEventListener('popstate', (event) => {
+  if (event.state && event.state.page) {
+    switchPage(event.state.page);
+  }
 });
-</script>
 
-</body>
-</html>
+// ✅ CRITIQUE: Au chargement, vérifier IMMÉDIATEMENT si c'est une invitation
+window.addEventListener('load', () => {
+  console.log('🚀 [App] Page chargée');
+  
+  // ✅ ÉTAPE 1: Vérifier si c'est une invitation (PRIORITAIRE)
+  const isInvitation = handleInvitationLink();
+  
+  if (isInvitation) {
+    console.log('✅ [App] Mode invitation activé');
+    // Ne rien faire d'autre, handleInvitationLink() a déjà géré l'affichage
+    return;
+  }
+  
+  // ✅ ÉTAPE 2: Navigation normale si pas d'invitation
+  console.log('📄 [App] Mode navigation normale');
+  const path = window.location.pathname.substring(1);
+  const hash = window.location.hash.substring(1);
+  
+  if (hash && document.getElementById(hash)) {
+    navigateToPage(hash);
+  } else if (path && document.getElementById(path)) {
+    switchPage(path);
+  } else {
+    switchPage('home');
+    history.replaceState({ page: 'home' }, '', '/');
+  }
+});
+
+// ✅ NOUVEAU: Animation CSS pour fadeIn
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+document.head.appendChild(style);
+</script>
