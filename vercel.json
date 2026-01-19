@@ -7,7 +7,7 @@
        }
      ],
      "rewrites": [
-       {
+       { 
          "source": "/invite",
          "destination": "/index.html"
        },
