@@ -1,13 +1,6 @@
 {
   "cleanUrls": false,
   "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "https://www.yakabi.app/:path*",
-      "destination": "https://yakabi.app/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/invite",
@@ -46,4 +39,5 @@
     }
   ]
 }
+
 
