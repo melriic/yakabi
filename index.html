@@ -475,16 +475,23 @@ window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 }
 
-	function handleInvitationLink() {
+function handleInvitationLink() {
     const urlParams = new URLSearchParams(window.location.search);
     const referrerId = urlParams.get('ref');
     
-    // Si on est sur /invite avec un referrerId
-    if (window.location.pathname === '/invite' && referrerId) {
-        console.log('🔗 Lien d\'invitation détecté:', referrerId);
+    console.log('🔗 [Invitation] Checking URL params:', window.location.search);
+    console.log('🔗 [Invitation] ReferrerId:', referrerId);
+    
+    // Si on a un referrerId (peu importe le path)
+    if (referrerId) {
+        console.log('🎉 [Invitation] Lien d\'invitation détecté:', referrerId);
         
-        // Stocker le referrerId dans localStorage pour le récupérer après l'installation
+        // Stocker le referrerId dans localStorage
         localStorage.setItem('pendingReferrerId', referrerId);
+        console.log('💾 [Invitation] ReferrerId stocké dans localStorage');
+        
+        // ✅ CRITIQUE: Vérifier si l'utilisateur est déjà connecté
+        // (Tu peux ajouter une logique pour vérifier un token/cookie)
         
         // Afficher un message personnalisé
         const homeTitle = document.querySelector('#home h1');
@@ -493,19 +500,36 @@ window.scrollTo({ top: 0, behavior: 'smooth' });
         if (homeTitle && homeDescription) {
             homeTitle.textContent = '🎉 Tu as été invité sur Yakabi !';
             homeDescription.textContent = 'Télécharge l\'app pour rejoindre ton ami';
+            console.log('✅ [Invitation] Texte personnalisé affiché');
         }
         
         // Modifier le bouton pour qu'il ouvre l'app avec le referrerId
         const button = document.getElementById('joinGameBtn');
         if (button) {
-            button.querySelector('span:last-child').textContent = 'Accepter l\'invitation';
+            const buttonText = button.querySelector('span:last-child');
+            if (buttonText) {
+                buttonText.textContent = 'Accepter l\'invitation';
+            }
             
             // Remplacer l'event listener
             const newButton = button.cloneNode(true);
             button.parentNode.replaceChild(newButton, button);
-            newButton.addEventListener('click', () => joinGameWithInvitation(referrerId));
+            
+            newButton.addEventListener('click', () => {
+                console.log('🎮 [Invitation] Bouton cliqué avec referrerId:', referrerId);
+                joinGameWithInvitation(referrerId);
+            });
+            
+            console.log('✅ [Invitation] Bouton configuré pour invitation');
         }
+        
+        // Forcer l'affichage de la page home
+        switchPage('home');
+        
+        return true; // Indique qu'on a traité une invitation
     }
+    
+    return false; // Pas d'invitation
 }
 
 // ✅ INVITATION SYSTEM: Rejoindre avec invitation
