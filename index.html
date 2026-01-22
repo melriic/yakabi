@@ -1,339 +1,428 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yakabi - Daily Photo Roulette</title>
-<meta name="description" content="Yakabi - Un jeu pour mieux connaître ses amis">
-<meta name="apple-itunes-app" content="app-id=6744852802">
-<style>
-body {
-margin: 0;
-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-display: flex;
-flex-direction: column;
-min-height: 100vh;
-background-color: #121212;
-color: white;
-text-align: center;
-}
-.main {
-flex: 1;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 20px;
-}
-.page {
-display: none;
-max-width: 800px;
-width: 100%;
-}
-#home {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 30px;
-}
-h1 {
-font-size: 36px;
-margin: 0;
-font-weight: 700;
-}
-#home p {
-font-size: 18px;
-margin: 0;
-color: #bbbbbb;
-}
-/* Bouton CTA principal */
-.cta-button {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-gap: 10px;
-padding: 16px 32px;
-font-size: 18px;
-font-weight: 600;
-color: #fff;
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-border: none;
-border-radius: 12px;
-cursor: pointer;
-text-decoration: none;
-transition: all 0.3s ease;
-box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-min-width: 250px;
-position: relative;
-overflow: hidden;
--webkit-tap-highlight-color: transparent;
-}
-.cta-button:hover {
-transform: translateY(-2px);
-box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-}
-.cta-button:active {
-transform: translateY(0);
-box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
-}
-.cta-button::before {
-content: '';
-position: absolute;
-top: 0;
-left: -100%;
-width: 100%;
-height: 100%;
-background: rgba(255, 255, 255, 0.1);
-transition: left 0.3s ease;
-}
-.cta-button:hover::before {
-left: 100%;
-}
-.cta-button-icon {
-font-size: 24px;
-}
-.cgu-section, .privacy-section, .section {
-margin: 0 auto;
-padding: 40px 20px;
-text-align: left;
-color: #ffffff;
-}
-.cgu-section h2, .privacy-section h2, .section h2 {
-margin-top: 30px;
-color: #fff;
-}
-.cgu-section p, .privacy-section p, .section p {
-margin-bottom: 15px;
-line-height: 1.6;
-color: #ccc;
-}
-.cgu-section ul li, .privacy-section ul li, .section ul li {
-color: #ccc;
-margin-bottom: 8px;
-}
-.cgu-section ol li, .privacy-section ol li, .section ol li {
-color: #ccc;
-margin-bottom: 8px;
-}
-#contact {
-text-align: center;
-}
-#contact h1 {
-color: #fff;
-}
-#contact p {
-color: #ccc;
-}
-#contact a {
-color: #667eea;
-text-decoration: none;
-}
-#contact a:hover {
-text-decoration: underline;
-}
-footer {
-background-color: #000;
-padding: 15px 0;
-}
-footer a {
-color: white;
-text-decoration: none;
-margin: 0 15px;
-font-size: 14px;
-transition: color 0.3s ease;
-}
-footer a:hover {
-color: #667eea;
-text-decoration: underline;
-}
-/* Loading state */
-.cta-button.loading {
-pointer-events: none;
-opacity: 0.7;
-}
-@media (max-width: 480px) {
-h1 {
-font-size: 28px;
-}
-#home p {
-font-size: 16px;
-}
-.cta-button {
-font-size: 16px;
-padding: 14px 28px;
-min-width: 200px;
-}
-footer a {
-margin: 0 8px;
-font-size: 12px;
-}
-}
-/* Préchargement critique */
-@media (prefers-reduced-motion: reduce) {
-.cta-button,
-.cta-button::before {
-transition: none;
-}
-}
-/* ✅ Container pour la page d'invitation */
-.invitation-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 40px 20px;
-  min-height: 80vh;
-}
-/* ✅ Logo de l'app */
-.app-logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 22.37%; /* iOS app icon radius */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  margin-bottom: 10px;
-}
-/* ✅ Nom de l'app "Yakabi" */
-.app-name {
-  font-size: 32px;
-  font-weight: 700; /* Bold */
-  color: white;
-  margin: 0;
-  letter-spacing: -0.5px;
-}
-/* ✅ "Lien d'invitation 🔗" */
-.invitation-label {
-  font-size: 18px;
-  font-weight: 600; /* Semi-bold */
-  color: white;
-  margin: 0;
-  margin-top: -5px;
-}
-/* ✅ Description */
-.invitation-description {
-  font-size: 16px;
-  font-weight: 500; /* Medium */
-  color: rgba(255, 255, 255, 0.5); /* 50% opacity */
-  text-align: center;
-  margin: 10px 0 20px 0;
-  max-width: 320px;
-  line-height: 1.4;
-}
-/* ✅ Bouton rouge "Accepter l'invitation" */
-.invitation-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 40px;
-  font-size: 18px;
-  font-weight: 700; /* Bold */
-  color: white;
-  background: #FF3B30; /* Rouge iOS */
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.4);
-  min-width: 260px;
-  -webkit-tap-highlight-color: transparent;
-}
-.invitation-button:hover {
-  background: #FF2D1F;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 59, 48, 0.5);
-}
-.invitation-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 10px rgba(255, 59, 48, 0.4);
-}
-.invitation-button.loading {
-  pointer-events: none;
-  opacity: 0.7;
-}
-/* ✅ Animation d'entrée */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.invitation-container > * {
-  animation: fadeInUp 0.6s ease-out backwards;
-}
-.invitation-container > *:nth-child(1) { animation-delay: 0.1s; }
-.invitation-container > *:nth-child(2) { animation-delay: 0.2s; }
-.invitation-container > *:nth-child(3) { animation-delay: 0.3s; }
-.invitation-container > *:nth-child(4) { animation-delay: 0.4s; }
-.invitation-container > *:nth-child(5) { animation-delay: 0.5s; }
-/* ✅ Responsive */
-@media (max-width: 480px) {
-  .app-logo {
-    width: 80px;
-    height: 80px;
-  }
- 
-  .app-name {
-    font-size: 28px;
-  }
- 
-  .invitation-label {
-    font-size: 16px;
-  }
- 
-  .invitation-description {
-    font-size: 14px;
-    max-width: 280px;
-  }
- 
-  .invitation-button {
-    font-size: 16px;
-    padding: 14px 32px;
-    min-width: 220px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- ✅ TITRE ET DESCRIPTION STANDARDS -->
+  <title>Yakabi - Daily Photo Roulette</title>
+  <meta name="description" content="Yakabi - Un jeu pour mieux connaître ses amis">
+  
+  <!-- ✅ OPEN GRAPH META TAGS (pour le share sheet iOS) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yakabi.app/">
+  <meta property="og:title" id="og-title" content="Yakabi - Daily Photo Roulette">
+  <meta property="og:description" id="og-description" content="Un jeu photo quotidien pour mieux connaître tes amis">
+  <meta property="og:image" content="https://yakabi.app/images/logo.webp">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Yakabi Logo">
+  <meta property="og:site_name" content="Yakabi">
+  <meta property="og:locale" content="fr_FR">
+  
+  <!-- ✅ TWITTER CARD (bonus pour Twitter/X) -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" id="twitter-title" content="Yakabi - Daily Photo Roulette">
+  <meta name="twitter:description" id="twitter-description" content="Un jeu photo quotidien pour mieux connaître tes amis">
+  <meta name="twitter:image" content="https://yakabi.app/images/logo.webp">
+  
+  <!-- ✅ APPLE SMART APP BANNER -->
+  <meta name="apple-itunes-app" content="app-id=6744852802">
+  
+  <!-- ✅ SCRIPT POUR METTRE À JOUR LES META TAGS DYNAMIQUEMENT -->
+  <script>
+    // ✅ CRITIQUE: Exécuter AVANT le chargement de la page pour que les crawlers voient les meta tags
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get('username');
+      
+      if (username) {
+        console.log('👤 [MetaTags] Username détecté:', username);
+        
+        // Mettre à jour les meta tags Open Graph
+        const ogTitle = document.getElementById('og-title');
+        const ogDescription = document.getElementById('og-description');
+        const twitterTitle = document.getElementById('twitter-title');
+        const twitterDescription = document.getElementById('twitter-description');
+        
+        const newTitle = `ajoute-moi: @${username}`;
+        const newDescription = `Rejoins ${username} sur Yakabi - Un jeu photo quotidien pour mieux connaître tes amis`;
+        
+        if (ogTitle) ogTitle.setAttribute('content', newTitle);
+        if (ogDescription) ogDescription.setAttribute('content', newDescription);
+        if (twitterTitle) twitterTitle.setAttribute('content', newTitle);
+        if (twitterDescription) twitterDescription.setAttribute('content', newDescription);
+        
+        // Mettre à jour le titre de la page
+        document.title = newTitle;
+        
+        console.log('✅ [MetaTags] Meta tags mis à jour avec username:', username);
+      }
+    })();
+  </script>
+  
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #121212;
+      color: white;
+      text-align: center;
+    }
+    
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .page {
+      display: none;
+      max-width: 800px;
+      width: 100%;
+    }
+    
+    #home {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+    
+    h1 {
+      font-size: 36px;
+      margin: 0;
+      font-weight: 700;
+    }
+    
+    #home p {
+      font-size: 18px;
+      margin: 0;
+      color: #bbbbbb;
+    }
+    
+    /* Bouton CTA principal */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 32px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      min-width: 250px;
+      position: relative;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+    
+    .cta-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+    }
+    
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: left 0.3s ease;
+    }
+    
+    .cta-button:hover::before {
+      left: 100%;
+    }
+    
+    .cta-button-icon {
+      font-size: 24px;
+    }
+    
+    /* ✅ Container pour la page d'invitation */
+    .invitation-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px 20px;
+      min-height: 80vh;
+    }
+    
+    /* ✅ Logo de l'app */
+    .app-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 22.37%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      margin-bottom: 10px;
+    }
+    
+    /* ✅ Nom de l'app "Yakabi" */
+    .app-name {
+      font-size: 32px;
+      font-weight: 700;
+      color: white;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+    
+    /* ✅ "Lien d'invitation 🔗" ou "ajoute-moi: @username" */
+    .invitation-label {
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+      margin: 0;
+      margin-top: -5px;
+      text-align: center;
+    }
+    
+    /* ✅ Description */
+    .invitation-description {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+      margin: 10px 0 20px 0;
+      max-width: 320px;
+      line-height: 1.4;
+    }
+    
+    /* ✅ Bouton rouge "Accepter l'invitation" */
+    .invitation-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 40px;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      background: #FF3B30;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(255, 59, 48, 0.4);
+      min-width: 260px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .invitation-button:hover {
+      background: #FF2D1F;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 59, 48, 0.5);
+    }
+    
+    .invitation-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 10px rgba(255, 59, 48, 0.4);
+    }
+    
+    .invitation-button.loading,
+    .cta-button.loading {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    
+    /* ✅ Animation d'entrée */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .invitation-container > * {
+      animation: fadeInUp 0.6s ease-out backwards;
+    }
+    
+    .invitation-container > *:nth-child(1) { animation-delay: 0.1s; }
+    .invitation-container > *:nth-child(2) { animation-delay: 0.2s; }
+    .invitation-container > *:nth-child(3) { animation-delay: 0.3s; }
+    .invitation-container > *:nth-child(4) { animation-delay: 0.4s; }
+    .invitation-container > *:nth-child(5) { animation-delay: 0.5s; }
+    
+    /* Sections CGU, Privacy, etc. */
+    .cgu-section, .privacy-section, .section {
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: left;
+      color: #ffffff;
+    }
+    
+    .cgu-section h2, .privacy-section h2, .section h2 {
+      margin-top: 30px;
+      color: #fff;
+    }
+    
+    .cgu-section p, .privacy-section p, .section p {
+      margin-bottom: 15px;
+      line-height: 1.6;
+      color: #ccc;
+    }
+    
+    .cgu-section ul li, .privacy-section ul li, .section ul li,
+    .cgu-section ol li, .privacy-section ol li, .section ol li {
+      color: #ccc;
+      margin-bottom: 8px;
+    }
+    
+    #contact {
+      text-align: center;
+    }
+    
+    #contact h1 {
+      color: #fff;
+    }
+    
+    #contact p {
+      color: #ccc;
+    }
+    
+    #contact a {
+      color: #667eea;
+      text-decoration: none;
+    }
+    
+    #contact a:hover {
+      text-decoration: underline;
+    }
+    
+    footer {
+      background-color: #000;
+      padding: 15px 0;
+    }
+    
+    footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    
+    footer a:hover {
+      color: #667eea;
+      text-decoration: underline;
+    }
+    
+    /* ✅ Responsive */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 28px;
+      }
+      
+      #home p {
+        font-size: 16px;
+      }
+      
+      .cta-button {
+        font-size: 16px;
+        padding: 14px 28px;
+        min-width: 200px;
+      }
+      
+      .app-logo {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .app-name {
+        font-size: 28px;
+      }
+      
+      .invitation-label {
+        font-size: 16px;
+      }
+      
+      .invitation-description {
+        font-size: 14px;
+        max-width: 280px;
+      }
+      
+      .invitation-button {
+        font-size: 16px;
+        padding: 14px 32px;
+        min-width: 220px;
+      }
+      
+      footer a {
+        margin: 0 8px;
+        font-size: 12px;
+      }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      .cta-button,
+      .cta-button::before {
+        transition: none;
+      }
+    }
+  </style>
 </head>
 <body>
-<main class="main">
-<div id="home" class="page">
-  <!-- ✅ Container d'invitation (caché par défaut, affiché par JavaScript) -->
-  <div id="invitationContent" class="invitation-container" style="display: none;">
-    <!-- Logo de l'app -->
-    <img src="/images/logo.webp" alt="Yakabi Logo" class="app-logo" id="appLogo">
-   
-    <!-- Nom de l'app -->
-    <h1 class="app-name">Yakabi</h1>
-   
-    <!-- Label invitation -->
-    <p class="invitation-label">Lien d'invitation 🔗</p>
-   
-    <!-- Description -->
-    <p class="invitation-description">
-      Clique sur le bouton ci-dessous pour rejoindre ton ami(e).
-    </p>
-   
-    <!-- Bouton rouge -->
-    <button id="invitationButton" class="invitation-button">
-      Accepter l'invitation
-    </button>
-  </div>
- 
-  <!-- ✅ Contenu normal (affiché par défaut) -->
-  <div id="normalContent">
-    <h1>Yakabi : Daily Photo Roulette</h1>
-    <p>Un jeu pour mieux connaître ses amis</p>
-    <button id="joinGameBtn" class="cta-button" aria-label="Rejoindre une partie">
-      <span class="cta-button-icon">🎮</span>
-      <span>Rejoindre une partie</span>
-    </button>
-  </div>
-</div>
+  <main class="main">
+    <div id="home" class="page">
+      <!-- ✅ Container d'invitation (caché par défaut, affiché par JavaScript) -->
+      <div id="invitationContent" class="invitation-container" style="display: none;">
+        <!-- Logo de l'app -->
+        <img src="/images/logo.webp" alt="Yakabi Logo" class="app-logo" id="appLogo">
+        
+        <!-- Nom de l'app -->
+        <h1 class="app-name">Yakabi</h1>
+        
+        <!-- Label invitation (sera mis à jour par JavaScript avec username) -->
+        <p class="invitation-label" id="invitationLabel">Lien d'invitation 🔗</p>
+        
+        <!-- Description -->
+        <p class="invitation-description" id="invitationDescription">
+          Clique sur le bouton ci-dessous pour rejoindre ton ami(e).
+        </p>
+        
+        <!-- Bouton rouge -->
+        <button id="invitationButton" class="invitation-button">
+          Accepter l'invitation
+        </button>
+      </div>
+      
+      <!-- ✅ Contenu normal (affiché par défaut) -->
+      <div id="normalContent">
+        <h1>Yakabi : Daily Photo Roulette</h1>
+        <p>Un jeu pour mieux connaître ses amis</p>
+        <button id="joinGameBtn" class="cta-button" aria-label="Rejoindre une partie">
+          <span class="cta-button-icon">🎮</span>
+          <span>Rejoindre une partie</span>
+        </button>
+      </div>
+    </div>
+    
 <!-- Section CGU -->
 <div id="cgu" class="page cgu-section">
 <h1>Conditions Générales d'Utilisation</h1>
@@ -500,279 +589,296 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
 <p>Toutefois, si tu estimes qu'une décision prise à ton encontre n'est pas juste, tu as l'occasion de la contester en nous contactant.</p>
 <p>C'est tout pour le moment. Amuse-toi bien !</p>
 </div>
-<div id="contact" class="page section">
-<h1>Contact</h1>
-<p>Pour toute question, problème ou suggestion concernant Yakabi, vous pouvez nous contacter par email :</p>
-<p>
-<a href="mailto:y4kcontact@gmail.com">y4kcontact@gmail.com</a>
-</p>
-</div>
-</main>
-<footer>
-<a href="#home">Accueil</a>
-<a href="#cgu">CGU</a>
-<a href="#privacy">Politique de Confidentialité</a>
-<a href="#rules">Règlement</a>
-<a href="#contact">Contact</a>
-</footer>
-<script>
-// Configuration de l'app Yakabi
-const APP_CONFIG = {
-  urlScheme: 'yakabi://',
-  deepLinkPath: 'feed',
-  appStoreId: '6744852802',
-  appStoreUrl: 'https://apps.apple.com/app/id6744852802'
-};
-// ✅ Fonction pour détecter et afficher la page d'invitation
-function handleInvitationLink() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const referrerId = urlParams.get('ref');
- 
-  console.log('🔗 [Invitation] URL:', window.location.href);
-  console.log('🔗 [Invitation] ReferrerId:', referrerId);
- 
-  if (referrerId) {
-    console.log('🎉 [Invitation] Lien d\'invitation détecté:', referrerId);
-   
-    // Stocker le referrerId dans localStorage
-    localStorage.setItem('pendingReferrerId', referrerId);
-    console.log('💾 [Invitation] ReferrerId stocké:', referrerId);
-   
-    // ✅ Afficher le contenu d'invitation
-    const invitationContent = document.getElementById('invitationContent');
-    const normalContent = document.getElementById('normalContent');
-   
-    if (invitationContent && normalContent) {
-      normalContent.style.display = 'none';
-      invitationContent.style.display = 'flex';
-      console.log('✅ [Invitation] Contenu d\'invitation affiché');
-    }
-   
-    // ✅ Configurer le bouton d'invitation
-    const invitationButton = document.getElementById('invitationButton');
-    if (invitationButton) {
-      invitationButton.addEventListener('click', () => {
-        console.log('🎮 [Invitation] Bouton cliqué avec referrerId:', referrerId);
-        joinGameWithInvitation(referrerId);
-      });
-      console.log('✅ [Invitation] Bouton configuré');
-    }
-   
-    // ✅ Effet confetti
-    addConfettiEffect();
-   
-    return true;
-  }
- 
-  return false;
-}
-// ✅ Fonction pour rejoindre avec invitation
-function joinGameWithInvitation(referrerId) {
-  const button = document.getElementById('invitationButton');
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
- 
-  console.log('🎮 [Invitation] Ouverture avec referrerId:', referrerId);
-  console.log('📱 [Invitation] Device - iOS:', isIOS, 'Mobile:', isMobile);
- 
-  if (!isMobile) {
-    console.log('💻 [Invitation] Desktop - redirection App Store');
-    window.location.href = 'https://apps.apple.com/app/id6744852802';
-    return;
-  }
- 
-  if (button) {
-    button.classList.add('loading');
-    button.textContent = 'Ouverture...';
-  }
- 
-  if (isIOS) {
-    // ✅ iOS: Essayer d'ouvrir l'app avec le deep link
-    const deepLink = `yakabi://invite?ref=${referrerId}`;
-    const appStoreUrl = 'https://apps.apple.com/app/id6744852802';
-   
-    console.log('📱 [Invitation] Tentative deep link:', deepLink);
-   
-    const now = Date.now();
-    window.location.href = deepLink;
-   
-    // Fallback vers App Store après 2 secondes
-    const timeout = setTimeout(() => {
-      if (Date.now() - now < 3000) {
-        console.log('📲 [Invitation] App non installée - redirection App Store');
-        window.location.href = appStoreUrl;
+    
+  <div id="contact" class="page section">
+      <h1>Contact</h1>
+      <p>Pour toute question, problème ou suggestion concernant Yakabi, vous pouvez nous contacter par email :</p>
+      <p><a href="mailto:y4kcontact@gmail.com">y4kcontact@gmail.com</a></p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="#home">Accueil</a>
+    <a href="#cgu">CGU</a>
+    <a href="#privacy">Politique de Confidentialité</a>
+    <a href="#rules">Règlement</a>
+    <a href="#contact">Contact</a>
+  </footer>
+
+  <script>
+    // Configuration de l'app Yakabi
+    const APP_CONFIG = {
+      urlScheme: 'yakabi://',
+      deepLinkPath: 'feed',
+      appStoreId: '6744852802',
+      appStoreUrl: 'https://apps.apple.com/app/id6744852802'
+    };
+    
+    // ✅ Fonction pour gérer les liens d'invitation
+    function handleInvitationLink() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const referrerId = urlParams.get('ref');
+      const username = urlParams.get('username');
+      
+      console.log('🔗 [Invitation] URL:', window.location.href);
+      console.log('🔗 [Invitation] ReferrerId:', referrerId);
+      console.log('👤 [Invitation] Username:', username);
+      
+      if (referrerId) {
+        console.log('🎉 [Invitation] Lien d\'invitation détecté');
+        
+        // Stocker le referrerId dans localStorage
+        localStorage.setItem('pendingReferrerId', referrerId);
+        console.log('💾 [Invitation] ReferrerId stocké:', referrerId);
+        
+        // ✅ NOUVEAU: Mettre à jour le label avec le username
+        const invitationLabel = document.getElementById('invitationLabel');
+        if (username && invitationLabel) {
+          invitationLabel.textContent = `ajoute-moi: @${username}`;
+          console.log('✅ [Invitation] Label mis à jour avec username:', username);
+        }
+        
+        // ✅ Afficher le contenu d'invitation
+        const invitationContent = document.getElementById('invitationContent');
+        const normalContent = document.getElementById('normalContent');
+        
+        if (invitationContent && normalContent) {
+          normalContent.style.display = 'none';
+          invitationContent.style.display = 'flex';
+          console.log('✅ [Invitation] Contenu d\'invitation affiché');
+        }
+        
+        // ✅ Configurer le bouton d'invitation
+        const invitationButton = document.getElementById('invitationButton');
+        if (invitationButton) {
+          invitationButton.addEventListener('click', () => {
+            console.log('🎮 [Invitation] Bouton cliqué avec referrerId:', referrerId);
+            joinGameWithInvitation(referrerId);
+          });
+          console.log('✅ [Invitation] Bouton configuré');
+        }
+        
+        // ✅ Effet confetti
+        addConfettiEffect();
+        
+        return true;
       }
-    }, 2000);
-   
-    // Nettoyer si l'app s'ouvre
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) {
-        clearTimeout(timeout);
+      
+      return false;
+    }
+    
+    // ✅ Fonction pour rejoindre avec invitation
+    function joinGameWithInvitation(referrerId) {
+      const button = document.getElementById('invitationButton');
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      console.log('🎮 [Invitation] Ouverture avec referrerId:', referrerId);
+      console.log('📱 [Invitation] Device - iOS:', isIOS, 'Mobile:', isMobile);
+      
+      if (!isMobile) {
+        console.log('💻 [Invitation] Desktop - redirection App Store');
+        window.location.href = APP_CONFIG.appStoreUrl;
+        return;
+      }
+      
+      if (button) {
+        button.classList.add('loading');
+        button.textContent = 'Ouverture...';
+      }
+      
+      if (isIOS) {
+        const deepLink = `${APP_CONFIG.urlScheme}invite?ref=${referrerId}`;
+        const appStoreUrl = APP_CONFIG.appStoreUrl;
+        
+        console.log('📱 [Invitation] Tentative deep link:', deepLink);
+        
+        const now = Date.now();
+        window.location.href = deepLink;
+        
+        const timeout = setTimeout(() => {
+          if (Date.now() - now < 3000) {
+            console.log('📲 [Invitation] App non installée - redirection App Store');
+            window.location.href = appStoreUrl;
+          }
+        }, 2000);
+        
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) {
+            clearTimeout(timeout);
+            if (button) {
+              button.classList.remove('loading');
+              button.textContent = 'Accepter l\'invitation';
+            }
+          }
+        });
+        
+        window.addEventListener('blur', () => {
+          clearTimeout(timeout);
+          if (button) {
+            button.classList.remove('loading');
+            button.textContent = 'Accepter l\'invitation';
+          }
+        });
+      } else {
+        console.log('🤖 [Invitation] Android/Autre - redirection App Store');
+        window.location.href = APP_CONFIG.appStoreUrl;
+      }
+      
+      setTimeout(() => {
         if (button) {
           button.classList.remove('loading');
           button.textContent = 'Accepter l\'invitation';
         }
-      }
-    });
-   
-    window.addEventListener('blur', () => {
-      clearTimeout(timeout);
-      if (button) {
-        button.classList.remove('loading');
-        button.textContent = 'Accepter l\'invitation';
-      }
-    });
-  } else {
-    console.log('🤖 [Invitation] Android/Autre - redirection App Store');
-    window.location.href = 'https://apps.apple.com/app/id6744852802';
-  }
- 
-  setTimeout(() => {
-    if (button) {
-      button.classList.remove('loading');
-      button.textContent = 'Accepter l\'invitation';
+      }, 3000);
     }
-  }, 3000);
-}
-// ✅ Effet confetti
-function addConfettiEffect() {
-  const confettiCount = 50;
-  const colors = ['#FF3B30', '#FF9500', '#FFCC00', '#34C759', '#007AFF', '#5856D6'];
- 
-  for (let i = 0; i < confettiCount; i++) {
-    const confetti = document.createElement('div');
-    confetti.style.position = 'fixed';
-    confetti.style.width = '10px';
-    confetti.style.height = '10px';
-    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    confetti.style.left = Math.random() * 100 + '%';
-    confetti.style.top = '-10px';
-    confetti.style.opacity = Math.random();
-    confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
-    confetti.style.pointerEvents = 'none';
-    confetti.style.zIndex = '9999';
-    confetti.style.borderRadius = '50%';
-   
-    document.body.appendChild(confetti);
-   
-    const duration = Math.random() * 3 + 2;
-    const delay = Math.random() * 0.5;
-   
-    confetti.animate([
-      { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-      { transform: `translateY(${window.innerHeight + 10}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-    ], {
-      duration: duration * 1000,
-      delay: delay * 1000,
-      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-    });
-   
-    setTimeout(() => {
-      confetti.remove();
-    }, (duration + delay) * 1000);
-  }
-}
-// Gestion des pages
-function switchPage(pageId) {
-  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-  const targetPage = document.getElementById(pageId);
-  if (targetPage) {
-    targetPage.style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-}
-function navigateToPage(pageId) {
-  switchPage(pageId);
-  const url = pageId === 'home' ? '/' : `/${pageId}`;
-  history.pushState({ page: pageId }, '', url);
-}
-// Gestion du bouton "Rejoindre une partie" (normal)
-function joinGame() {
-  const button = document.getElementById('joinGameBtn');
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
- 
-  if (!isMobile) {
-    window.location.href = APP_CONFIG.appStoreUrl;
-    return;
-  }
- 
-  button.classList.add('loading');
- 
-  if (isIOS) {
-    const deepLink = `${APP_CONFIG.urlScheme}${APP_CONFIG.deepLinkPath}`;
-    const appStoreUrl = APP_CONFIG.appStoreUrl;
-   
-    const now = Date.now();
-    window.location.href = deepLink;
-   
-    const timeout = setTimeout(() => {
-      if (Date.now() - now < 3000) {
-        window.location.href = appStoreUrl;
+    
+    // ✅ Effet confetti
+    function addConfettiEffect() {
+      const confettiCount = 50;
+      const colors = ['#FF3B30', '#FF9500', '#FFCC00', '#34C759', '#007AFF', '#5856D6'];
+      
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.position = 'fixed';
+        confetti.style.width = '10px';
+        confetti.style.height = '10px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-10px';
+        confetti.style.opacity = Math.random();
+        confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+        confetti.style.pointerEvents = 'none';
+        confetti.style.zIndex = '9999';
+        confetti.style.borderRadius = '50%';
+        
+        document.body.appendChild(confetti);
+        
+        const duration = Math.random() * 3 + 2;
+        const delay = Math.random() * 0.5;
+        
+        confetti.animate([
+          { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+          { transform: `translateY(${window.innerHeight + 10}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+        ], {
+          duration: duration * 1000,
+          delay: delay * 1000,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        });
+        
+        setTimeout(() => {
+          confetti.remove();
+        }, (duration + delay) * 1000);
       }
-    }, 2000);
-   
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) {
-        clearTimeout(timeout);
+    }
+    
+    // Gestion des pages
+    function switchPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+      const targetPage = document.getElementById(pageId);
+      if (targetPage) {
+        targetPage.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+    
+    function navigateToPage(pageId) {
+      switchPage(pageId);
+      const url = pageId === 'home' ? '/' : `/${pageId}`;
+      history.pushState({ page: pageId }, '', url);
+    }
+    
+    // Gestion du bouton "Rejoindre une partie" (normal)
+    function joinGame() {
+      const button = document.getElementById('joinGameBtn');
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      if (!isMobile) {
+        window.location.href = APP_CONFIG.appStoreUrl;
+        return;
+      }
+      
+      button.classList.add('loading');
+      
+      if (isIOS) {
+        const deepLink = `${APP_CONFIG.urlScheme}${APP_CONFIG.deepLinkPath}`;
+        const appStoreUrl = APP_CONFIG.appStoreUrl;
+        
+        const now = Date.now();
+        window.location.href = deepLink;
+        
+        const timeout = setTimeout(() => {
+          if (Date.now() - now < 3000) {
+            window.location.href = appStoreUrl;
+          }
+        }, 2000);
+        
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) {
+            clearTimeout(timeout);
+            button.classList.remove('loading');
+          }
+        });
+        
+        window.addEventListener('blur', () => {
+          clearTimeout(timeout);
+          button.classList.remove('loading');
+        });
+      } else {
+        window.location.href = APP_CONFIG.appStoreUrl;
+      }
+      
+      setTimeout(() => {
         button.classList.remove('loading');
+      }, 3000);
+    }
+    
+    // Event listener pour le bouton
+    document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
+    
+    // Gestion des clics sur les liens du footer
+    document.querySelectorAll('footer a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = link.getAttribute('href').substring(1);
+        navigateToPage(target);
+      });
+    });
+    
+    // Support du bouton retour du navigateur
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.page) {
+        switchPage(event.state.page);
       }
     });
-   
-    window.addEventListener('blur', () => {
-      clearTimeout(timeout);
-      button.classList.remove('loading');
+    
+    // ✅ Au chargement de la page
+    window.addEventListener('load', () => {
+      console.log('🚀 [App] Page chargée');
+      
+      // Vérifier si c'est une invitation
+      const isInvitation = handleInvitationLink();
+      
+      if (isInvitation) {
+        console.log('✅ [App] Mode invitation activé');
+        return;
+      }
+      
+      // Navigation normale
+      console.log('📄 [App] Mode navigation normale');
+      const path = window.location.pathname.substring(1);
+      const hash = window.location.hash.substring(1);
+      
+      if (hash && document.getElementById(hash)) {
+        navigateToPage(hash);
+      } else if (path && document.getElementById(path)) {
+        switchPage(path);
+      } else {
+        switchPage('home');
+        history.replaceState({ page: 'home' }, '', '/');
+      }
     });
-  } else {
-    window.location.href = APP_CONFIG.appStoreUrl;
-  }
- 
-  setTimeout(() => {
-    button.classList.remove('loading');
-  }, 3000);
-}
-// Event listener pour le bouton (sera remplacé si invitation)
-document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
-// Gestion des clics sur les liens du footer
-document.querySelectorAll('footer a').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const target = link.getAttribute('href').substring(1);
-    navigateToPage(target);
-  });
-});
-// Support du bouton retour du navigateur
-window.addEventListener('popstate', (event) => {
-  if (event.state && event.state.page) {
-    switchPage(event.state.page);
-  }
-});
-// ✅ Au chargement de la page
-window.addEventListener('load', () => {
-  console.log('🚀 [App] Page chargée');
- 
-  // Vérifier si c'est une invitation
-  const isInvitation = handleInvitationLink();
- 
-  if (isInvitation) {
-    console.log('✅ [App] Mode invitation activé');
-    return;
-  }
- 
-  // Navigation normale
-  console.log('📄 [App] Mode navigation normale');
-  const path = window.location.pathname.substring(1);
-  const hash = window.location.hash.substring(1);
- 
-  if (hash && document.getElementById(hash)) {
-    navigateToPage(hash);
-  } else if (path && document.getElementById(path)) {
-    switchPage(path);
-  } else {
-    switchPage('home');
-    history.replaceState({ page: 'home' }, '', '/');
-  }
-});
-</script>
+  </script>
 </body>
 </html>
