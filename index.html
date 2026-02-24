@@ -203,16 +203,7 @@
     }
     */
     
-    /* ✅ Container pour la page d'invitation */
-    .invitation-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      padding: 40px 20px;
-      min-height: 80vh;
-    }
+   
     
     /* ✅ Logo de l'app */
     .app-logo {
@@ -232,65 +223,10 @@
       letter-spacing: -0.5px;
     }
     
-    /* ✅ "Lien d'invitation 🔗" ou "ajoute-moi: @username" */
-    .invitation-label {
-      font-size: 18px;
-      font-weight: 600;
-      color: white;
-      margin: 0;
-      margin-top: -5px;
-      text-align: center;
-    }
-    
-    /* ✅ Description */
-    .invitation-description {
-      font-size: 16px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.5);
-      text-align: center;
-      margin: 10px 0 20px 0;
-      max-width: 320px;
-      line-height: 1.4;
-    }
-    
-    /* ✅ Bouton rouge "Accepter l'invitation" */
-    .invitation-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px 40px;
-      font-size: 18px;
-      font-weight: 700;
-      color: white;
-      background: #FF3B30;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(255, 59, 48, 0.4);
-      min-width: 260px;
-      -webkit-tap-highlight-color: transparent;
-    }
-    
-    .invitation-button:hover {
-      background: #FF2D1F;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 59, 48, 0.5);
-    }
-    
-    .invitation-button:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 10px rgba(255, 59, 48, 0.4);
-    }
-    
-    .invitation-button.loading,
-    .cta-button.loading {
-      pointer-events: none;
-      opacity: 0.7;
-    }
+  
     
     /* ✅ Animation d'entrée */
+    /*
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -301,16 +237,7 @@
         transform: translateY(0);
       }
     }
-    
-    .invitation-container > * {
-      animation: fadeInUp 0.6s ease-out backwards;
-    }
-    
-    .invitation-container > *:nth-child(1) { animation-delay: 0.1s; }
-    .invitation-container > *:nth-child(2) { animation-delay: 0.2s; }
-    .invitation-container > *:nth-child(3) { animation-delay: 0.3s; }
-    .invitation-container > *:nth-child(4) { animation-delay: 0.4s; }
-    .invitation-container > *:nth-child(5) { animation-delay: 0.5s; }
+    */
     
    /* ===================== SECTIONS ===================== */
     .cgu-section, .privacy-section, .section {
@@ -362,19 +289,6 @@
 <body>
   <main class="main">
     <div id="home" class="page">
-
-      <!-- Contenu d'invitation (caché par défaut) -->
-      <div id="invitationContent" class="invitation-container" style="display: none;">
-        <img src="/images/logo.webp" alt="Yakabi Logo" class="app-logo" id="appLogo">
-        <h1 class="app-name">Yakabi</h1>
-        <p class="invitation-label" id="invitationLabel">Lien d'invitation 🔗</p>
-        <p class="invitation-description" id="invitationDescription">
-          Clique sur le bouton ci-dessous pour rejoindre ton ami(e).
-        </p>
-        <button id="invitationButton" class="invitation-button">
-          Accepter l'invitation
-        </button>
-      </div>
       
       <!-- Contenu normal -->
       <div id="normalContent">
@@ -513,90 +427,6 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
       appStoreUrl: 'https://apps.apple.com/app/id6744852802'
     };
     
-    function handleInvitationLink() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const referrerId = urlParams.get('ref');
-      const username = urlParams.get('username');
-      
-      if (referrerId) {
-        localStorage.setItem('pendingReferrerId', referrerId);
-        
-        const invitationLabel = document.getElementById('invitationLabel');
-        if (username && invitationLabel) {
-          invitationLabel.textContent = `ajoute-moi: @${username}`;
-        }
-        
-        const invitationContent = document.getElementById('invitationContent');
-        const normalContent = document.getElementById('normalContent');
-        
-        if (invitationContent && normalContent) {
-          normalContent.style.display = 'none';
-          invitationContent.style.display = 'flex';
-        }
-        
-        const invitationButton = document.getElementById('invitationButton');
-        if (invitationButton) {
-          invitationButton.addEventListener('click', () => {
-            joinGameWithInvitation(referrerId);
-          });
-        }
-        
-        addConfettiEffect();
-        return true;
-      }
-      
-      return false;
-    }
-    
-    function joinGameWithInvitation(referrerId) {
-      const button = document.getElementById('invitationButton');
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      
-      if (!isMobile) {
-        window.location.href = APP_CONFIG.appStoreUrl;
-        return;
-      }
-      
-      if (button) { button.classList.add('loading'); button.textContent = 'Ouverture...'; }
-      
-      if (isIOS) {
-        const deepLink = `${APP_CONFIG.urlScheme}invite?ref=${referrerId}`;
-        const now = Date.now();
-        window.location.href = deepLink;
-        
-        const timeout = setTimeout(() => {
-          if (Date.now() - now < 3000) window.location.href = APP_CONFIG.appStoreUrl;
-        }, 2000);
-        
-        document.addEventListener('visibilitychange', () => {
-          if (!document.hidden) { clearTimeout(timeout); if (button) { button.classList.remove('loading'); button.textContent = "Accepter l'invitation"; } }
-        });
-        window.addEventListener('blur', () => { clearTimeout(timeout); if (button) { button.classList.remove('loading'); button.textContent = "Accepter l'invitation"; } });
-      } else {
-        window.location.href = APP_CONFIG.appStoreUrl;
-      }
-      
-      setTimeout(() => { if (button) { button.classList.remove('loading'); button.textContent = "Accepter l'invitation"; } }, 3000);
-    }
-    
-    function addConfettiEffect() {
-      const confettiCount = 50;
-      const colors = ['#FF3B30', '#FF9500', '#FFCC00', '#34C759', '#007AFF', '#5856D6'];
-      for (let i = 0; i < confettiCount; i++) {
-        const confetti = document.createElement('div');
-        confetti.style.cssText = `position:fixed;width:10px;height:10px;background:${colors[Math.floor(Math.random()*colors.length)]};left:${Math.random()*100}%;top:-10px;opacity:${Math.random()};pointer-events:none;z-index:9999;border-radius:50%;`;
-        document.body.appendChild(confetti);
-        const duration = Math.random() * 3 + 2;
-        const delay = Math.random() * 0.5;
-        confetti.animate([
-          { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-          { transform: `translateY(${window.innerHeight+10}px) rotate(${Math.random()*720}deg)`, opacity: 0 }
-        ], { duration: duration*1000, delay: delay*1000, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' });
-        setTimeout(() => confetti.remove(), (duration+delay)*1000);
-      }
-    }
-    
     function switchPage(pageId) {
       // Reset #home styles when leaving/entering
       const homeEl = document.getElementById('home');
@@ -651,22 +481,20 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
       if (event.state && event.state.page) switchPage(event.state.page);
     });
     
-    window.addEventListener('load', () => {
-      const isInvitation = handleInvitationLink();
-      if (isInvitation) return;
-      
-      const path = window.location.pathname.substring(1);
-      const hash = window.location.hash.substring(1);
-      
-      if (hash && document.getElementById(hash)) {
-        navigateToPage(hash);
-      } else if (path && document.getElementById(path)) {
-        switchPage(path);
-      } else {
-        switchPage('home');
-        history.replaceState({ page: 'home' }, '', '/');
-      }
-    });
+window.addEventListener('load', () => {
+  const path = window.location.pathname.substring(1);
+  const hash = window.location.hash.substring(1);
+  
+  if (hash && document.getElementById(hash)) {
+    navigateToPage(hash);
+  } else if (path && document.getElementById(path)) {
+    switchPage(path);
+  } else {
+    switchPage('home');
+    history.replaceState({ page: 'home' }, '', '/');
+  }
+});
+    
   </script>
 </body>
 </html>
