@@ -31,8 +31,8 @@ export default async function handler(request) {
   <meta property="og:image" content="https://yakabi.app/images/logo.webp">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:site_name" content="Yakabi">
-  
+<meta property="og:site_name" content="Yester">
+
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="${title}">
@@ -41,57 +41,78 @@ export default async function handler(request) {
   
   <meta name="apple-itunes-app" content="app-id=6744852802">
   
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 20px;
-    }
-    .logo {
-      width: 100px;
-      height: 100px;
-      border-radius: 22.37%;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      margin-bottom: 20px;
-    }
-    h1 {
-      font-size: 32px;
-      font-weight: 700;
-      margin: 0 0 10px 0;
-    }
-    p {
-      font-size: 18px;
-      font-weight: 600;
-      margin: 0 0 30px 0;
-    }
-    .button {
-      display: inline-block;
-      padding: 16px 40px;
-      font-size: 18px;
-      font-weight: 700;
-      color: white;
-      background: #FF3B30;
-      border: none;
-      border-radius: 12px;
-      text-decoration: none;
-      box-shadow: 0 4px 16px rgba(255, 59, 48, 0.4);
-    }
-  </style>
+<style>
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: url('/images/background.png') no-repeat center center;
+    background-size: cover;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 22.37%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .invite-text {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.5;
+    margin: 8px 0 30px 0;
+  }
+
+  .button {
+    display: inline-block;
+    padding: 16px 40px;
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+    background: rgb(255, 204, 102); /* red:1 green:0.8 blue:0.4 */
+    border: none;
+    border-radius: 14px;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(255, 204, 102, 0.4);
+  }
+</style>
 </head>
 <body>
-  <img src="/images/logo.webp" alt="Yakabi Logo" class="logo">
-  <h1>Yakabi</h1>
-  <p>${username ? `ajoute-moi: @${username}` : 'Lien d\'invitation 🔗'}</p>
-  <a href="yakabi://invite?ref=${ref}" class="button">Ouvrir l'app</a>
-  <script>
+
+
+  <div class="header">
+  <img src="/images/logo.webp" alt="Yester Logo" class="logo">
+  <h1>Yester</h1>
+</div>
+
+ <p class="invite-text">
+  ${username ? `@${username} t'as invité(e) à le rejoindre` : "Invitation 🔗"}
+</p>
+
+<a href="yakabi://invite?ref=${ref}" class="button">Rejoindre une partie</a>
+
+    <script>
     // Redirection automatique vers l'app ou App Store
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     if (isIOS) {
