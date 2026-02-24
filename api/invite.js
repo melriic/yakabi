@@ -13,6 +13,26 @@ export default async function handler(request) {
   const description = username 
     ? `Rejoins ${username} sur Yakabi - Un jeu photo quotidien pour mieux connaître tes amis`
     : 'Un jeu photo quotidien pour mieux connaître tes amis';
+
+
+  function getDailyRandomDate() {
+  const start = new Date(2015, 0, 1);
+  const end = new Date(2026, 0, 1);
+
+  const today = new Date();
+  const seed = today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate();
+
+  const random = Math.abs(Math.sin(seed)) * (end - start);
+  const date = new Date(start.getTime() + random);
+
+  return date.toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+}
+
+const randomDate = getDailyRandomDate();
   
   const html = `<!DOCTYPE html>
 <html lang="fr">
@@ -42,51 +62,68 @@ export default async function handler(request) {
   <meta name="apple-itunes-app" content="app-id=6744852802">
   
 <style>
-  body {
+  html, body {
     margin: 0;
+    padding: 0;
+    min-height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    background: linear-gradient(135deg, #0f0f1a 0%, #1c1c2e 50%, #12121c 100%);
+    background: linear-gradient(180deg, #000000 0%, #0d0d0d 50%, #000000 100%);
     color: white;
+  }
+
+  body {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
     text-align: center;
-    padding: 20px;
+    padding: 40px 20px;
   }
 
   .header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 14px;
+    margin-bottom: 30px;
   }
 
   .logo {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 22.37%;
-    border: 2px solid white;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
   }
 
-  h1 {
-    font-size: 28px;
+  .app-name {
+    font-size: 64px; /* même hauteur visuelle que le logo */
     font-weight: 700;
+    line-height: 1;
     margin: 0;
   }
 
-  .invite-text {
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-    margin: 12px 0 30px 0;
+  .invite-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 14px;
   }
+
+  .invite-subtitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #9a9a9a;
+    margin-bottom: 40px;
+  }
+
+.cta-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e5e5e5;
+  margin-bottom: 22px;
+}
 
   .button {
     display: inline-block;
-    padding: 16px 40px;
+    padding: 16px 50px;
     font-size: 18px;
     font-weight: 700;
     color: black;
@@ -94,23 +131,31 @@ export default async function handler(request) {
     border: none;
     border-radius: 14px;
     text-decoration: none;
-    box-shadow: 0 6px 20px rgba(255, 204, 102, 0.4);
+    box-shadow: 0 8px 25px rgba(255, 204, 102, 0.35);
   }
 </style>
 </head>
 <body>
 
 
-  <div class="header">
+<div class="header">
   <img src="/images/logo.webp" alt="Yester Logo" class="logo">
-  <h1>Yester</h1>
+  <h1 class="app-name">Yester</h1>
 </div>
 
 <p class="invite-text">
-  ${username ? `@${username} t'as invité(e) à jouer` : "Invitation 🔗"}
+  ${username ? `@${username} t'as invité à partager ce que tu faisais le 12 juin 2017` : "Invitation"}
 </p>
 
-<a href="yakabi://invite?ref=${ref}" class="button">Rejoindre une partie</a>
+${username ? `
+  <p class="cta-text">
+    👇 Découvre ce que faisait @${username} ce jour-là 👇
+  </p>
+` : ""}
+
+<a href="yakabi://invite?ref=${ref}" class="button">
+  Découvrir
+</a>
 
     <script>
     // Redirection automatique vers l'app ou App Store
