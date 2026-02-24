@@ -45,8 +45,7 @@ export default async function handler(request) {
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    background: url('/images/back.png') no-repeat center center;
-    background-size: cover;
+    background: linear-gradient(135deg, #0f0f1a 0%, #1c1c2e 50%, #12121c 100%);
     color: white;
     display: flex;
     flex-direction: column;
@@ -68,7 +67,8 @@ export default async function handler(request) {
     width: 60px;
     height: 60px;
     border-radius: 22.37%;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border: 2px solid white;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
   }
 
   h1 {
@@ -80,8 +80,8 @@ export default async function handler(request) {
   .invite-text {
     font-size: 16px;
     font-weight: 500;
-    opacity: 0.5;
-    margin: 8px 0 30px 0;
+    color: white;
+    margin: 12px 0 30px 0;
   }
 
   .button {
@@ -90,7 +90,7 @@ export default async function handler(request) {
     font-size: 18px;
     font-weight: 700;
     color: black;
-    background: rgb(255, 204, 102); /* red:1 green:0.8 blue:0.4 */
+    background: rgb(255, 204, 102);
     border: none;
     border-radius: 14px;
     text-decoration: none;
@@ -106,8 +106,8 @@ export default async function handler(request) {
   <h1>Yester</h1>
 </div>
 
- <p class="invite-text">
-  ${username ? `@${username} t'as invité(e) à le rejoindre` : "Invitation 🔗"}
+<p class="invite-text">
+  ${username ? `@${username} t'as invité(e) à jouer` : "Invitation 🔗"}
 </p>
 
 <a href="yakabi://invite?ref=${ref}" class="button">Rejoindre une partie</a>
