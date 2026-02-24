@@ -9,10 +9,10 @@ export default async function handler(request) {
   const ref = searchParams.get('ref');
   
   // Générer le HTML avec les meta tags personnalisés
-  const title = username ? `ajoute-moi: @${username}` : 'Yakabi - Daily Photo Roulette';
+const title = username ? `@${username} t'invite sur Yester` : 'Yester';
   const description = username 
-    ? `Rejoins ${username} sur Yakabi - Un jeu photo quotidien pour mieux connaître tes amis`
-    : 'Un jeu photo quotidien pour mieux connaître tes amis';
+    ? `Rejoins ${username} sur Yester - Le réseau social du passé`
+    : 'Le réseau social du passé';
 
 
   function getDailyRandomDate() {
@@ -151,22 +151,7 @@ const randomDate = getDailyRandomDate();
 
   </div>
 
-<p class="invite-text">
-  ${username ? `@${username} t'as invité à partager ce que tu faisais le 12 juin 2017` : "Invitation"}
-</p>
-
-${username ? `
-  <p class="cta-text">
-    👇 Découvre ce que faisait @${username} ce jour-là 👇
-  </p>
-` : ""}
-
-<a href="yakabi://invite?ref=${ref}" class="button">
-  Découvrir
-</a>
-
-    <script>
-    // Redirection automatique vers l'app ou App Store
+  <script>
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     if (isIOS) {
       window.location.href = 'yakabi://invite?ref=${ref}';
@@ -176,6 +161,7 @@ ${username ? `
     }
   </script>
 </body>
+
 </html>`;
 
   return new Response(html, {
