@@ -43,13 +43,13 @@ export default async function handler(request) {
   <meta name="description" content="${description}">
   
   <!-- Open Graph Meta Tags -->
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="peiti">
   <meta property="og:url" content="https://yakabi.app/invite?ref=${ref}&username=${username || ''}">
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
   <meta property="og:image" content="https://yakabi.app/images/logo.webp">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Yester">
 
   <!-- Twitter Card -->
