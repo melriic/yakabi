@@ -112,17 +112,22 @@ const randomDate = getDailyRandomDate();
     margin-bottom: 22px;
   }
 
-  .button {
-    display: inline-block;
-    padding: 16px 50px;
-    font-size: 17px;
-    font-weight: 700;
-    color: black;
-    background: rgb(255, 204, 102);
-    border-radius: 14px;
-    text-decoration: none;
-    box-shadow: 0 8px 25px rgba(255, 204, 102, 0.35);
-  }
+ .button {
+  display: inline-block;
+  padding: 14px 28px; /* moins large sur les côtés */
+  font-size: 17px;
+  font-weight: 700;
+  color: rgb(255, 204, 102);
+
+  background: rgba(255, 204, 102, 0.5); /* 50% opacity */
+  border-radius: 999px; /* capsule */
+  text-decoration: none;
+
+  border: 3px solid rgb(255, 204, 102); /* stroke épaisse pleine */
+
+  backdrop-filter: blur(10px);
+}
+
 </style>
 </head>
 <body>
