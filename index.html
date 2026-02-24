@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- ✅ TITRE ET DESCRIPTION STANDARDS -->
-  <title>Yakabi - Daily Photo Roulette</title>
-  <meta name="description" content="Yakabi - Un jeu pour mieux connaître ses amis">
+  <title>Yester</title>
+  <meta name="description" content="Le réseau social du passé">
   
   <!-- ✅ OPEN GRAPH META TAGS (pour le share sheet iOS) -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yakabi.app/">
-  <meta property="og:title" id="og-title" content="Yakabi - Daily Photo Roulette">
-  <meta property="og:description" id="og-description" content="Un jeu photo quotidien pour mieux connaître tes amis">
+  <meta property="og:title" id="og-title" content="Yester">
+  <meta property="og:description" id="og-description" content="Le réseau social du passé">
   <meta property="og:image" content="https://yakabi.app/images/logo.webp">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
@@ -22,8 +22,8 @@
   
   <!-- ✅ TWITTER CARD (bonus pour Twitter/X) -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" id="twitter-title" content="Yakabi - Daily Photo Roulette">
-  <meta name="twitter:description" id="twitter-description" content="Un jeu photo quotidien pour mieux connaître tes amis">
+  <meta name="twitter:title" id="twitter-title" content="Yester">
+  <meta name="twitter:description" id="twitter-description" content="Le réseau social du passé">
   <meta name="twitter:image" content="https://yakabi.app/images/logo.webp">
   
   <!-- ✅ APPLE SMART APP BANNER -->
@@ -88,59 +88,101 @@
       width: 100%;
     }
     
+   /* ===================== HOME PAGE ===================== */
     #home {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 30px;
+      gap: 0;
+      /* Pour que le background couvre tout l'écran on sort #home du flow normal */
+      position: fixed;
+      inset: 0;
+      max-width: none;
+      background-image: url('/images/back1.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
-    
-    h1 {
-      font-size: 36px;
+
+    /* Quand #home est caché on remet display none */
+    #home[style*="display: none"] {
+      position: static;
+    }
+
+    @media (max-width: 768px) {
+      #home {
+        background-image: url('/images/back2.png');
+      }
+    }
+
+    #normalContent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    #normalContent .home-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 22%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+      margin-bottom: 6px;
+    }
+
+    #normalContent .home-title {
+      font-size: 44px;
+      font-weight: 800;
+      color: #ffffff;
       margin: 0;
-      font-weight: 700;
+      letter-spacing: -1px;
     }
-    
-    #home p {
-      font-size: 18px;
+
+    #normalContent .home-subtitle {
+      font-size: 17px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
       margin: 0;
-      color: #bbbbbb;
+    }
+
+    #normalContent .home-subtitle .accent {
+      color: rgb(255, 204, 102);
     }
     
-    /* Bouton CTA principal */
+    /* CTA Button — capsule, blanc semi-transparent */
     .cta-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 16px 32px;
-      font-size: 18px;
+      gap: 8px;
+      padding: 15px 36px;
+      font-size: 16px;
       font-weight: 600;
-      color: #fff;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none;
-      border-radius: 12px;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1.5px solid rgba(255, 255, 255, 1);
+      border-radius: 999px;
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-      min-width: 250px;
-      position: relative;
-      overflow: hidden;
+      transition: background 0.2s ease, transform 0.2s ease;
+      min-width: 200px;
       -webkit-tap-highlight-color: transparent;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
     
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+   .cta-button:hover {
+      background: rgba(255, 255, 255, 0.10);
+      transform: translateY(-1px);
     }
-    
+
     .cta-button:active {
       transform: translateY(0);
-      box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+      background: rgba(255, 255, 255, 0.06);
     }
-    
+
+    /*
     .cta-button::before {
       content: '';
       position: absolute;
@@ -159,6 +201,7 @@
     .cta-button-icon {
       font-size: 24px;
     }
+    */
     
     /* ✅ Container pour la page d'invitation */
     .invitation-container {
@@ -269,7 +312,7 @@
     .invitation-container > *:nth-child(4) { animation-delay: 0.4s; }
     .invitation-container > *:nth-child(5) { animation-delay: 0.5s; }
     
-    /* Sections CGU, Privacy, etc. */
+   /* ===================== SECTIONS ===================== */
     .cgu-section, .privacy-section, .section {
       margin: 0 auto;
       padding: 40px 20px;
@@ -277,43 +320,16 @@
       color: #ffffff;
     }
     
-    .cgu-section h2, .privacy-section h2, .section h2 {
-      margin-top: 30px;
-      color: #fff;
-    }
-    
-    .cgu-section p, .privacy-section p, .section p {
-      margin-bottom: 15px;
-      line-height: 1.6;
-      color: #ccc;
-    }
-    
+    .cgu-section h2, .privacy-section h2, .section h2 { margin-top: 30px; color: #fff; }
+    .cgu-section p, .privacy-section p, .section p { margin-bottom: 15px; line-height: 1.6; color: #ccc; }
     .cgu-section ul li, .privacy-section ul li, .section ul li,
-    .cgu-section ol li, .privacy-section ol li, .section ol li {
-      color: #ccc;
-      margin-bottom: 8px;
-    }
+    .cgu-section ol li, .privacy-section ol li, .section ol li { color: #ccc; margin-bottom: 8px; }
     
-    #contact {
-      text-align: center;
-    }
-    
-    #contact h1 {
-      color: #fff;
-    }
-    
-    #contact p {
-      color: #ccc;
-    }
-    
-    #contact a {
-      color: #667eea;
-      text-decoration: none;
-    }
-    
-    #contact a:hover {
-      text-decoration: underline;
-    }
+    #contact { text-align: center; }
+    #contact h1 { color: #fff; }
+    #contact p { color: #ccc; }
+    #contact a { color: #667eea; text-decoration: none; }
+    #contact a:hover { text-decoration: underline; }
     
     footer {
       background-color: #000;
@@ -328,97 +344,45 @@
       transition: color 0.3s ease;
     }
     
-    footer a:hover {
-      color: #667eea;
-      text-decoration: underline;
-    }
+    footer a:hover { color: #667eea; text-decoration: underline; }
     
-    /* ✅ Responsive */
     @media (max-width: 480px) {
-      h1 {
-        font-size: 28px;
-      }
-      
-      #home p {
-        font-size: 16px;
-      }
-      
-      .cta-button {
-        font-size: 16px;
-        padding: 14px 28px;
-        min-width: 200px;
-      }
-      
-      .app-logo {
-        width: 80px;
-        height: 80px;
-      }
-      
-      .app-name {
-        font-size: 28px;
-      }
-      
-      .invitation-label {
-        font-size: 16px;
-      }
-      
-      .invitation-description {
-        font-size: 14px;
-        max-width: 280px;
-      }
-      
-      .invitation-button {
-        font-size: 16px;
-        padding: 14px 32px;
-        min-width: 220px;
-      }
-      
-      footer a {
-        margin: 0 8px;
-        font-size: 12px;
-      }
+      .cta-button { font-size: 15px; padding: 13px 28px; min-width: 180px; }
+      #normalContent .home-logo { width: 72px; height: 72px; }
+      #normalContent .home-title { font-size: 36px; }
+      .invitation-button { font-size: 16px; padding: 14px 32px; min-width: 220px; }
+      footer a { margin: 0 8px; font-size: 12px; }
     }
     
     @media (prefers-reduced-motion: reduce) {
-      .cta-button,
-      .cta-button::before {
-        transition: none;
-      }
+      .cta-button { transition: none; }
     }
   </style>
 </head>
 <body>
   <main class="main">
     <div id="home" class="page">
-      <!-- ✅ Container d'invitation (caché par défaut, affiché par JavaScript) -->
+
+      <!-- Contenu d'invitation (caché par défaut) -->
       <div id="invitationContent" class="invitation-container" style="display: none;">
-        <!-- Logo de l'app -->
         <img src="/images/logo.webp" alt="Yakabi Logo" class="app-logo" id="appLogo">
-        
-        <!-- Nom de l'app -->
         <h1 class="app-name">Yakabi</h1>
-        
-        <!-- Label invitation (sera mis à jour par JavaScript avec username) -->
         <p class="invitation-label" id="invitationLabel">Lien d'invitation 🔗</p>
-        
-        <!-- Description -->
         <p class="invitation-description" id="invitationDescription">
           Clique sur le bouton ci-dessous pour rejoindre ton ami(e).
         </p>
-        
-        <!-- Bouton rouge -->
         <button id="invitationButton" class="invitation-button">
           Accepter l'invitation
         </button>
       </div>
       
-      <!-- ✅ Contenu normal (affiché par défaut) -->
+      <!-- Contenu normal -->
       <div id="normalContent">
-        <h1>Yakabi : Daily Photo Roulette</h1>
-        <p>Un jeu pour mieux connaître ses amis</p>
-        <button id="joinGameBtn" class="cta-button" aria-label="Rejoindre une partie">
-          <span class="cta-button-icon">🎮</span>
-          <span>Rejoindre une partie</span>
+        <img src="/images/logo.webp" alt="Yester Logo" class="home-logo">
+        <h1 class="home-title">Yester</h1>
+        <p class="home-subtitle">Le réseau social du <span class="accent">passé</span></p>
+        <button id="joinGameBtn" class="cta-button" aria-label="Télécharger l'app">
+          Télécharger l'app
         </button>
       </div>
     </div>
@@ -473,13 +437,9 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
 <p>Yakabi ("l'Application") recueille des informations que vous nous fournissez directement, par le biais de votre utilisation de l'Application.</p>
 <h3>1.1 Données que vous nous fournissez</h3>
 <p>Données de création de compte : lorsque vous créez un compte sur notre Application, nous vous demandons les informations suivantes. Sans ces informations, nous ne pourrons pas vous donner accès à l'Application :</p>
-<ul>
-<li>Votre numéro de téléphone, votre nom, votre date de naissance, une photo de profil et votre nom d'utilisateur.</li>
-</ul>
+<ul><li>Votre numéro de téléphone, votre nom, votre date de naissance, une photo de profil et votre nom d'utilisateur.</li></ul>
 <p>Données liée au contenu: lorsque vous utilisez l'application, vous pouvez décider de partager les données suivantes :</p>
-<ul>
-<li>Les photos que vous partagez ("Contenu") à l'aide de l'application ou les photos que vous partagez à partir de votre bibliothèque. Vous pouvez créer un compte sans nous autoriser à accéder à la photothèque de votre appareil. Cependant, vous ne pourrez voir le contenu de vos amis que lorsque vous aurez publié votre propre Yak. C'est un élément fondamental du fonctionnement du jeu Yakabi.</li>
-</ul>
+<ul><li>Les photos que vous partagez ("Contenu") à l'aide de l'application ou les photos que vous partagez à partir de votre bibliothèque. Vous pouvez créer un compte sans nous autoriser à accéder à la photothèque de votre appareil. Cependant, vous ne pourrez voir le contenu de vos amis que lorsque vous aurez publié votre propre Yak. C'est un élément fondamental du fonctionnement du jeu Yakabi.</li></ul>
 <p>Echanges avec Yakabi : Lorsque vous signalez un problème dans notre Application ou demandez de l'aide, nous recueillons les données suivantes :</p>
 <ul>
 <li>Votre adresse électronique,</li>
@@ -490,104 +450,44 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
 <li>Toute autre information que vous pourriez décider de partager avec nous.</li>
 </ul>
 <h3>1.2 Données que nous collectons lorsque vous utilisez notre App.</h3>
-<p>Comme tous les services basés sur Internet, lorsque vous utilisez notre application, nous recevons automatiquement des informations sur vous à partir de votre appareil et de votre utilisation de notre application. La plupart des informations sont collectées par le biais de traceurs :</p>
-<p>a. Par votre utilisation de l'application :</p>
-<p>Données de connexion et données techniques telles que</p>
-<ul>
-<li>Adresse IP, équipement terminal et port, système d'exploitation, données de configuration du système, type d'appareil, version du système d'exploitation.</li>
-<li>user_id (identifiant unique généré lors de la création du compte), device_id (identifiant unique généré lors de la connexion sur un nouvel appareil).</li>
-</ul>
+<p>Comme tous les services basés sur Internet, lorsque vous utilisez notre application, nous recevons automatiquement des informations sur vous à partir de votre appareil et de votre utilisation de notre application. La plupart des informations sont collectées par le biais de traceurs.</p>
+<p>Données de connexion et données techniques : Adresse IP, équipement terminal et port, système d'exploitation, données de configuration du système, type d'appareil, version du système d'exploitation, user_id, device_id.</p>
 <p>Données d'utilisation : actions effectuées sur l'application, l'heure de publication du contenu, nombre de Yak, le fait que vous ayez supprimé du contenu ou que vous ayez bloqué des utilisateurs, plantages de l'Application.</p>
-<p>Données du carnet d'adresses: Vous pouvez décider d'autoriser Yakabi à accéder à votre carnet d'adresses pour identifier les amis de votre carnet d'adresses qui pourraient déjà être sur Yakabi ou pour vous recommander de nouveaux amis. Nous n'accédons pas à votre carnet d'adresses sans votre autorisation. Vous pouvez révoquer votre autorisation d'accès aux données de votre carnet d'adresses à tout moment dans les paramètres de votre appareil. Une fois l'accès révoqué, nous ne collecterons plus ni ne mettrons à jour les informations de contact de votre carnet d'adresses.</p>
-<h3>1.3 Informations vous concernant fournies par des tiers</h3>
-<p>Nous pouvons recevoir des informations vous concernant de la part d'autres utilisateurs de notre application. Par exemple, si d'autres utilisateurs vous connaissent et choisissent d'utiliser l'importation de contacts, ils peuvent partager avec nous les données de votre carnet d'adresses, telles que votre numéro de téléphone, tout comme vous pouvez partager les leurs. Lorsque vos amis utilisent l'importation de contacts, nous pouvons leur suggérer que vous êtes un ami, et eux que vous êtes un ami, ou ils peuvent vous trouver grâce à notre outil de recherche.</p>
-<p>Lorsque vous utilisez certaines fonctionnalités sociales de Yakabi, telles que l'invitation d'un contact, nous pouvons envoyer un message SMS à cette personne en votre nom en utilisant le numéro de téléphone que vous avez fourni (par exemple, à partir de vos contacts synchronisés). Ces messages peuvent inclure un lien vers le contenu ou une invitation à rejoindre BeReal. Les destinataires peuvent refuser les futurs messages en suivant les instructions incluses dans le SMS.</p>
-<h2>2. Comment nous utilisons les informations que nous recevons à votre sujet</h2>
-<p>a. Pourquoi traitons-nous vos données ?</p>
-<ul>
-<li>Pour que vous puissiez créer et conserver votre compte et pour que nous puissions vous identifier lorsque vous vous connectez.</li>
-<li>Pour que vous puissiez publier et voir du Contenu sur l'application Yakabi.</li>
-<li>Pour déterminer votre fuseau horaire et vous informer de l'heure à laquelle vous pourrez publier votre Contenu.</li>
-<li>Pour que nous puissions traiter vos demandes ou plaintes ou ceux d'autres utilisateurs</li>
-<li>Pour modérer le contenu conformément à la loi (prévention des activités illégales, de la fraude, du cyber harcèlement, ...) et à nos conditions d'utilisation.</li>
-<li>Nous pouvons ainsi suspendre des comptes ou empêcher certains utilisateurs d'utiliser l'application en cas de violation de la législation applicable ou de nos conditions d'utilisation.</li>
-<li>Pour que nous puissions vous mettre en contact avec vos amis</li>
-<li>Pour que nous puissions communiquer avec vous dans l'Application. Cela peut se produire lorsque nous devons communiquer avec vous au sujet d'une nouvelle fonctionnalité</li>
-<li>Pour s'assurer que l'application fonctionne bien pour vous</li>
-<li>Pour que nous puissions vous identifier sur votre compte lorsque vous en avez perdu l'accès</li>
-<li>Pour déduire les préférences et les intérêts de nos utilisateurs.</li>
-<li>Pour que nous puissions vous reconnaître sur plusieurs appareils</li>
-<li>Pour mesurer l'efficacité de notre application, la performance de l'application (par exemple, les pannes et les causes des pannes) , et sa stabilité, votre utilisation pour les recommandations des deux comptes et le contenu.</li>
-<li>Pour assurer votre sécurité et celle des autres utilisateurs, la sécurité de notre application, de nos partenaires et le respect des lois et réglementations en vigueur.</li>
-<li>Pour répondre aux demandes des autorités nationales</li>
-<li>Pour défendre et faire valoir nos droits devant les autorités (civiles, pénales ou administratives).</li>
-</ul>
+<p>Données du carnet d'adresses: Vous pouvez décider d'autoriser Yakabi à accéder à votre carnet d'adresses pour identifier les amis de votre carnet d'adresses qui pourraient déjà être sur Yakabi ou pour vous recommander de nouveaux amis.</p>
+<h2>2. Comment nous utilisons les informations</h2>
+<p>Nous utilisons vos données pour vous permettre de créer et conserver votre compte, publier et voir du Contenu, modérer le contenu, vous mettre en contact avec vos amis, assurer la sécurité de l'application, et répondre aux demandes des autorités nationales.</p>
 <h2>3. Quand nous partageons des informations vous concernant</h2>
-<h3>3.1 Nous partageons les informations vous concernant avec notre personnel et nos prestataires de services, qui les traitent sous notre contrôle.</h3>
-<p>Personnel de Yakabi: Pour vous permettre d'utiliser l'application ou vous fournir une assistance, le personnel autorisé de Yakabi peut avoir besoin d'accéder à vos informations. Nous limitons strictement l'accès à vos données.</p>
-<p>Fournisseurs de services : Pour vous offrir notre application, nous travaillons avec un petit groupe de partenaires qui nous fournissent des services. Il s'agit notamment de partenaires qui nous aident dans l'assistance technique et l'hébergement, l'envoi de notifications, la publication et le partage de contenu, et enquêtes de satisfaction, gestion des incidents de sécurité ou des activités frauduleuses, etc. Dans le cadre de notre collaboration avec ces partenaires, nous pouvons être amenés à partager vos informations avec eux afin de vous proposer notre application.</p>
-<p>Conseils : Pour nous conformer à nos obligations légales, notamment en matière de comptabilité, d'audit et de contrôle interne, nous pouvons partager vos informations avec nos conseillers (juridiques, financiers, d'audit).</p>
+<p>Nous partageons vos informations avec notre personnel autorisé, nos fournisseurs de services (hébergement, notifications, modération), et nos conseillers juridiques et financiers dans le cadre de nos obligations légales.</p>
 <h2>4. Données sur les enfants</h2>
-<p>Yakabi ne collecte jamais sciemment ou volontairement des données personnelles concernant des enfants de moins de 13 ans. En fonction de votre lieu de résidence, si vous n'avez pas l'âge du consentement dans votre pays, un parent ou un tuteur peut également être amené à donner son accord pour que vous puissiez utiliser notre application. Si vous avez moins de 13 ans, veuillez ne pas utiliser Yakabi.</p>
-<h2>5.Transferts internationaux</h2>
-<p>Certains des partenaires et fournisseurs de services mentionnés dans la présente politique sont situés en dehors de l'Union européenne.</p>
-<p>Dans ce cas, nous veillons à ce que</p>
-<ul>
-<li>Les données personnelles sont transférées vers des pays reconnus comme offrant un niveau de protection équivalent ou,</li>
-<li>Un des mécanismes offrant des garanties appropriées est mis en œuvre (par exemple, l'adoption des clauses contractuelles types de la Commission européenne.</li>
-</ul>
-<h2>6. Combien de temps conservons-nous les informations vous concernant ?</h2>
-<p>Nous ne conservons vos informations que le temps nécessaire pour vous fournir nos services, conformément aux exigences légales et aux lignes directrices des autorités chargées de la protection des données.</p>
-<h2>7. Quels sont les contrôles que vous pouvez exercer sur les informations contenues dans l'application ?</h2>
-<p>Chez Yakabi, nous avons mis en place des fonctionnalités qui vous permettent de garder le contrôle de vos données personnelles.</p>
-<p>Notification : Dans les paramètres des applications, vous pouvez choisir et contrôler les notifications que vous recevez à propos de notre application.</p>
-<p>Qui voit votre contenu : Notez que lorsque vous partagez du Contenu via notre Application, ce Contenu est disponible pour vos amis et tout le monde dan le flux public découverte. </p>
-<p>Fuseau horaire : Lorsque vous créez un compte, nous déterminons votre fuseau horaire afin de vous fournir notre application. </p>
-<p>Supprimer votre compte : Dans les paramètres de l'application, vous pouvez choisir de supprimer votre compte à tout moment. Si vous choisissez de supprimer votre compte, la suppression de votre compte sera programmée. Ce processus prend effet immédiatement.</p>
-<p>Consentement : Lorsque nous nous appuyons sur votre consentement, vous pouvez le retirer à tout moment à partir de la page "paramètres" de notre application.</p>
-<p>Si nous suspendons définitivement votre compte et que vous choisissez de le supprimer, nous conserverons les données de création de compte relatives à votre compte afin d'empêcher les utilisateurs suspendus définitivement de créer de nouveaux comptes.</p>
-<h2>8.Quels sont vos droits sur vos informations ?</h2>
-<p>Le respect de la vie privée est un droit humain fondamental. Cela signifie que chaque personne qui utilise notre application, quel que soit son lieu de résidence, peut attendre les mêmes choses de notre part. Que vous soyez en Europe, dans l'un des 50 États américains, en Amérique latine, au Moyen-Orient, en Afrique, au Japon, dans la région Asie-Pacifique ou ailleurs, vous pouvez :</p>
-<ul>
-<li>Droit d'accès et de copie de vos données : vous pouvez demander l'accès à vos données personnelles. Si vous demandez un tel accès, nous vous fournirons toutes les informations requises par la loi, y compris les finalités du traitement, les catégories de données traitées, les catégories de destinataires, les durées de conservation des données et vos droits.</li>
-<li>Droit de rectification : Vous pouvez également nous demander de rectifier les données à caractère personnel vous concernant qui sont inexactes et de compléter les informations incomplètes.</li>
-<li>Droit à l'effacement : Dans certaines circonstances, vous pouvez demander l'effacement de vos données à caractère personnel. Nous pouvons néanmoins être amenés à conserver certaines données limitées dans une base de données archivée, notamment si nous avons une obligation légale de conserver ces données personnelles ou si cela est nécessaire pour l'exercice ou la défense de droits en justice.</li>
-<li>Droit de restreindre le traitement : Dans certaines circonstances, vous pouvez demander la limitation du traitement de vos données à caractère personnel, notamment lorsque vous demandez la rectification de vos données à caractère personnel.</li>
-<li>Droit de retirer votre consentement Lorsque le traitement de vos données à caractère personnel est fondé sur votre consentement, vous pouvez, à tout moment, retirer le consentement que nous vous avons précédemment donné. Ce retrait n'affecte pas la légalité du traitement fondé sur le consentement avant le retrait.</li>
-<li>Droit d'opposition : Vous pouvez également vous opposer à tout moment au traitement de vos données à caractère personnel lorsqu'elles sont utilisées à des fins de prospection commerciale ou pour des raisons liées à votre situation particulière.</li>
-<li>Droit à la portabilité : Dans certains cas, vous pouvez également obtenir une copie de vos données à caractère personnel, dans un format couramment utilisé et lisible par machine, pour vous permettre d'exercer votre droit à la portabilité des données.</li>
-<li>Droit de définir des directives relatives au traitement de vos données post-mortem Si vous êtes un utilisateur français, vous avez également le droit de définir des directives relatives à la gestion de vos données à caractère personnel après votre décès.</li>
-<li>Si vous vous trouvez dans l'Union européenne, dans les États de l'AELE ou au Royaume-Uni, et que vous souhaitez soulever une question concernant nos pratiques de traitement des données, vous avez le droit de le faire auprès de votre autorité de contrôle locale ou de l'autorité de contrôle principale de BeReal, la Commission nationale de l'informatique et des libertés (CNIL), en utilisant les coordonnées indiquées sur leur site Web.</li>
-</ul>
-<p>Certains de ces droits (rectification, suppression et retrait du consentement) peuvent être exercés directement à partir de l'application, dans la section des paramètres. Vous pouvez également exercer ces droits et tous les autres droits en adressant votre demande à notre service d'assistance à l'adresse yakcontact@gmail.com. </p>
+<p>Yakabi ne collecte jamais sciemment ou volontairement des données personnelles concernant des enfants de moins de 13 ans.</p>
+<h2>5. Transferts internationaux</h2>
+<p>Certains partenaires sont situés en dehors de l'Union européenne. Nous veillons à ce que les transferts respectent les mécanismes de protection appropriés (clauses contractuelles types de la Commission européenne).</p>
+<h2>6. Conservation des données</h2>
+<p>Nous ne conservons vos informations que le temps nécessaire pour vous fournir nos services, conformément aux exigences légales.</p>
+<h2>7. Vos contrôles</h2>
+<p>Vous pouvez gérer vos notifications, contrôler qui voit votre contenu, supprimer votre compte à tout moment et retirer votre consentement depuis les paramètres de l'application.</p>
+<h2>8. Vos droits</h2>
+<p>Vous disposez des droits d'accès, de rectification, d'effacement, de limitation du traitement, d'opposition, de portabilité et de retrait du consentement. Vous pouvez exercer ces droits via l'application ou en nous contactant à yakcontact@gmail.com.</p>
 <h2>9. Mise à jour de notre politique de confidentialité</h2>
 <p>Nous pouvons mettre à jour notre politique de confidentialité si cela s'avère nécessaire ou si la loi l'exige.</p>
 </div>
 <div id="rules" class="page section">
 <h1>Normes Communautaires</h1>
 <p>Dernière mise à jour : 26 novembre, 2025</p>
-<p>Yakabi, c'est une affaire de découverte. Nous prônons l'authenticité, la spontanéité et la bienveillance, et nous sommes fiers d'offrir une plateforme qui donne à des utilisateurs comme toi la possibilité de découvrir un peu plus tes amis. Notre souhait est de faire de Yakabi un espace où les gens peuvent jouer et s'amuser en toute sécurité.</p>
-<p>Nous avons élaboré nos Normes communautaires pour veiller à ce que toi et tous nos utilisateurs puissiez utiliser nos services en toute sécurité, et ces normes doivent être respectées. Elles sont incluses dans nos Conditions et notre Politique de confidentialité (désignées ensemble comme l*« Accord utilisateur »*). Si tu n'es pas d'accord avec une partie de l'Accord utilisateur, y compris les Normes communautaires, alors Yakabi n'est peut-être pas fait pour toi.</p>
-<p>Les Normes communautaires ne sont rien d'autre qu'un ensemble de points qui assurent le respect des autres. En bref, si tu fais à d'autres ce que tu n'aimerais pas qu'on te fasse sur Yakabi, il y a de grandes chances que tu sois en train de violer les Normes communautaires. Voici quelques exemples, au cas où tu aurais toujours des doutes :</p>
+<p>Yakabi, c'est une affaire de découverte. Nous prônons l'authenticité, la spontanéité et la bienveillance, et nous sommes fiers d'offrir une plateforme qui donne à des utilisateurs comme toi la possibilité de découvrir un peu plus tes amis.</p>
 <ul>
-<li><strong>Intimidation, abus et harcèlement :</strong> Il est interdit de partager du contenu destiné à intimider, abuser ou harceler des tiers, qu'il s'agisse d'autres utilisateurs ou de non-utilisateurs.</li>
-<li><strong>Exploitation sexuelle des enfants :</strong> L'exploitation des enfants est formellement interdite, et Yakabi applique une tolérance zéro envers tout contenu présentant ou encourageant l'exploitation sexuelle des enfants.</li>
-<li><strong>Contenu haineux :</strong> Il est interdit de partager du contenu haineux envers des personnes ou des organisations.</li>
-<li><strong>Activité illégale :</strong> Il est interdit de partager du contenu qui encourage ou entraîne des activités illégales.</li>
-<li><strong>Propriété intellectuelle :</strong> Il est interdit de partager du contenu qui porte atteinte à la propriété intellectuelle d'autrui.</li>
-<li><strong>Nudité non-consentie :</strong> La nudité non-consentie est formellement interdite, et Yakabi applique une tolérance zéro envers tout contenu présentant ou encourageant la nudité non-consentie.</li>
-<li><strong>Informations personnelle privées :</strong> Il est interdit de partager du contenu qui contient des informations personnelles privées d'autres personnes sans leur consentement.</li>
-<li><strong>Suicide et automutilation :</strong> Il est interdit de partager du contenu qui prône, encourage ou glorifie le suicide ou l'automutilation.</li>
-<li><strong>Contenu violent :</strong> Il est interdit de partager du contenu à caractère menaçant, incitant, glorifiant ou exprimant un désir de violence ou de préjudice.</li>
+<li><strong>Intimidation, abus et harcèlement :</strong> Il est interdit de partager du contenu destiné à intimider, abuser ou harceler des tiers.</li>
+<li><strong>Exploitation sexuelle des enfants :</strong> Tolérance zéro.</li>
+<li><strong>Contenu haineux :</strong> Interdit.</li>
+<li><strong>Activité illégale :</strong> Interdit.</li>
+<li><strong>Propriété intellectuelle :</strong> Interdit de porter atteinte à la propriété intellectuelle d'autrui.</li>
+<li><strong>Nudité non-consentie :</strong> Tolérance zéro.</li>
+<li><strong>Informations personnelles privées :</strong> Interdit sans consentement.</li>
+<li><strong>Suicide et automutilation :</strong> Interdit de promouvoir ou glorifier.</li>
+<li><strong>Contenu violent :</strong> Interdit.</li>
 </ul>
 <h2>Comment nous avertir ?</h2>
-<p>Tu peux signaler toute atteinte à ces Normes communautaires directement via les dispositifs de signalement de l'application Yakabi. L'équipe d'assistance étudiera le signalement et te répondra si nécessaire. Nous sommes susceptibles d'utiliser tes informations de contact, y compris ton nom d'utilisateur, ton nom complet et ton adresse e-mail, pour te contacter.</p>
-<p>Si tu n'utilises par les outils de signalement de l'application Yakabi pour signaler du contenu, tu dois alors faire une capture d'écran du contenu ou du compte que tu estimes être en violation avec les Normes communautaires.</p>
-<h2>Et après ton signalement, que se passe-t-il ?</h2>
-<p>Tout comportement, activité ou contenu que nous estimons aller à l'encontre des Normes communautaires est susceptible d'être sanctionné, à titre provisoire ou définitif.</p>
-<p>Nous avons le droit de contrôler le contenu et l'utilisation de l'application, en tout temps et à notre entière discrétion, dans le but de vérifier le respect des Normes communautaires et des Conditions générales du service. Notre décision quant à une éventuelle violation de ces normes est définitive. Heureusement, tout ça devrait rester exceptionnel si tu respectes les Normes communautaires.</p>
-<p>Toutefois, si tu estimes qu'une décision prise à ton encontre n'est pas juste, tu as l'occasion de la contester en nous contactant.</p>
-<p>C'est tout pour le moment. Amuse-toi bien !</p>
+<p>Tu peux signaler toute atteinte via les dispositifs de signalement de l'application Yakabi.</p>
 </div>
     
   <div id="contact" class="page section">
@@ -606,7 +506,6 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
   </footer>
 
   <script>
-    // Configuration de l'app Yakabi
     const APP_CONFIG = {
       urlScheme: 'yakabi://',
       deepLinkPath: 'feed',
@@ -614,170 +513,97 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
       appStoreUrl: 'https://apps.apple.com/app/id6744852802'
     };
     
-    // ✅ Fonction pour gérer les liens d'invitation
     function handleInvitationLink() {
       const urlParams = new URLSearchParams(window.location.search);
       const referrerId = urlParams.get('ref');
       const username = urlParams.get('username');
       
-      console.log('🔗 [Invitation] URL:', window.location.href);
-      console.log('🔗 [Invitation] ReferrerId:', referrerId);
-      console.log('👤 [Invitation] Username:', username);
-      
       if (referrerId) {
-        console.log('🎉 [Invitation] Lien d\'invitation détecté');
-        
-        // Stocker le referrerId dans localStorage
         localStorage.setItem('pendingReferrerId', referrerId);
-        console.log('💾 [Invitation] ReferrerId stocké:', referrerId);
         
-        // ✅ NOUVEAU: Mettre à jour le label avec le username
         const invitationLabel = document.getElementById('invitationLabel');
         if (username && invitationLabel) {
           invitationLabel.textContent = `ajoute-moi: @${username}`;
-          console.log('✅ [Invitation] Label mis à jour avec username:', username);
         }
         
-        // ✅ Afficher le contenu d'invitation
         const invitationContent = document.getElementById('invitationContent');
         const normalContent = document.getElementById('normalContent');
         
         if (invitationContent && normalContent) {
           normalContent.style.display = 'none';
           invitationContent.style.display = 'flex';
-          console.log('✅ [Invitation] Contenu d\'invitation affiché');
         }
         
-        // ✅ Configurer le bouton d'invitation
         const invitationButton = document.getElementById('invitationButton');
         if (invitationButton) {
           invitationButton.addEventListener('click', () => {
-            console.log('🎮 [Invitation] Bouton cliqué avec referrerId:', referrerId);
             joinGameWithInvitation(referrerId);
           });
-          console.log('✅ [Invitation] Bouton configuré');
         }
         
-        // ✅ Effet confetti
         addConfettiEffect();
-        
         return true;
       }
       
       return false;
     }
     
-    // ✅ Fonction pour rejoindre avec invitation
     function joinGameWithInvitation(referrerId) {
       const button = document.getElementById('invitationButton');
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       
-      console.log('🎮 [Invitation] Ouverture avec referrerId:', referrerId);
-      console.log('📱 [Invitation] Device - iOS:', isIOS, 'Mobile:', isMobile);
-      
       if (!isMobile) {
-        console.log('💻 [Invitation] Desktop - redirection App Store');
         window.location.href = APP_CONFIG.appStoreUrl;
         return;
       }
       
-      if (button) {
-        button.classList.add('loading');
-        button.textContent = 'Ouverture...';
-      }
+      if (button) { button.classList.add('loading'); button.textContent = 'Ouverture...'; }
       
       if (isIOS) {
         const deepLink = `${APP_CONFIG.urlScheme}invite?ref=${referrerId}`;
-        const appStoreUrl = APP_CONFIG.appStoreUrl;
-        
-        console.log('📱 [Invitation] Tentative deep link:', deepLink);
-        
         const now = Date.now();
         window.location.href = deepLink;
         
         const timeout = setTimeout(() => {
-          if (Date.now() - now < 3000) {
-            console.log('📲 [Invitation] App non installée - redirection App Store');
-            window.location.href = appStoreUrl;
-          }
+          if (Date.now() - now < 3000) window.location.href = APP_CONFIG.appStoreUrl;
         }, 2000);
         
         document.addEventListener('visibilitychange', () => {
-          if (!document.hidden) {
-            clearTimeout(timeout);
-            if (button) {
-              button.classList.remove('loading');
-              button.textContent = 'Accepter l\'invitation';
-            }
-          }
+          if (!document.hidden) { clearTimeout(timeout); if (button) { button.classList.remove('loading'); button.textContent = "Accepter l'invitation"; } }
         });
-        
-        window.addEventListener('blur', () => {
-          clearTimeout(timeout);
-          if (button) {
-            button.classList.remove('loading');
-            button.textContent = 'Accepter l\'invitation';
-          }
-        });
+        window.addEventListener('blur', () => { clearTimeout(timeout); if (button) { button.classList.remove('loading'); button.textContent = "Accepter l'invitation"; } });
       } else {
-        console.log('🤖 [Invitation] Android/Autre - redirection App Store');
         window.location.href = APP_CONFIG.appStoreUrl;
       }
       
-      setTimeout(() => {
-        if (button) {
-          button.classList.remove('loading');
-          button.textContent = 'Accepter l\'invitation';
-        }
-      }, 3000);
+      setTimeout(() => { if (button) { button.classList.remove('loading'); button.textContent = "Accepter l'invitation"; } }, 3000);
     }
     
-    // ✅ Effet confetti
     function addConfettiEffect() {
       const confettiCount = 50;
       const colors = ['#FF3B30', '#FF9500', '#FFCC00', '#34C759', '#007AFF', '#5856D6'];
-      
       for (let i = 0; i < confettiCount; i++) {
         const confetti = document.createElement('div');
-        confetti.style.position = 'fixed';
-        confetti.style.width = '10px';
-        confetti.style.height = '10px';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.top = '-10px';
-        confetti.style.opacity = Math.random();
-        confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
-        confetti.style.pointerEvents = 'none';
-        confetti.style.zIndex = '9999';
-        confetti.style.borderRadius = '50%';
-        
+        confetti.style.cssText = `position:fixed;width:10px;height:10px;background:${colors[Math.floor(Math.random()*colors.length)]};left:${Math.random()*100}%;top:-10px;opacity:${Math.random()};pointer-events:none;z-index:9999;border-radius:50%;`;
         document.body.appendChild(confetti);
-        
         const duration = Math.random() * 3 + 2;
         const delay = Math.random() * 0.5;
-        
         confetti.animate([
           { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-          { transform: `translateY(${window.innerHeight + 10}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
-        ], {
-          duration: duration * 1000,
-          delay: delay * 1000,
-          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-        });
-        
-        setTimeout(() => {
-          confetti.remove();
-        }, (duration + delay) * 1000);
+          { transform: `translateY(${window.innerHeight+10}px) rotate(${Math.random()*720}deg)`, opacity: 0 }
+        ], { duration: duration*1000, delay: delay*1000, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' });
+        setTimeout(() => confetti.remove(), (duration+delay)*1000);
       }
     }
     
-    // Gestion des pages
     function switchPage(pageId) {
+      // Reset #home styles when leaving/entering
+      const homeEl = document.getElementById('home');
       document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
       const targetPage = document.getElementById(pageId);
       if (targetPage) {
-        targetPage.style.display = 'block';
+        targetPage.style.display = pageId === 'home' ? 'flex' : 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
@@ -788,56 +614,31 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
       history.pushState({ page: pageId }, '', url);
     }
     
-    // Gestion du bouton "Rejoindre une partie" (normal)
     function joinGame() {
       const button = document.getElementById('joinGameBtn');
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       
-      if (!isMobile) {
-        window.location.href = APP_CONFIG.appStoreUrl;
-        return;
-      }
+      if (!isMobile) { window.location.href = APP_CONFIG.appStoreUrl; return; }
       
       button.classList.add('loading');
       
       if (isIOS) {
         const deepLink = `${APP_CONFIG.urlScheme}${APP_CONFIG.deepLinkPath}`;
-        const appStoreUrl = APP_CONFIG.appStoreUrl;
-        
         const now = Date.now();
         window.location.href = deepLink;
-        
-        const timeout = setTimeout(() => {
-          if (Date.now() - now < 3000) {
-            window.location.href = appStoreUrl;
-          }
-        }, 2000);
-        
-        document.addEventListener('visibilitychange', () => {
-          if (!document.hidden) {
-            clearTimeout(timeout);
-            button.classList.remove('loading');
-          }
-        });
-        
-        window.addEventListener('blur', () => {
-          clearTimeout(timeout);
-          button.classList.remove('loading');
-        });
+        const timeout = setTimeout(() => { if (Date.now() - now < 3000) window.location.href = APP_CONFIG.appStoreUrl; }, 2000);
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) { clearTimeout(timeout); button.classList.remove('loading'); } });
+        window.addEventListener('blur', () => { clearTimeout(timeout); button.classList.remove('loading'); });
       } else {
         window.location.href = APP_CONFIG.appStoreUrl;
       }
       
-      setTimeout(() => {
-        button.classList.remove('loading');
-      }, 3000);
+      setTimeout(() => button.classList.remove('loading'), 3000);
     }
     
-    // Event listener pour le bouton
     document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
     
-    // Gestion des clics sur les liens du footer
     document.querySelectorAll('footer a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -846,27 +647,14 @@ Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifi
       });
     });
     
-    // Support du bouton retour du navigateur
     window.addEventListener('popstate', (event) => {
-      if (event.state && event.state.page) {
-        switchPage(event.state.page);
-      }
+      if (event.state && event.state.page) switchPage(event.state.page);
     });
     
-    // ✅ Au chargement de la page
     window.addEventListener('load', () => {
-      console.log('🚀 [App] Page chargée');
-      
-      // Vérifier si c'est une invitation
       const isInvitation = handleInvitationLink();
+      if (isInvitation) return;
       
-      if (isInvitation) {
-        console.log('✅ [App] Mode invitation activé');
-        return;
-      }
-      
-      // Navigation normale
-      console.log('📄 [App] Mode navigation normale');
       const path = window.location.pathname.substring(1);
       const hash = window.location.hash.substring(1);
       
