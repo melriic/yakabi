@@ -43,7 +43,7 @@ export default async function handler(request) {
   <meta name="description" content="${description}">
   
   <!-- Open Graph Meta Tags -->
-  <meta property="og:type" content="peiti">
+  <meta property="og:type" content="website">
   <meta property="og:url" content="https://yakabi.app/invite?ref=${ref}&username=${username || ''}">
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
