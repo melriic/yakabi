@@ -45,7 +45,7 @@ export default async function handler(request) {
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    background: url('/images/background.png') no-repeat center center;
+    background: url('/images/back.png') no-repeat center center;
     background-size: cover;
     color: white;
     display: flex;
