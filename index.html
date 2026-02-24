@@ -83,25 +83,17 @@
     
    /* ===================== HOME PAGE ===================== */
     #home {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 0;
-      /* Pour que le background couvre tout l'écran on sort #home du flow normal */
-      position: fixed;
-      inset: 0;
-      max-width: none;
-      background-image: url('/images/back1.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    /* Quand #home est caché on remet display none */
-    #home[style*="display: none"] {
-      position: static;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  max-width: none;
+  background-image: url('/images/back1.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
     @media (max-width: 768px) {
       #home {
