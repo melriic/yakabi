@@ -65,7 +65,7 @@ const randomDate = getDailyRandomDate();
   html, body {
     margin: 0;
     padding: 0;
-    min-height: 100%;
+    height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     background: linear-gradient(180deg, #000000 0%, #0d0d0d 50%, #000000 100%);
     color: white;
@@ -73,62 +73,52 @@ const randomDate = getDailyRandomDate();
 
   body {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 40px 20px;
   }
 
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 30px;
+  .container {
+    text-align: center;
+    padding: 40px 24px;
+    max-width: 420px;
   }
 
   .logo {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
     border-radius: 22.37%;
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
-  }
-
-  .app-name {
-    font-size: 64px; /* même hauteur visuelle que le logo */
-    font-weight: 700;
-    line-height: 1;
-    margin: 0;
-  }
-
-  .invite-title {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 14px;
-  }
-
-  .invite-subtitle {
-    font-size: 16px;
-    font-weight: 700;
-    color: #9a9a9a;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
     margin-bottom: 40px;
   }
 
-.cta-text {
-  font-size: 15px;
-  font-weight: 600;
-  color: #e5e5e5;
-  margin-bottom: 22px;
+  .invite-text {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+    margin-bottom: 30px;
+  }
+
+.highlight-date {
+  color: rgb(255, 204, 102);
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
+
+  .cta-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e5e5e5;
+    margin-bottom: 22px;
+  }
 
   .button {
     display: inline-block;
     padding: 16px 50px;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     color: black;
     background: rgb(255, 204, 102);
-    border: none;
     border-radius: 14px;
     text-decoration: none;
     box-shadow: 0 8px 25px rgba(255, 204, 102, 0.35);
@@ -138,10 +128,28 @@ const randomDate = getDailyRandomDate();
 <body>
 
 
-<div class="header">
-  <img src="/images/logo.webp" alt="Yester Logo" class="logo">
-  <h1 class="app-name">Yester</h1>
-</div>
+<body>
+  <div class="container">
+
+    <img src="/images/logo.webp" alt="Yester Logo" class="logo">
+
+    ${username ? `
+      <p class="invite-text">
+        @${username} t'a invité à partager<br>
+        ce que tu faisais le 
+        <span class="highlight-date">${randomDate}</span>
+      </p>
+
+      <p class="cta-text">
+        👇 Découvre ce que faisait @${username} ce jour-là 👇
+      </p>
+    ` : ""}
+
+    <a href="yakabi://invite?ref=${ref}" class="button">
+      Découvrir sur Yester
+    </a>
+
+  </div>
 
 <p class="invite-text">
   ${username ? `@${username} t'as invité à partager ce que tu faisais le 12 juin 2017` : "Invitation"}
