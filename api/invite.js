@@ -118,7 +118,7 @@ export default async function handler(request) {
       padding: 14px 28px;
       font-size: 17px;
       font-weight: 700;
-      color: black; /* texte noir */
+      color: white; /* texte noir */
       background: rgba(255, 204, 102, 0.5); /* fond 50% */
       border-radius: 999px; /* capsule */
       text-decoration: none;
