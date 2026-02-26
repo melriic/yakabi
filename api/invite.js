@@ -58,7 +58,7 @@ export default async function handler(request) {
   <meta name="twitter:description" content="${description}">
   <meta name="twitter:image" content="https://yakabi.app/images/logo.webp">
   
-  <meta name="apple-itunes-app" content="app-id=6744852802">
+  <meta name="apple-itunes-app" content="app-id=6759684119">
 
   <style>
     html, body {
