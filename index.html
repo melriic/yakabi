@@ -515,5 +515,6 @@
         history.replaceState({ page: 'home' }, '', '/');
       }
     });
-</script><script>document.getElementById('waitlistForm').addEventListener('submit',async(e)=>{e.preventDefault();const form=e.target;const btn=form.querySelector('.waitlist-button');btn.textContent='...';btn.disabled=true;try{const res=await fetch('https://yakabi.app/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:form.EMAIL.value})});btn.textContent=res.ok?'✓ Inscrit !':'Erreur, réessaie';if(!res.ok)btn.disabled=false;}catch{btn.textContent='Erreur, réessaie';btn.disabled=false;}});</script></body></html>
+</script><script>document.getElementById('waitlistForm').addEventListener('submit',async(e)=>{e.preventDefault();const form=e.target;const btn=form.querySelector('.waitlist-button');btn.textContent='...';btn.disabled=true;try{const res=await fetch('https://www.yakabi.app/api/waitlist', {
+method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:form.EMAIL.value})});btn.textContent=res.ok?'✓ Inscrit !':'Erreur, réessaie';if(!res.ok)btn.disabled=false;}catch{btn.textContent='Erreur, réessaie';btn.disabled=false;}});</script></body></html>
 
