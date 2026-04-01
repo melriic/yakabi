@@ -302,28 +302,13 @@
         <div class="waitlist-section">
           <hr class="waitlist-divider">
           <p class="waitlist-text">Pas encore dispo dans ton pays ? Inscris-toi, on te prévient dès le lancement.</p>
-          <form class="waitlist-form" action="https://app.us21.list-manage.com/subscribe/post?u=TON_U&amp;id=TON_ID" method="POST" target="_blank">
-            <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" aria-label="Adresse email">
-            <select name="PAYS" class="waitlist-select" required aria-label="Ton pays">
-              <option value="" disabled selected>Ton pays</option>
-              <option value="DE">Allemagne</option>
-              <option value="BE">Belgique</option>
-              <option value="CA">Canada</option>
-              <option value="ES">Espagne</option>
-              <option value="US">États-Unis</option>
-              <option value="IT">Italie</option>
-              <option value="JP">Japon</option>
-              <option value="MA">Maroc</option>
-              <option value="NL">Pays-Bas</option>
-              <option value="PT">Portugal</option>
-              <option value="GB">Royaume-Uni</option>
-              <option value="CH">Suisse</option>
-              <option value="TN">Tunisie</option>
-              <option value="TR">Turquie</option>
-              <option value="OTHER">Autre</option>
-            </select>
-            <button type="submit" class="waitlist-button">Rejoindre</button>
+
+          <form class="waitlist-form" id="waitlistForm">
+          <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" aria-label="Adresse email">
+          <button type="submit" class="waitlist-button">Rejoindre</button>
           </form>
+
+
         </div>
       </div>
     </div>
@@ -530,6 +515,5 @@
         history.replaceState({ page: 'home' }, '', '/');
       }
     });
-  </script>
-</body>
-</html>
+</script><script>document.getElementById('waitlistForm').addEventListener('submit',async(e)=>{e.preventDefault();const form=e.target;const btn=form.querySelector('.waitlist-button');btn.textContent='...';btn.disabled=true;try{const res=await fetch('https://yakabi.app/api/waitlist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:form.EMAIL.value})});btn.textContent=res.ok?'✓ Inscrit !':'Erreur, réessaie';if(!res.ok)btn.disabled=false;}catch{btn.textContent='Erreur, réessaie';btn.disabled=false;}});</script></body></html>
+
