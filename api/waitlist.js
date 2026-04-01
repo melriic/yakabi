@@ -6,9 +6,15 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { email } = req.body || {};
+  // Parse body manuellement si nécessaire
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch { body = {}; }
+  }
+
+  const email = body?.email;
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({ error: 'Email invalide' });
+    return res.status(400).json({ error: 'Email invalide', received: body });
   }
 
   try {
@@ -33,15 +39,16 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ success: true });
     }
 
-    const data = JSON.parse(text || '{}');
+    let data = {};
+    try { data = JSON.parse(text); } catch {}
+
     if (data.code === 'duplicate_parameter') {
       return res.status(200).json({ success: true });
     }
 
-    return res.status(500).json({ error: 'Erreur Brevo' });
+    return res.status(500).json({ error: 'Erreur Brevo', detail: text });
   } catch (err) {
     console.error('Waitlist error:', err.message);
-    return res.status(500).json({ error: 'Erreur serveur' });
+    return res.status(500).json({ error: 'Erreur serveur', detail: err.message });
   }
 };
-
