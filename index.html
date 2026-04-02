@@ -86,12 +86,7 @@
       }
     }
 
-    #normalContent {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
+  
 
     #normalContent .home-logo {
       width: 90px;
@@ -101,18 +96,26 @@
       margin-bottom: 6px;
     }
 
-    #normalContent .home-subtitle {
-      font-size: 22px;
-      font-weight: 700;
-      color: #ffffff;
-      margin: 0;
-      max-width: 360px;
-      line-height: 1.4;
-    }
+#normalContent {
+  align-items: flex-start; /* 👈 aligne à gauche */
+  text-align: left;
+}
 
-    #normalContent .home-subtitle .accent {
-      color: rgb(255, 204, 102);
-    }
+.home-subtitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  max-width: 420px;
+  line-height: 1.3;
+}
+
+.home-description {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  max-width: 360px;
+  line-height: 1.5;
+  margin-top: 6px;
+}
 
     /* CTA Button */
     .cta-button {
@@ -314,9 +317,11 @@
       <div id="normalContent">
         <img src="/images/logo.webp" alt="Yester Logo" class="home-logo">
 <p class="home-subtitle">
-  Découvre ce que toi et tes amis faisaient <span class="accent date-container">
-  <span id="dynamicDate"></span>
-</span>
+  Que faisais-tu le <span class="accent date-container"><span id="dynamicDate"></span></span> ?
+</p>
+
+        <p class="home-description">
+  Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.
 </p>
         
         <button id="joinGameBtn" class="cta-button" aria-label="Télécharger l'app">Télécharger l'app</button>
