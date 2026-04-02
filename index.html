@@ -85,7 +85,6 @@
         background-image: url('/images/back2.png');
       }
     }
-  
 
     #normalContent .home-logo {
       width: 90px;
@@ -95,62 +94,63 @@
       margin-bottom: 6px;
     }
 
-#normalContent {
-  align-items: flex-start; /* 👈 aligne à gauche */
-  text-align: left;
-}
+    #normalContent {
+      align-items: flex-start;
+      text-align: left;
+    }
 
-.home-subtitle {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0;
-  max-width: 420px;
-  line-height: 1.3;
-}
+    .home-subtitle {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+      max-width: 420px;
+      line-height: 1.3;
+    }
 
-.home-description {
-  font-size: 14px;
-  color: rgba(255,255,255,0.6);
-  max-width: 360px;
-  line-height: 1.5;
-  margin-top: 6px;
-}
+    .home-description {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      max-width: 360px;
+      line-height: 1.5;
+      margin-top: 6px;
+    }
 
-.cta-button {
-  padding: 12px 18px;
-  border-radius: 999px; /* CAPSULE */
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
-  white-space: nowrap;
-}
+    .cta-button {
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
+    }
 
-.cta-group {
-  display: flex;
-  gap: 12px;
-  margin-top: 18px;
-}
+    .cta-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+    }
 
-.cta-button.primary {
-  background: white;
-  color: black;
-  border: none;
-}
+    .cta-button.primary {
+      background: white;
+      color: black;
+      border: none;
+    }
 
-.cta-button.secondary {
-  background: rgba(255,255,255,0.08);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.25);
-  backdrop-filter: blur(12px);
-}
+    .cta-button.secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(12px);
+    }
 
-    /* Waitlist */
+    /* ===================== WAITLIST ===================== */
+    /* Cachée par défaut — révélée via JS au clic sur le bouton */
     .waitlist-section {
       margin-top: 28px;
-      display: flex;
+      display: none;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
     }
 
@@ -196,30 +196,6 @@
       border-color: rgba(255, 204, 102, 0.6);
     }
 
-    .waitlist-select {
-      padding: 12px 16px;
-      font-size: 14px;
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      color: rgba(255, 255, 255, 0.7);
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .waitlist-select:focus {
-      border-color: rgba(255, 204, 102, 0.6);
-    }
-
-    .waitlist-select option {
-      background: #1a1a1a;
-      color: #fff;
-    }
-
     .waitlist-button {
       padding: 12px 20px;
       font-size: 14px;
@@ -242,20 +218,19 @@
       transform: translateY(0);
     }
 
-.date-wrap {
-  display: inline-block;
-  position: relative;
-  width: 210px;
-  vertical-align: baseline;
-}
+    .date-wrap {
+      display: inline-block;
+      position: relative;
+      width: 210px;
+      vertical-align: baseline;
+    }
 
-#dynamicDate {
-  display: inline-block;
-  color: rgb(255, 204, 102);
-  white-space: nowrap;
-
-  transition: opacity 0.2s ease;
-}
+    #dynamicDate {
+      display: inline-block;
+      color: rgb(255, 204, 102);
+      white-space: nowrap;
+      transition: opacity 0.2s ease;
+    }
 
     /* ===================== SECTIONS ===================== */
     .cgu-section, .privacy-section, .section {
@@ -291,38 +266,21 @@
 
     footer a:hover { color: #667eea; text-decoration: underline; }
 
-
     @media (max-width: 480px) {
-  .cta-button { font-size: 15px; padding: 13px 28px; min-width: 180px; }
-  #normalContent .home-logo { width: 72px; height: 72px; }
-  #normalContent .home-subtitle { font-size: 19px; max-width: 280px; }
-  .waitlist-form { flex-direction: column; }
-  .waitlist-input { width: 240px; }
-  .waitlist-select { width: 274px; }
-  footer a { margin: 0 8px; font-size: 12px; }
-
-  /* 👇 AJOUTE ÇA ICI */
-  .date-wrap {
-    width: 190px;
-  }
-}
-    
+      .cta-button { font-size: 15px; padding: 13px 28px; min-width: 180px; }
+      #normalContent .home-logo { width: 72px; height: 72px; }
+      #normalContent .home-subtitle { font-size: 19px; max-width: 280px; }
+      .waitlist-form { flex-direction: column; }
+      .waitlist-input { width: 240px; }
+      footer a { margin: 0 8px; font-size: 12px; }
+      .date-wrap { width: 190px; }
+      .cta-group { flex-direction: column; width: 100%; }
+      .cta-button { width: 100%; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .cta-button, .waitlist-button { transition: none; }
     }
-
-    @media (max-width: 480px) {
-  .cta-group {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .cta-button {
-    width: 100%;
-  }
-}
-    
   </style>
 </head>
 <body>
@@ -331,38 +289,34 @@
       <div id="normalContent">
         <img src="/images/logo.webp" alt="Yester Logo" class="home-logo">
 
+        <p class="home-subtitle">
+          Que faisais-tu le
+          <span class="date-wrap">
+            <span id="dynamicDate"></span>
+          </span>
+        </p>
 
-<p class="home-subtitle">
-  Que faisais-tu le
-  <span class="date-wrap">
-    <span id="dynamicDate"></span>
-  </span>
-</p>
-        
         <p class="home-description">
-  Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.
-</p>
-        
-<div class="cta-group">
-  <button id="joinGameBtn" class="cta-button primary">
-   Télécharger 🍏
-  </button>
+          Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.
+        </p>
 
-  <button id="openWaitlistBtn" class="cta-button secondary">
-    Rejoindre la waitlist
-  </button>
-</div>
-        
-        <div class="waitlist-section">
+        <div class="cta-group">
+          <button id="joinGameBtn" class="cta-button primary">
+            Télécharger 🍏
+          </button>
+          <button id="openWaitlistBtn" class="cta-button secondary">
+            Rejoindre la waitlist
+          </button>
+        </div>
+
+        <!-- Waitlist : cachée par défaut, révélée au clic sur "Rejoindre la waitlist" -->
+        <div class="waitlist-section" id="waitlistSection">
           <hr class="waitlist-divider">
           <p class="waitlist-text">Pas encore dispo dans ton pays ? Inscris-toi, on te prévient dès le lancement.</p>
-
           <form class="waitlist-form" id="waitlistForm">
-          <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" aria-label="Adresse email">
-          <button type="submit" class="waitlist-button">Rejoindre</button>
+            <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" aria-label="Adresse email">
+            <button type="submit" class="waitlist-button">Rejoindre</button>
           </form>
-
-
         </div>
       </div>
     </div>
@@ -467,8 +421,6 @@
         <li><strong>Nudité non-consentie :</strong> Tolérance zéro.</li>
         <li><strong>Informations personnelles privées :</strong> Interdit sans consentement.</li>
         <li><strong>Suicide et automutilation :</strong> Interdit de promouvoir ou glorifier.</li>
-        
-
         <li><strong>Contenu violent :</strong> Interdit.</li>
       </ul>
       <h2>Comment nous avertir ?</h2>
@@ -499,7 +451,6 @@
     };
 
     function switchPage(pageId) {
-      const homeEl = document.getElementById('home');
       document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
       const targetPage = document.getElementById(pageId);
       if (targetPage) {
@@ -557,108 +508,93 @@
       if (event.state && event.state.page) switchPage(event.state.page);
     });
 
-window.addEventListener("load", () => {
-  // -------------------------
-  // NAVIGATION INIT
-  // -------------------------
-  const path = window.location.pathname.substring(1);
-  const hash = window.location.hash.substring(1);
+    window.addEventListener("load", () => {
+      // Navigation init
+      const path = window.location.pathname.substring(1);
+      const hash = window.location.hash.substring(1);
 
-  if (hash && document.getElementById(hash)) {
-    navigateToPage(hash);
-  } else if (path && document.getElementById(path)) {
-    switchPage(path);
-  } else {
-    switchPage('home');
-    history.replaceState({ page: 'home' }, '', '/');
-  }
+      if (hash && document.getElementById(hash)) {
+        navigateToPage(hash);
+      } else if (path && document.getElementById(path)) {
+        switchPage(path);
+      } else {
+        switchPage('home');
+        history.replaceState({ page: 'home' }, '', '/');
+      }
 
-  // -------------------------
-  // WAITLIST BUTTON
-  // -------------------------
-  const btn = document.getElementById("openWaitlistBtn");
-
-  if (btn) {
-    btn.addEventListener("click", () => {
-      const form = document.getElementById("waitlistForm");
-
-      if (form) {
-        form.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
+      // Bouton waitlist : révèle la section + focus sur l'input
+      const openBtn = document.getElementById("openWaitlistBtn");
+      if (openBtn) {
+        openBtn.addEventListener("click", () => {
+          const section = document.getElementById("waitlistSection");
+          if (section) {
+            section.style.display = "flex";
+            setTimeout(() => {
+              section.scrollIntoView({ behavior: "smooth", block: "nearest" });
+              section.querySelector("input")?.focus();
+            }, 50);
+          }
         });
       }
     });
-  }
-}); 
-    
-</script>
+  </script>
 
-<!-- ================= WAITLIST ================= -->
-<script>
-document.getElementById('waitlistForm')
-.addEventListener('submit', async (e) => {
-  e.preventDefault();
+  <!-- ================= WAITLIST SUBMIT ================= -->
+  <script>
+    document.getElementById('waitlistForm')
+      .addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const btn = form.querySelector('.waitlist-button');
 
-  const form = e.target;
-  const btn = form.querySelector('.waitlist-button');
+        btn.textContent = '...';
+        btn.disabled = true;
 
-  btn.textContent = '...';
-  btn.disabled = true;
+        try {
+          const email = form.querySelector('input[name="EMAIL"]').value;
+          const res = await fetch('https://www.yakabi.app/api/waitlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+          });
 
-  try {
-    const email = form.querySelector('input[name="EMAIL"]').value;
+          btn.textContent = res.ok ? '✓ Inscrit !' : 'Erreur, réessaie';
+          if (!res.ok) btn.disabled = false;
+        } catch (err) {
+          btn.textContent = 'Erreur, réessaie';
+          btn.disabled = false;
+        }
+      });
+  </script>
 
-    const res = await fetch('https://www.yakabi.app/api/waitlist', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
+  <!-- ================= DATES DYNAMIQUES ================= -->
+  <script>
+    const dates = [
+      "3 mai 2018 ?",
+      "29 novembre 2021 ?",
+      "15 juin 2025 ?"
+    ];
+
+    let index = 0;
+
+    function updateDate() {
+      const el = document.getElementById("dynamicDate");
+      if (!el) return;
+      el.style.opacity = 0;
+      setTimeout(() => {
+        index = (index + 1) % dates.length;
+        el.textContent = dates[index];
+        el.style.opacity = 1;
+      }, 120);
+    }
+
+    window.addEventListener("load", () => {
+      const el = document.getElementById("dynamicDate");
+      if (!el) return;
+      el.textContent = dates[0];
+      el.style.opacity = 1;
+      setInterval(updateDate, 2000);
     });
-
-    btn.textContent = res.ok ? '✓ Inscrit !' : 'Erreur, réessaie';
-
-    if (!res.ok) btn.disabled = false;
-
-  } catch (err) {
-    btn.textContent = 'Erreur, réessaie';
-    btn.disabled = false;
-  }
-});
-</script>
-
-<!-- ================= DATES DYNAMIQUES ================= -->
-<script>
-const dates = [
-  "3 mai 2018 ?",
-  "29 novembre 2021 ?",
-  "15 juin 2025 ?"
-];
-
-let index = 0;
-
-function updateDate() {
-  const el = document.getElementById("dynamicDate");
-  if (!el) return;
-
-  el.style.opacity = 0;
-
-  setTimeout(() => {
-    index = (index + 1) % dates.length;
-    el.textContent = dates[index];
-    el.style.opacity = 1;
-  }, 120);
-}
-
-window.addEventListener("load", () => {
-  const el = document.getElementById("dynamicDate");
-  if (!el) return;
-
-  el.textContent = dates[0];
-  el.style.opacity = 1;
-
-  setInterval(updateDate, 2000);
-});
-</script>
-
+  </script>
 </body>
 </html>
