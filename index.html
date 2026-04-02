@@ -255,15 +255,27 @@
   width: 200px; /* 👈 FIXE pour éviter retour à la ligne */
 }
 
-#dynamicDate {
+.date-wrap {
   display: inline-block;
+  position: relative;
+
+  width: 210px; /* 👈 FIXE = plus aucun mouvement global */
+  height: 1.2em;
+  vertical-align: baseline;
+
+  overflow: visible;
+}
+
+#dynamicDate {
+  position: absolute;
+  left: 0;
+  top: 0;
+
   white-space: nowrap;
 
-  min-width: 180px; /* 👈 réserve l'espace → plus de décalage */
-  
-  color: rgb(255, 204, 102); /* 👈 force le jaune */
-  
-  transition: opacity 0.2s ease; /* 👈 plus rapide */
+  color: rgb(255, 204, 102);
+
+  transition: opacity 0.2s ease;
 }
 
     /* ===================== SECTIONS ===================== */
@@ -323,7 +335,11 @@
 
 
 <p class="home-subtitle">
-  Que faisais-tu le <span id="dynamicDate" class="accent"></span>
+  Que faisais-tu le 
+  <span class="date-wrap">
+    <span id="dynamicDate" class="accent"></span>
+  </span>
+  ?
 </p>
         
         <p class="home-description">
@@ -580,9 +596,9 @@
 
   // ================= DATES DYNAMIQUES =================
   const dates = [
-    "3 mai 2018 ?",
-    "29 novembre 2021 ?",
-    "15 juin 2025 ?"
+    "3 mai 2018",
+    "29 novembre 2021",
+    "15 juin 2025"
   ];
 
   let index = 0;
@@ -591,22 +607,19 @@
     const el = document.getElementById("dynamicDate");
     if (!el) return;
 
-    // fade out (rapide)
     el.style.opacity = 0;
 
     setTimeout(() => {
       index = (index + 1) % dates.length;
-      el.textContent = dates[index];
+      el.textContent = dates[index] + " ?";
 
-      // fade in
       el.style.opacity = 1;
-    }, 150); // 👈 plus rapide
+    }, 150);
   }
 
   window.addEventListener("load", () => {
     const el = document.getElementById("dynamicDate");
-    el.textContent = dates[0];
-    el.style.opacity = 1;
+    el.textContent = dates[0] + " ?";
 
     setInterval(updateDate, 2200);
   });
