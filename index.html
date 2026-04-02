@@ -296,7 +296,9 @@
     <div id="home" class="page">
       <div id="normalContent">
         <img src="/images/logo.webp" alt="Yester Logo" class="home-logo">
-        <p class="home-subtitle">Découvre ce que toi et tes amis faisaient <span class="accent">ce jour-là</span></p>
+<p class="home-subtitle">
+  Découvre ce que toi et tes amis faisaient <span class="accent" id="dynamicDate"></span>
+</p>
         <button id="joinGameBtn" class="cta-button" aria-label="Télécharger l'app">Télécharger l'app</button>
 
         <div class="waitlist-section">
@@ -515,6 +517,63 @@
         history.replaceState({ page: 'home' }, '', '/');
       }
     });
-</script><script>document.getElementById('waitlistForm').addEventListener('submit',async(e)=>{e.preventDefault();const form=e.target;const btn=form.querySelector('.waitlist-button');btn.textContent='...';btn.disabled=true;try{const res=await fetch('https://www.yakabi.app/api/waitlist', {
-method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:form.EMAIL.value})});btn.textContent=res.ok?'✓ Inscrit !':'Erreur, réessaie';if(!res.ok)btn.disabled=false;}catch{btn.textContent='Erreur, réessaie';btn.disabled=false;}});</script></body></html>
+</script>
 
+<script>
+  // ================= WAITLIST =================
+  document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const btn = form.querySelector('.waitlist-button');
+
+    btn.textContent = '...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('https://www.yakabi.app/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: form.EMAIL.value })
+      });
+
+      btn.textContent = res.ok ? '✓ Inscrit !' : 'Erreur, réessaie';
+      if (!res.ok) btn.disabled = false;
+
+    } catch {
+      btn.textContent = 'Erreur, réessaie';
+      btn.disabled = false;
+    }
+  });
+
+
+  // ================= DATES DYNAMIQUES =================
+  const dates = [
+    "3 mai 2018",
+    "29 novembre 2021",
+    "15 juin 2025"
+  ];
+
+  let index = 0;
+
+  function updateDate() {
+    const el = document.getElementById("dynamicDate");
+    if (!el) return;
+
+    el.style.opacity = 0;
+
+    setTimeout(() => {
+      el.textContent = dates[index];
+      el.style.opacity = 1;
+      index = (index + 1) % dates.length;
+    }, 300);
+  }
+
+  window.addEventListener("load", () => {
+    updateDate();
+    setInterval(updateDate, 2500);
+  });
+</script>
+
+</body>
+</html>
