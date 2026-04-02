@@ -6,7 +6,6 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  // Parse body manuellement si nécessaire
   let body = req.body;
   if (typeof body === 'string') {
     try { body = JSON.parse(body); } catch { body = {}; }
@@ -14,8 +13,11 @@ module.exports = async function handler(req, res) {
 
   const email = body?.email;
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({ error: 'Email invalide', received: body });
+    return res.status(400).json({ error: 'Email invalide' });
   }
+
+  // Pays détecté automatiquement via Vercel
+  const country = req.headers['x-vercel-ip-country'] || 'unknown';
 
   try {
     const response = await fetch('https://api.brevo.com/v3/contacts', {
@@ -29,11 +31,12 @@ module.exports = async function handler(req, res) {
         email,
         listIds: [3],
         updateEnabled: true,
+        attributes: { COUNTRY: country },
       }),
     });
 
     const text = await response.text();
-    console.log('Brevo status:', response.status, 'body:', text);
+    console.log('Brevo status:', response.status, 'country:', country, 'body:', text);
 
     if (response.status === 201 || response.status === 204) {
       return res.status(200).json({ success: true });
@@ -52,3 +55,4 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: 'Erreur serveur', detail: err.message });
   }
 };
+
