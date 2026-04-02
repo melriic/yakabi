@@ -85,11 +85,6 @@
         background-image: url('/images/back2.png');
       }
     }
-@media (max-width: 480px) {
-  .date-wrap {
-    width: 190px;
-  }
-}
   
 
     #normalContent .home-logo {
@@ -249,16 +244,6 @@
       transform: translateY(0);
     }
 
-.date-container {
-  display: inline-block;
-  position: relative;
-  height: 1.2em;
-  vertical-align: baseline;
-  overflow: hidden;
-
-  width: 200px; /* 👈 FIXE pour éviter retour à la ligne */
-}
-
 .date-wrap {
   display: inline-flex;
   align-items: baseline;
@@ -277,6 +262,7 @@
 
   color: rgb(255, 204, 102);
 
+  opacity: 1;
   transition: opacity 0.2s ease;
 }
 
@@ -314,15 +300,22 @@
 
     footer a:hover { color: #667eea; text-decoration: underline; }
 
+
     @media (max-width: 480px) {
-      .cta-button { font-size: 15px; padding: 13px 28px; min-width: 180px; }
-      #normalContent .home-logo { width: 72px; height: 72px; }
-      #normalContent .home-subtitle { font-size: 19px; max-width: 280px; }
-      .waitlist-form { flex-direction: column; }
-      .waitlist-input { width: 240px; }
-      .waitlist-select { width: 274px; }
-      footer a { margin: 0 8px; font-size: 12px; }
-    }
+  .cta-button { font-size: 15px; padding: 13px 28px; min-width: 180px; }
+  #normalContent .home-logo { width: 72px; height: 72px; }
+  #normalContent .home-subtitle { font-size: 19px; max-width: 280px; }
+  .waitlist-form { flex-direction: column; }
+  .waitlist-input { width: 240px; }
+  .waitlist-select { width: 274px; }
+  footer a { margin: 0 8px; font-size: 12px; }
+
+  /* 👇 AJOUTE ÇA ICI */
+  .date-wrap {
+    width: 190px;
+  }
+}
+    
 
     @media (prefers-reduced-motion: reduce) {
       .cta-button, .waitlist-button { transition: none; }
@@ -600,41 +593,37 @@ document.getElementById('waitlistForm')
 
 
   // ================= DATES DYNAMIQUES =================
-  const dates = [
-    "3 mai 2018",
-    "29 novembre 2021",
-    "15 juin 2025"
-  ];
+<script>
+const dates = [
+  "3 mai 2018",
+  "29 novembre 2021",
+  "15 juin 2025"
+];
 
-  let index = 0;
-  let interval;
+let index = 0;
 
-  function updateDate() {
-    const el = document.getElementById("dynamicDate");
-    if (!el) return;
+function updateDate() {
+  const el = document.getElementById("dynamicDate");
+  if (!el) return;
 
-    el.style.opacity = 0;
+  el.style.opacity = 0;
 
-    setTimeout(() => {
-      index = (index + 1) % dates.length;
-
-      // ✅ IMPORTANT : PAS DE "?" ICI
-      el.textContent = dates[index];
-
-      el.style.opacity = 1;
-    }, 150);
-  }
-
-  window.addEventListener("load", () => {
-    const el = document.getElementById("dynamicDate");
-    if (!el) return;
-
-    // ✅ IMPORTANT : PAS DE "?" ICI
-    el.textContent = dates[0];
+  setTimeout(() => {
+    index = (index + 1) % dates.length;
+    el.textContent = dates[index];
     el.style.opacity = 1;
+  }, 120);
+}
 
-    interval = setInterval(updateDate, 2200);
-  });
+window.addEventListener("load", () => {
+  const el = document.getElementById("dynamicDate");
+  if (!el) return;
+
+  el.textContent = dates[0];
+  el.style.opacity = 1;
+
+  setInterval(updateDate, 2000);
+});
 </script>
 
 </body>
