@@ -85,7 +85,11 @@
         background-image: url('/images/back2.png');
       }
     }
-
+@media (max-width: 480px) {
+  .date-wrap {
+    width: 190px;
+  }
+}
   
 
     #normalContent .home-logo {
@@ -257,7 +261,7 @@
 
 .date-wrap {
   display: inline-flex;
-  align-items: baseline; /* 👈 FIX ALIGNEMENT VERTICAL */
+  align-items: baseline;
   position: relative;
 
   width: 210px;
@@ -563,32 +567,36 @@
     });
 </script>
 
-<script>
   // ================= WAITLIST =================
-  document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+<script>
+document.getElementById('waitlistForm')
+.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    const form = e.target;
-    const btn = form.querySelector('.waitlist-button');
+  const form = e.target;
+  const btn = form.querySelector('.waitlist-button');
 
-    btn.textContent = '...';
-    btn.disabled = true;
+  btn.textContent = '...';
+  btn.disabled = true;
 
-    try {
-      const res = await fetch('https://www.yakabi.app/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: form.EMAIL.value })
-      });
+  try {
+    const email = form.querySelector('input[name="EMAIL"]').value;
 
-      btn.textContent = res.ok ? '✓ Inscrit !' : 'Erreur, réessaie';
-      if (!res.ok) btn.disabled = false;
+    const res = await fetch('https://www.yakabi.app/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
 
-    } catch {
-      btn.textContent = 'Erreur, réessaie';
-      btn.disabled = false;
-    }
-  });
+    btn.textContent = res.ok ? '✓ Inscrit !' : 'Erreur, réessaie';
+
+    if (!res.ok) btn.disabled = false;
+
+  } catch (err) {
+    btn.textContent = 'Erreur, réessaie';
+    btn.disabled = false;
+  }
+});
 
 
   // ================= DATES DYNAMIQUES =================
@@ -599,6 +607,7 @@
   ];
 
   let index = 0;
+  let interval;
 
   function updateDate() {
     const el = document.getElementById("dynamicDate");
@@ -608,6 +617,8 @@
 
     setTimeout(() => {
       index = (index + 1) % dates.length;
+
+      // ✅ IMPORTANT : PAS DE "?" ICI
       el.textContent = dates[index];
 
       el.style.opacity = 1;
@@ -616,9 +627,13 @@
 
   window.addEventListener("load", () => {
     const el = document.getElementById("dynamicDate");
-    el.textContent = dates[0];
+    if (!el) return;
 
-    setInterval(updateDate, 2200);
+    // ✅ IMPORTANT : PAS DE "?" ICI
+    el.textContent = dates[0];
+    el.style.opacity = 1;
+
+    interval = setInterval(updateDate, 2200);
   });
 </script>
 
