@@ -258,7 +258,12 @@
 #dynamicDate {
   display: inline-block;
   white-space: nowrap;
-  transition: opacity 0.4s ease;
+
+  min-width: 180px; /* 👈 réserve l'espace → plus de décalage */
+  
+  color: rgb(255, 204, 102); /* 👈 force le jaune */
+  
+  transition: opacity 0.2s ease; /* 👈 plus rapide */
 }
 
     /* ===================== SECTIONS ===================== */
@@ -586,7 +591,7 @@
     const el = document.getElementById("dynamicDate");
     if (!el) return;
 
-    // fade out
+    // fade out (rapide)
     el.style.opacity = 0;
 
     setTimeout(() => {
@@ -595,7 +600,7 @@
 
       // fade in
       el.style.opacity = 1;
-    }, 300);
+    }, 150); // 👈 plus rapide
   }
 
   window.addEventListener("load", () => {
@@ -603,7 +608,7 @@
     el.textContent = dates[0];
     el.style.opacity = 1;
 
-    setInterval(updateDate, 2500);
+    setInterval(updateDate, 2200);
   });
 </script>
 
