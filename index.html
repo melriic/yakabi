@@ -181,15 +181,14 @@
     }
 
     .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+      position: relative;
+      text-align: center;
     }
 
     .modal-title {
       font-size: 17px;
       font-weight: 700;
-      margin: 0;
+      margin: 0 0 10px 0;
       color: #fff;
     }
 
@@ -201,6 +200,9 @@
     }
 
     .modal-close {
+      position: absolute;
+      top: 0;
+      right: 0;
       background: rgba(255, 255, 255, 0.08);
       border: none;
       color: rgba(255, 255, 255, 0.5);
@@ -212,8 +214,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      margin-left: 12px;
       transition: background 0.15s ease;
     }
 
@@ -365,11 +365,9 @@
     <div class="modal-overlay" id="waitlistModal">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-header">
-          <div>
-            <p class="modal-title" id="modalTitle">Rejoindre la waitlist</p>
-            <p class="modal-subtitle">On te prévient dès que Yester est dispo dans ton pays.</p>
-          </div>
           <button class="modal-close" id="closeModalBtn" aria-label="Fermer">✕</button>
+          <p class="modal-title" id="modalTitle">Rejoindre la waitlist</p>
+          <p class="modal-subtitle">On te prévient dès que Yester est dispo dans ton pays.</p>
         </div>
         <form class="waitlist-form" id="waitlistForm">
           <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" aria-label="Adresse email">
@@ -663,4 +661,19 @@
       if (!el) return;
       el.style.opacity = 0;
       setTimeout(() => {
-        index = (index +
+        index = (index + 1) % dates.length;
+        el.textContent = dates[index];
+        el.style.opacity = 1;
+      }, 120);
+    }
+
+    window.addEventListener("load", () => {
+      const el = document.getElementById("dynamicDate");
+      if (!el) return;
+      el.textContent = dates[0];
+      el.style.opacity = 1;
+      setInterval(updateDate, 2000);
+    });
+  </script>
+</body>
+</html>
