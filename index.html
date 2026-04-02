@@ -116,32 +116,33 @@
   margin-top: 6px;
 }
 
-    .cta-group {
+.cta-button {
+  padding: 12px 18px;
+  border-radius: 999px; /* CAPSULE */
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+  white-space: nowrap;
+}
+
+.cta-group {
   display: flex;
   gap: 12px;
   margin-top: 18px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
 }
 
-/* PRIMARY BUTTON (App Store) */
 .cta-button.primary {
-  background: #ffffff;
-  color: #121212;
+  background: white;
+  color: black;
   border: none;
 }
 
-/* SECONDARY BUTTON (Waitlist glass) */
 .cta-button.secondary {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255,255,255,0.08);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.25);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.cta-button.secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
 }
 
     /* Waitlist */
@@ -344,7 +345,7 @@
         
 <div class="cta-group">
   <button id="joinGameBtn" class="cta-button primary">
-    🍎 Télécharger l'app
+   Télécharger 🍏
   </button>
 
   <button id="openWaitlistBtn" class="cta-button secondary">
@@ -556,25 +557,40 @@
       if (event.state && event.state.page) switchPage(event.state.page);
     });
 
-    window.addEventListener('load', () => {
-      const path = window.location.pathname.substring(1);
-      const hash = window.location.hash.substring(1);
-      if (hash && document.getElementById(hash)) {
-        navigateToPage(hash);
-      } else if (path && document.getElementById(path)) {
-        switchPage(path);
-      } else {
-        switchPage('home');
-        history.replaceState({ page: 'home' }, '', '/');
+window.addEventListener("load", () => {
+  // -------------------------
+  // NAVIGATION INIT
+  // -------------------------
+  const path = window.location.pathname.substring(1);
+  const hash = window.location.hash.substring(1);
+
+  if (hash && document.getElementById(hash)) {
+    navigateToPage(hash);
+  } else if (path && document.getElementById(path)) {
+    switchPage(path);
+  } else {
+    switchPage('home');
+    history.replaceState({ page: 'home' }, '', '/');
+  }
+
+  // -------------------------
+  // WAITLIST BUTTON
+  // -------------------------
+  const btn = document.getElementById("openWaitlistBtn");
+
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const form = document.getElementById("waitlistForm");
+
+      if (form) {
+        form.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
       }
     });
-
-    document.getElementById("openWaitlistBtn")?.addEventListener("click", () => {
-  const form = document.getElementById("waitlistForm");
-  if (form) {
-    form.scrollIntoView({ behavior: "smooth", block: "center" });
   }
-});
+}); 
     
 </script>
 
