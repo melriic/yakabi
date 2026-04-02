@@ -245,24 +245,17 @@
     }
 
 .date-wrap {
-  display: inline-flex;
-  align-items: baseline;
+  display: inline-block;
   position: relative;
-
   width: 210px;
-  height: 1.2em;
+  vertical-align: baseline;
 }
 
 #dynamicDate {
-  position: absolute;
-  left: 0;
-  top: 0;
-
+  display: inline-block;
+  color: rgb(255, 204, 102);
   white-space: nowrap;
 
-  color: rgb(255, 204, 102);
-
-  opacity: 1;
   transition: opacity 0.2s ease;
 }
 
@@ -330,10 +323,10 @@
 
 
 <p class="home-subtitle">
-  Que faisais-tu le 
+  Que faisais-tu le
   <span class="date-wrap">
-    <span id="dynamicDate" class="accent"></span> ?
-  </span>
+    <span id="dynamicDate"></span>
+  </span> ?
 </p>
         
         <p class="home-description">
