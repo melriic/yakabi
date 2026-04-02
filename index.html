@@ -245,20 +245,21 @@
       transform: translateY(0);
     }
 
-    .date-container {
+.date-container {
   display: inline-block;
   position: relative;
   height: 1.2em;
   overflow: hidden;
   vertical-align: bottom;
-  min-width: 140px; /* évite que ça bouge */
+
+  min-width: 180px; /* 👈 plus large pour éviter les sauts */
 }
 
 #dynamicDate {
   position: absolute;
   left: 0;
   width: 100%;
-  text-align: center;
+  text-align: left;
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
@@ -317,7 +318,10 @@
       <div id="normalContent">
         <img src="/images/logo.webp" alt="Yester Logo" class="home-logo">
 <p class="home-subtitle">
-  Que faisais-tu le <span class="accent date-container"><span id="dynamicDate"></span></span> ?
+  Que faisais-tu le 
+  <span class="date-container">
+    <span id="dynamicDate" class="accent"></span>
+  </span>
 </p>
 
         <p class="home-description">
@@ -574,9 +578,9 @@
 
   // ================= DATES DYNAMIQUES =================
   const dates = [
-    "3 mai 2018",
-    "29 novembre 2021",
-    "15 juin 2025"
+    "3 mai 2018 ?",
+    "29 novembre 2021 ?",
+    "15 juin 2025 ?"
   ];
 
   let index = 0;
@@ -585,7 +589,7 @@
     const el = document.getElementById("dynamicDate");
     if (!el) return;
 
-    // slide up
+    // animation sortie
     el.style.transform = "translateY(-100%)";
     el.style.opacity = 0;
 
@@ -593,7 +597,7 @@
       index = (index + 1) % dates.length;
       el.textContent = dates[index];
 
-      // reset position below
+      // reset en bas
       el.style.transition = "none";
       el.style.transform = "translateY(100%)";
 
