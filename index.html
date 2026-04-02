@@ -249,17 +249,23 @@
   display: inline-block;
   position: relative;
   height: 1.2em;
+  vertical-align: baseline;
   overflow: hidden;
-  vertical-align: bottom;
 
-  min-width: 180px; /* 👈 plus large pour éviter les sauts */
+  width: 200px; /* 👈 FIXE pour éviter retour à la ligne */
 }
 
 #dynamicDate {
   position: absolute;
   left: 0;
+  top: 0;
   width: 100%;
+
+  white-space: nowrap; /* 👈 empêche "29 novembre" de casser */
   text-align: left;
+
+  color: rgb(255, 204, 102); /* 👈 ta couleur jaune d'origine */
+
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
@@ -317,13 +323,14 @@
     <div id="home" class="page">
       <div id="normalContent">
         <img src="/images/logo.webp" alt="Yester Logo" class="home-logo">
-<p class="home-subtitle">
-  Que faisais-tu le 
-  <span class="date-container">
-    <span id="dynamicDate" class="accent"></span>
+
+
+        <p class="home-subtitle">
+  Que faisais-tu le <span class="date-container">
+    <span id="dynamicDate"></span>
   </span>
 </p>
-
+        
         <p class="home-description">
   Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.
 </p>
@@ -589,7 +596,7 @@
     const el = document.getElementById("dynamicDate");
     if (!el) return;
 
-    // animation sortie
+    // slide up
     el.style.transform = "translateY(-100%)";
     el.style.opacity = 0;
 
