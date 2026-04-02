@@ -144,69 +144,120 @@
       backdrop-filter: blur(12px);
     }
 
-    /* ===================== WAITLIST ===================== */
-    /* Cachée par défaut — révélée via JS au clic sur le bouton */
-    .waitlist-section {
-      margin-top: 28px;
+    /* ===================== WAITLIST MODAL ===================== */
+    .modal-overlay {
       display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #1c1c1e;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 360px;
+      display: flex;
       flex-direction: column;
+      gap: 16px;
+      animation: modalIn 0.22s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
       align-items: flex-start;
-      gap: 12px;
     }
 
-    .waitlist-divider {
-      width: 40px;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
       margin: 0;
+      color: #fff;
     }
 
-    .waitlist-text {
+    .modal-subtitle {
       font-size: 13px;
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.5);
       margin: 0;
-      max-width: 300px;
+      line-height: 1.5;
+    }
+
+    .modal-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-left: 12px;
+      transition: background 0.15s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
     }
 
     .waitlist-form {
       display: flex;
-      gap: 8px;
-      align-items: center;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .waitlist-input {
-      padding: 12px 16px;
-      font-size: 14px;
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
+      padding: 13px 16px;
+      font-size: 15px;
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
       color: #fff;
       outline: none;
-      width: 180px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .waitlist-input::placeholder {
-      color: rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 0.3);
     }
 
     .waitlist-input:focus {
-      border-color: rgba(255, 204, 102, 0.6);
+      border-color: rgba(255, 204, 102, 0.7);
     }
 
     .waitlist-button {
-      padding: 12px 20px;
-      font-size: 14px;
+      padding: 13px;
+      font-size: 15px;
       font-weight: 600;
       color: #121212;
       background: rgb(255, 204, 102);
       border: none;
-      border-radius: 999px;
+      border-radius: 12px;
       cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.2s ease, transform 0.2s ease;
+      transition: background 0.2s ease, transform 0.15s ease;
     }
 
     .waitlist-button:hover {
@@ -270,8 +321,6 @@
       .cta-button { font-size: 15px; padding: 13px 28px; min-width: 180px; }
       #normalContent .home-logo { width: 72px; height: 72px; }
       #normalContent .home-subtitle { font-size: 19px; max-width: 280px; }
-      .waitlist-form { flex-direction: column; }
-      .waitlist-input { width: 240px; }
       footer a { margin: 0 8px; font-size: 12px; }
       .date-wrap { width: 190px; }
       .cta-group { flex-direction: column; width: 100%; }
@@ -309,15 +358,23 @@
           </button>
         </div>
 
-        <!-- Waitlist : cachée par défaut, révélée au clic sur "Rejoindre la waitlist" -->
-        <div class="waitlist-section" id="waitlistSection">
-          <hr class="waitlist-divider">
-          <p class="waitlist-text">Pas encore dispo dans ton pays ? Inscris-toi, on te prévient dès le lancement.</p>
-          <form class="waitlist-form" id="waitlistForm">
-            <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" aria-label="Adresse email">
-            <button type="submit" class="waitlist-button">Rejoindre</button>
-          </form>
+      </div>
+    </div>
+
+    <!-- Modal waitlist -->
+    <div class="modal-overlay" id="waitlistModal">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+          <div>
+            <p class="modal-title" id="modalTitle">Rejoindre la waitlist</p>
+            <p class="modal-subtitle">On te prévient dès que Yester est dispo dans ton pays.</p>
+          </div>
+          <button class="modal-close" id="closeModalBtn" aria-label="Fermer">✕</button>
         </div>
+        <form class="waitlist-form" id="waitlistForm">
+          <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" aria-label="Adresse email">
+          <button type="submit" class="waitlist-button">S'inscrire</button>
+        </form>
       </div>
     </div>
 
@@ -403,7 +460,7 @@
       <h2>7. Vos contrôles</h2>
       <p>Vous pouvez gérer vos notifications, contrôler qui voit votre contenu, supprimer votre compte à tout moment et retirer votre consentement depuis les paramètres de l'application.</p>
       <h2>8. Vos droits</h2>
-      <p>Vous disposez des droits d'accès, de rectification, d'effacement, de limitation du traitement, d'opposition, de portabilité et de retrait du consentement. Vous pouvez exercer ces droits via l'application ou en nous contactant à yakcontact@gmail.com.</p>
+      <p>Vous disposez des droits d'accès, de rectification, d'effacement, de limitation du traitement, d'opposition, de portabilité et de retrait du consentement. Vous pouvez exercer ces droits via l'application ou en nous contactant à <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="275e464c4448495346445367404a464e4b0944484a">[email&#160;protected]</a>.</p>
       <h2>9. Mise à jour de notre politique de confidentialité</h2>
       <p>Nous pouvons mettre à jour notre politique de confidentialité si cela s'avère nécessaire ou si la loi l'exige.</p>
     </div>
@@ -430,7 +487,7 @@
     <div id="contact" class="page section">
       <h1>Contact</h1>
       <p>Pour toute question, problème ou suggestion concernant Yester, vous pouvez nous contacter par email :</p>
-      <p><a href="mailto:y4kcontact@gmail.com">y4kcontact@gmail.com</a></p>
+      <p><a href="/cdn-cgi/l/email-protection#463f722d2529283227253206212b272f2a6825292b"><span class="__cf_email__" data-cfemail="443d702f272b2a30252730042329252d286a272b29">[email&#160;protected]</span></a></p>
     </div>
   </main>
 
@@ -442,7 +499,7 @@
     <a href="#contact">Contact</a>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const APP_CONFIG = {
       urlScheme: 'yester://',
       deepLinkPath: 'invite',
@@ -522,20 +579,36 @@
         history.replaceState({ page: 'home' }, '', '/');
       }
 
-      // Bouton waitlist : révèle la section + focus sur l'input
+      // Bouton waitlist → ouvre le modal
       const openBtn = document.getElementById("openWaitlistBtn");
-      if (openBtn) {
-        openBtn.addEventListener("click", () => {
-          const section = document.getElementById("waitlistSection");
-          if (section) {
-            section.style.display = "flex";
-            setTimeout(() => {
-              section.scrollIntoView({ behavior: "smooth", block: "nearest" });
-              section.querySelector("input")?.focus();
-            }, 50);
-          }
+      const modal = document.getElementById("waitlistModal");
+      const closeBtn = document.getElementById("closeModalBtn");
+
+      function openModal() {
+        modal.classList.add("open");
+        setTimeout(() => modal.querySelector("input")?.focus(), 100);
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      if (openBtn) openBtn.addEventListener("click", openModal);
+      if (closeBtn) closeBtn.addEventListener("click", closeModal);
+
+      // Fermer en cliquant sur l'overlay
+      if (modal) {
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) closeModal();
         });
       }
+
+      // Fermer avec Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
     });
   </script>
 
@@ -558,7 +631,15 @@
             body: JSON.stringify({ email })
           });
 
-          btn.textContent = res.ok ? '✓ Inscrit !' : 'Erreur, réessaie';
+          if (res.ok) {
+            btn.textContent = '✓ Inscrit !';
+            setTimeout(() => {
+              document.getElementById('waitlistModal')?.classList.remove('open');
+              document.body.style.overflow = '';
+            }, 1200);
+          } else {
+            btn.textContent = 'Erreur, réessaie';
+          }
           if (!res.ok) btn.disabled = false;
         } catch (err) {
           btn.textContent = 'Erreur, réessaie';
@@ -582,19 +663,4 @@
       if (!el) return;
       el.style.opacity = 0;
       setTimeout(() => {
-        index = (index + 1) % dates.length;
-        el.textContent = dates[index];
-        el.style.opacity = 1;
-      }, 120);
-    }
-
-    window.addEventListener("load", () => {
-      const el = document.getElementById("dynamicDate");
-      if (!el) return;
-      el.textContent = dates[0];
-      el.style.opacity = 1;
-      setInterval(updateDate, 2000);
-    });
-  </script>
-</body>
-</html>
+        index = (index +
