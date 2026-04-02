@@ -256,14 +256,12 @@
 }
 
 .date-wrap {
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline; /* 👈 FIX ALIGNEMENT VERTICAL */
   position: relative;
 
-  width: 210px; /* 👈 FIXE = plus aucun mouvement global */
+  width: 210px;
   height: 1.2em;
-  vertical-align: baseline;
-
-  overflow: visible;
 }
 
 #dynamicDate {
@@ -337,9 +335,8 @@
 <p class="home-subtitle">
   Que faisais-tu le 
   <span class="date-wrap">
-    <span id="dynamicDate" class="accent"></span>
+    <span id="dynamicDate" class="accent"></span> ?
   </span>
-  ?
 </p>
         
         <p class="home-description">
@@ -611,7 +608,7 @@
 
     setTimeout(() => {
       index = (index + 1) % dates.length;
-      el.textContent = dates[index] + " ?";
+      el.textContent = dates[index];
 
       el.style.opacity = 1;
     }, 150);
@@ -619,7 +616,7 @@
 
   window.addEventListener("load", () => {
     const el = document.getElementById("dynamicDate");
-    el.textContent = dates[0] + " ?";
+    el.textContent = dates[0];
 
     setInterval(updateDate, 2200);
   });
