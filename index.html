@@ -311,13 +311,24 @@
 
     footer a:hover { color: #667eea; text-decoration: underline; }
 
+    @media (max-width: 768px) {
+      #normalContent {
+        padding: 0 28px;
+      }
+
+      #home {
+        justify-content: flex-end;
+        padding-bottom: 60px;
+      }
+    }
+
     @media (max-width: 480px) {
-      .cta-button { font-size: 15px; padding: 13px 28px; min-width: 180px; }
-      #normalContent .home-subtitle { font-size: 28px; max-width: 320px; }
+      .cta-button { font-size: 14px; padding: 13px 22px; }
+      #normalContent .home-subtitle { font-size: 30px; max-width: 340px; }
+      #normalContent .home-description { font-size: 15px; }
       footer a { margin: 0 8px; font-size: 12px; }
-      .date-wrap { width: 190px; }
-      .cta-group { flex-direction: column; width: 100%; }
-      .cta-button { width: 100%; }
+      .date-wrap { width: 200px; }
+      .cta-group { flex-direction: row; flex-wrap: wrap; }
     }
 
     @media (prefers-reduced-motion: reduce) {
