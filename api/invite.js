@@ -40,10 +40,12 @@ export default async function handler(request) {
   
   <!-- Open Graph Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yakabi.app/invite?ref=${ref}&username=${username || ''}">
+  <meta property="og:url" content="https://yester.fyi/invite?ref=${ref}&username=${username || ''}">
+
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
-  <meta property="og:image" content="https://yakabi.app/images/logo.webp">
+  <meta property="og:image" content="https://yester.fyi/images/logo.webp">
+
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Yester">
@@ -52,7 +54,7 @@ export default async function handler(request) {
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${description}">
-  <meta name="twitter:image" content="https://yakabi.app/images/logo.webp">
+<meta name="twitter:image" content="https://yester.fyi/images/logo.webp">
   
   <!-- ✅ CORRECTION 1: Bon App Store ID -->
   <meta name="apple-itunes-app" content="app-id=6759684119">
