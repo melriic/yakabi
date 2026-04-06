@@ -6,17 +6,17 @@
   <title>Yester</title>
   <meta name="description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yakabi.app/">
+<meta property="og:url" content="https://yester.fyi/">
   <meta property="og:title" content="Yester">
   <meta property="og:description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
-  <meta property="og:image" content="https://yakabi.app/images/logo.webp">
+<meta property="og:image" content="https://yester.fyi/images/logo.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:site_name" content="Yakabi">
+<meta property="og:site_name" content="Yester">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Yester">
   <meta name="twitter:description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
-  <meta name="twitter:image" content="https://yakabi.app/images/logo.webp">
+<meta name="twitter:image" content="https://yester.fyi/images/logo.webp">
   <link rel="alternate" href="https://apps.apple.com/fr/app/yester/id6759684119">
   <meta name="apple-itunes-app" content="app-id=6759684119">
 
@@ -625,7 +625,8 @@
 
         try {
           const email = form.querySelector('input[name="EMAIL"]').value;
-          const res = await fetch('https://www.yakabi.app/api/waitlist', {
+            const res = await fetch('https://www.yester.fyi/api/waitlist', {
+
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
