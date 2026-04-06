@@ -74,7 +74,7 @@
       flex: 1;
       width: 100%;
       max-width: none;
-      background-image: url('/images/back1.png');
+      background-image: url('/images/webback.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -82,11 +82,11 @@
 
     @media (max-width: 768px) {
       #home {
-        background-image: url('/images/back2.png');
+        background-image: url('/images/mobileback.png');
       }
     }
 
-#normalContent {
+    #normalContent {
       align-items: flex-start;
       text-align: left;
     }
@@ -274,7 +274,20 @@
       display: inline-block;
       color: rgb(255, 204, 102);
       white-space: nowrap;
-      transition: opacity 0.2s ease;
+    }
+
+    /* Curseur clignotant */
+    #dynamicDate::after {
+      content: '|';
+      opacity: 1;
+      animation: blink 0.7s step-end infinite;
+      margin-left: 1px;
+      color: rgb(255, 204, 102);
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
     }
 
     /* ===================== SECTIONS ===================== */
@@ -333,6 +346,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .cta-button, .waitlist-button { transition: none; }
+      #dynamicDate::after { animation: none; }
     }
   </style>
 </head>
@@ -566,7 +580,6 @@
     });
 
     window.addEventListener("load", () => {
-      // Navigation init
       const path = window.location.pathname.substring(1);
       const hash = window.location.hash.substring(1);
 
@@ -579,7 +592,6 @@
         history.replaceState({ page: 'home' }, '', '/');
       }
 
-      // Bouton waitlist → ouvre le modal
       const openBtn = document.getElementById("openWaitlistBtn");
       const modal = document.getElementById("waitlistModal");
       const closeBtn = document.getElementById("closeModalBtn");
@@ -598,14 +610,12 @@
       if (openBtn) openBtn.addEventListener("click", openModal);
       if (closeBtn) closeBtn.addEventListener("click", closeModal);
 
-      // Fermer en cliquant sur l'overlay
       if (modal) {
         modal.addEventListener("click", (e) => {
           if (e.target === modal) closeModal();
         });
       }
 
-      // Fermer avec Escape
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeModal();
       });
@@ -625,8 +635,7 @@
 
         try {
           const email = form.querySelector('input[name="EMAIL"]').value;
-            const res = await fetch('https://www.yester.fyi/api/waitlist', {
-
+          const res = await fetch('https://www.yester.fyi/api/waitlist', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
@@ -649,7 +658,7 @@
       });
   </script>
 
-  <!-- ================= DATES DYNAMIQUES ================= -->
+  <!-- ================= DATES DYNAMIQUES (typewriter) ================= -->
   <script>
     const dates = [
       "3 mai 2018 ?",
@@ -657,25 +666,47 @@
       "15 juin 2025 ?"
     ];
 
-    let index = 0;
+    const TYPE_SPEED  = 55;   // ms entre chaque lettre à l'écriture
+    const ERASE_SPEED = 35;   // ms entre chaque lettre à l'effacement
+    const PAUSE_FULL  = 2000; // pause après affichage complet
+    const PAUSE_EMPTY = 300;  // pause avant de taper la suivante
 
-    function updateDate() {
+    let dateIndex = 0;
+    let charIndex = 0;
+    let isErasing = false;
+
+    function typeWriter() {
       const el = document.getElementById("dynamicDate");
       if (!el) return;
-      el.style.opacity = 0;
-      setTimeout(() => {
-        index = (index + 1) % dates.length;
-        el.textContent = dates[index];
-        el.style.opacity = 1;
-      }, 120);
+
+      const currentText = dates[dateIndex];
+
+      if (!isErasing) {
+        el.textContent = currentText.slice(0, charIndex + 1);
+        charIndex++;
+        if (charIndex === currentText.length) {
+          isErasing = true;
+          setTimeout(typeWriter, PAUSE_FULL);
+        } else {
+          setTimeout(typeWriter, TYPE_SPEED);
+        }
+      } else {
+        el.textContent = currentText.slice(0, charIndex - 1);
+        charIndex--;
+        if (charIndex === 0) {
+          isErasing = false;
+          dateIndex = (dateIndex + 1) % dates.length;
+          setTimeout(typeWriter, PAUSE_EMPTY);
+        } else {
+          setTimeout(typeWriter, ERASE_SPEED);
+        }
+      }
     }
 
     window.addEventListener("load", () => {
       const el = document.getElementById("dynamicDate");
       if (!el) return;
-      el.textContent = dates[0];
-      el.style.opacity = 1;
-      setInterval(updateDate, 2000);
+      setTimeout(typeWriter, 400);
     });
   </script>
 </body>
