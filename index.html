@@ -61,6 +61,13 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      padding-top: 73px; /* hauteur du header fixe */
+    }
+
+    /* Sur la home, le #home lui-même gère son propre padding-top mobile */
+    #home {
+      margin-top: -73px; /* annule le padding-top du .main pour que le bg couvre tout */
+      padding-top: 73px;
     }
 
     .page {
@@ -297,7 +304,141 @@
       50%       { opacity: 0; }
     }
 
-    /* ===================== SECTIONS ===================== */
+    /* ===================== HEADER & NAV ===================== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: rgba(18, 18, 18, 0.6);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .header-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.3px;
+      cursor: pointer;
+    }
+
+    /* Nav desktop : liens directs */
+    .header-nav {
+      display: flex;
+      gap: 4px;
+    }
+
+    .header-nav a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .header-nav a:hover {
+      color: white;
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* Bouton hamburger — visible uniquement mobile */
+    .hamburger {
+      display: none;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: background 0.2s;
+    }
+
+    .hamburger:hover {
+      background: rgba(255,255,255,0.14);
+    }
+
+    .hamburger span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Drawer mobile */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 73px; /* hauteur du header */
+      left: 0;
+      right: 0;
+      background: rgba(18, 18, 18, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 499;
+      flex-direction: column;
+      padding: 8px 16px 16px;
+      gap: 4px;
+      animation: slideDown 0.2s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .mobile-menu.open {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 13px 12px;
+      border-radius: 10px;
+      text-align: left;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .mobile-menu a:hover {
+      background: rgba(255,255,255,0.08);
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .header-nav { display: none; }
+      .hamburger  { display: flex; }
+    }
+
+
     .cgu-section, .privacy-section, .section {
       margin: 0 auto;
       padding: 40px 20px;
@@ -339,8 +480,9 @@
       }
 
       #home {
-        justify-content: flex-end;
-        padding-bottom: 60px;
+        justify-content: center;
+        padding-top: 80px; /* compense la hauteur du header */
+        padding-bottom: 40px;
         min-height: 100vh;
         min-height: 100dvh;
       }
@@ -369,6 +511,33 @@
   </style>
 </head>
 <body>
+
+  <!-- ===== HEADER FIXE ===== -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-logo" id="logoBtn">Yester</div>
+    <nav class="header-nav">
+      <a href="#home" data-page="home">Accueil</a>
+      <a href="#cgu" data-page="cgu">CGU</a>
+      <a href="#privacy" data-page="privacy">Confidentialité</a>
+      <a href="#rules" data-page="rules">Règlement</a>
+      <a href="#contact" data-page="contact">Contact</a>
+    </nav>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Drawer mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" data-page="home">🏠 Accueil</a>
+    <a href="#cgu" data-page="cgu">📄 CGU</a>
+    <a href="#privacy" data-page="privacy">🔒 Confidentialité</a>
+    <a href="#rules" data-page="rules">📋 Règlement</a>
+    <a href="#contact" data-page="contact">✉️ Contact</a>
+  </div>
+
   <main class="main">
     <div id="home" class="page">
       <div id="normalContent">
@@ -588,12 +757,43 @@
 
     document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
 
-    document.querySelectorAll('footer a').forEach(link => {
+    // Logo → retour home
+    document.getElementById('logoBtn')?.addEventListener('click', () => navigateToPage('home'));
+
+    // Liens header desktop
+    document.querySelectorAll('.header-nav a, footer a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        const target = link.getAttribute('href').substring(1);
+        const target = link.getAttribute('data-page') || link.getAttribute('href').substring(1);
+        closeMobileMenu();
         navigateToPage(target);
       });
+    });
+
+    // Liens drawer mobile
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = link.getAttribute('data-page');
+        closeMobileMenu();
+        navigateToPage(target);
+      });
+    });
+
+    // Hamburger
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu   = document.getElementById('mobileMenu');
+
+    function closeMobileMenu() {
+      hamburgerBtn?.classList.remove('open');
+      mobileMenu?.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    hamburgerBtn?.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburgerBtn.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
     window.addEventListener('popstate', (event) => {
