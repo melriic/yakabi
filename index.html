@@ -6,17 +6,17 @@
   <title>Yester</title>
   <meta name="description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
   <meta property="og:type" content="website">
-<meta property="og:url" content="https://yester.fyi/">
+  <meta property="og:url" content="https://yester.fyi/">
   <meta property="og:title" content="Yester">
   <meta property="og:description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
-<meta property="og:image" content="https://yester.fyi/images/logo.webp">
+  <meta property="og:image" content="https://yester.fyi/images/logo.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-<meta property="og:site_name" content="Yester">
+  <meta property="og:site_name" content="Yester">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Yester">
   <meta name="twitter:description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
-<meta name="twitter:image" content="https://yester.fyi/images/logo.webp">
+  <meta name="twitter:image" content="https://yester.fyi/images/logo.webp">
   <link rel="alternate" href="https://apps.apple.com/fr/app/yester/id6759684119">
   <meta name="apple-itunes-app" content="app-id=6759684119">
 
@@ -45,7 +45,6 @@
       margin: 0;
       height: 100%;
     }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
       display: flex;
@@ -56,20 +55,16 @@
       color: white;
       text-align: center;
     }
-
     .main {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding-top: 73px; /* hauteur du header fixe */
-    }
-
-    /* Sur la home, le #home lui-même gère son propre padding-top mobile */
-    #home {
-      margin-top: -73px; /* annule le padding-top du .main pour que le bg couvre tout */
       padding-top: 73px;
     }
-
+    #home {
+      margin-top: -73px;
+      padding-top: 73px;
+    }
     .page {
       display: none;
       max-width: 800px;
@@ -93,18 +88,15 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-
     @media (max-width: 768px) {
       #home {
         background-image: url('/images/mobileback.png');
       }
     }
-
     #normalContent {
       align-items: flex-start;
       text-align: left;
     }
-
     .home-subtitle {
       font-size: 42px;
       font-weight: 800;
@@ -113,7 +105,6 @@
       line-height: 1.2;
       letter-spacing: -0.5px;
     }
-
     .home-description {
       font-size: 18px;
       color: rgba(255,255,255,0.6);
@@ -121,7 +112,6 @@
       line-height: 1.5;
       margin-top: 10px;
     }
-
     .cta-button {
       padding: 15px 26px;
       border-radius: 999px;
@@ -131,19 +121,16 @@
       transition: transform 0.2s ease, background 0.2s ease;
       white-space: nowrap;
     }
-
     .cta-group {
       display: flex;
       gap: 12px;
       margin-top: 18px;
     }
-
     .cta-button.primary {
       background: white;
       color: black;
       border: none;
     }
-
     .cta-button.secondary {
       background: rgba(255,255,255,0.08);
       color: white;
@@ -164,11 +151,9 @@
       justify-content: center;
       padding: 20px;
     }
-
     .modal-overlay.open {
       display: flex;
     }
-
     .modal {
       position: relative;
       background: #1c1c1e;
@@ -182,31 +167,26 @@
       gap: 16px;
       animation: modalIn 0.22s ease;
     }
-
     @keyframes modalIn {
       from { opacity: 0; transform: scale(0.95) translateY(8px); }
       to   { opacity: 1; transform: scale(1) translateY(0); }
     }
-
     .modal-header {
       position: relative;
       text-align: center;
     }
-
     .modal-title {
       font-size: 17px;
       font-weight: 700;
       margin: 0 0 10px 0;
       color: #fff;
     }
-
     .modal-subtitle {
       font-size: 13px;
       color: rgba(255, 255, 255, 0.5);
       margin: 0;
       line-height: 1.5;
     }
-
     .modal-close {
       position: absolute;
       top: 14px;
@@ -224,18 +204,15 @@
       justify-content: center;
       transition: background 0.15s ease;
     }
-
     .modal-close:hover {
       background: rgba(255, 255, 255, 0.15);
       color: #fff;
     }
-
     .waitlist-form {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-
     .waitlist-input {
       padding: 13px 16px;
       font-size: 15px;
@@ -247,15 +224,12 @@
       width: 100%;
       box-sizing: border-box;
     }
-
     .waitlist-input::placeholder {
       color: rgba(255, 255, 255, 0.3);
     }
-
     .waitlist-input:focus {
       border-color: rgba(255, 204, 102, 0.7);
     }
-
     .waitlist-button {
       padding: 13px;
       font-size: 15px;
@@ -267,30 +241,26 @@
       cursor: pointer;
       transition: background 0.2s ease, transform 0.15s ease;
     }
-
     .waitlist-button:hover {
       background: rgb(255, 214, 130);
       transform: translateY(-1px);
     }
-
     .waitlist-button:active {
       transform: translateY(0);
     }
 
+    /* ===================== DATE TYPEWRITER ===================== */
     .date-wrap {
       display: inline-block;
       position: relative;
       width: 210px;
       vertical-align: baseline;
     }
-
     #dynamicDate {
       display: inline-block;
       color: rgb(255, 204, 102);
       white-space: nowrap;
     }
-
-    /* Curseur clignotant */
     #dynamicDate::after {
       content: '|';
       opacity: 1;
@@ -298,12 +268,13 @@
       margin-left: 1px;
       color: rgb(255, 204, 102);
     }
-
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0; }
     }
+</style>
 
+  <style>
     /* ===================== HEADER & NAV ===================== */
     .site-header {
       position: fixed;
@@ -320,7 +291,6 @@
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-
     .header-logo {
       font-size: 18px;
       font-weight: 800;
@@ -328,13 +298,10 @@
       letter-spacing: -0.3px;
       cursor: pointer;
     }
-
-    /* Nav desktop : liens directs */
     .header-nav {
       display: flex;
       gap: 4px;
     }
-
     .header-nav a {
       color: rgba(255,255,255,0.6);
       text-decoration: none;
@@ -344,13 +311,10 @@
       border-radius: 8px;
       transition: color 0.2s, background 0.2s;
     }
-
     .header-nav a:hover {
       color: white;
       background: rgba(255,255,255,0.08);
     }
-
-    /* Bouton hamburger — visible uniquement mobile */
     .hamburger {
       display: none;
       background: rgba(255,255,255,0.08);
@@ -365,11 +329,9 @@
       gap: 5px;
       transition: background 0.2s;
     }
-
     .hamburger:hover {
       background: rgba(255,255,255,0.14);
     }
-
     .hamburger span {
       display: block;
       width: 18px;
@@ -379,22 +341,13 @@
       transition: transform 0.25s ease, opacity 0.2s ease;
       transform-origin: center;
     }
-
-    .hamburger.open span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-    .hamburger.open span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.open span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    /* Drawer mobile */
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
     .mobile-menu {
       display: none;
       position: fixed;
-      top: 73px; /* hauteur du header */
+      top: 73px;
       left: 0;
       right: 0;
       background: rgba(18, 18, 18, 0.96);
@@ -407,16 +360,13 @@
       gap: 4px;
       animation: slideDown 0.2s ease;
     }
-
     @keyframes slideDown {
       from { opacity: 0; transform: translateY(-8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     .mobile-menu.open {
       display: flex;
     }
-
     .mobile-menu a {
       color: rgba(255,255,255,0.8);
       text-decoration: none;
@@ -427,30 +377,26 @@
       text-align: left;
       transition: background 0.15s, color 0.15s;
     }
-
     .mobile-menu a:hover {
       background: rgba(255,255,255,0.08);
       color: white;
     }
-
     @media (max-width: 768px) {
       .header-nav { display: none; }
       .hamburger  { display: flex; }
     }
 
-
+    /* ===================== SECTIONS ===================== */
     .cgu-section, .privacy-section, .section {
       margin: 0 auto;
       padding: 40px 20px;
       text-align: left;
       color: #ffffff;
     }
-
     .cgu-section h2, .privacy-section h2, .section h2 { margin-top: 30px; color: #fff; }
     .cgu-section p, .privacy-section p, .section p { margin-bottom: 15px; line-height: 1.6; color: #ccc; }
     .cgu-section ul li, .privacy-section ul li, .section ul li,
     .cgu-section ol li, .privacy-section ol li, .section ol li { color: #ccc; margin-bottom: 8px; }
-
     #contact { text-align: center; }
     #contact h1 { color: #fff; }
     #contact p { color: #ccc; }
@@ -461,7 +407,6 @@
       background-color: #000;
       padding: 15px 0;
     }
-
     footer a {
       color: white;
       text-decoration: none;
@@ -469,7 +414,6 @@
       font-size: 14px;
       transition: color 0.3s ease;
     }
-
     footer a:hover { color: #667eea; text-decoration: underline; }
 
     @media (max-width: 768px) {
@@ -478,16 +422,14 @@
         width: 100%;
         box-sizing: border-box;
       }
-
       #home {
         justify-content: center;
-        padding-top: 80px; /* compense la hauteur du header */
+        padding-top: 80px;
         padding-bottom: 40px;
         min-height: 100vh;
         min-height: 100dvh;
       }
     }
-
     @media (max-width: 480px) {
       .cta-button { font-size: 14px; padding: 13px 22px; }
       #normalContent .home-subtitle { font-size: 30px; max-width: 340px; }
@@ -499,17 +441,15 @@
         align-items: flex-start;
         gap: 10px;
       }
-      .cta-button {
-        width: auto;
-      }
+      .cta-button { width: auto; }
     }
-
     @media (prefers-reduced-motion: reduce) {
       .cta-button, .waitlist-button { transition: none; }
       #dynamicDate::after { animation: none; }
     }
   </style>
 </head>
+
 <body>
 
   <!-- ===== HEADER FIXE ===== -->
@@ -523,9 +463,7 @@
       <a href="#contact" data-page="contact">Contact</a>
     </nav>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
   </header>
 
@@ -539,54 +477,43 @@
   </div>
 
   <main class="main">
+
+    <!-- ===== HOME ===== -->
     <div id="home" class="page">
       <div id="normalContent">
-        <p class="home-subtitle">
-          Que faisais-tu le
-          <span class="date-wrap">
-            <span id="dynamicDate"></span>
-          </span>
-        </p>
-
-        <p class="home-description">
-          Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.
-        </p>
-
+        <p class="home-subtitle" id="homeSubtitle">Que faisais-tu le&nbsp;<span class="date-wrap"><span id="dynamicDate"></span></span></p>
+        <p class="home-description" id="homeDescription">Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.</p>
         <div class="cta-group">
-          <button id="joinGameBtn" class="cta-button primary">
-            Télécharger 🍏
-          </button>
-          <button id="openWaitlistBtn" class="cta-button secondary">
-            Rejoindre la waitlist
-          </button>
+          <button id="joinGameBtn" class="cta-button primary">Télécharger 🍏</button>
+          <button id="openWaitlistBtn" class="cta-button secondary">Rejoindre la waitlist</button>
         </div>
-
       </div>
     </div>
 
-    <!-- Modal waitlist -->
+    <!-- ===== MODAL WAITLIST ===== -->
     <div class="modal-overlay" id="waitlistModal">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <button class="modal-close" id="closeModalBtn" aria-label="Fermer">✕</button>
         <div class="modal-header">
           <p class="modal-title" id="modalTitle">Rejoindre la waitlist</p>
-          <p class="modal-subtitle">On te prévient dès que Yester est dispo dans ton pays.</p>
+          <p class="modal-subtitle" id="modalSubtitle">On te prévient dès que Yester est dispo dans ton pays.</p>
         </div>
         <form class="waitlist-form" id="waitlistForm">
-          <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" aria-label="Adresse email">
-          <button type="submit" class="waitlist-button">S'inscrire</button>
+          <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" id="waitlistInput" aria-label="Adresse email">
+          <button type="submit" class="waitlist-button" id="waitlistBtn">S'inscrire</button>
         </form>
       </div>
     </div>
 
-    <!-- Section CGU -->
+
+    <!-- ===== CGU ===== -->
     <div id="cgu" class="page cgu-section">
       <h1>Conditions Générales d'Utilisation</h1>
       <p><strong>Dernière mise à jour :</strong> 5 novembre 2025</p>
       <p>Bienvenue !</p>
       <p>Notre mission est de créer une app pour redécouvrir des memories entre amis.</p>
       <p>Pour y parvenir, nous voulons que vous sachiez ce que vous pouvez attendre de nous, ce que nous attendons de vous et comment, ensemble, nous pouvons améliorer Yester pour vous et vos amis.</p>
-      <p>Pour ce faire, nous avons créé les présentes conditions de service ("conditions"), nos POLITIQUE DE CONFIDENTIALITÉ et Règlement (ensemble, le "contrat d'utilisation"). Dans l'accord d'utilisation, certains mots ont des significations spécifiques et doivent être interprétés de la même manière, quel que soit l'endroit où ils sont utilisés. Si quelque chose n'est pas clair, ou si vous ne comprenez pas ce que nous disons, n'hésitez pas à nous contacter. Notre objectif est de maximiser la transparence et la compréhension du fonctionnement de Yester</p>
+      <p>Pour ce faire, nous avons créé les présentes conditions de service ("conditions"), nos POLITIQUE DE CONFIDENTIALITÉ et Règlement (ensemble, le "contrat d'utilisation"). Dans l'accord d'utilisation, certains mots ont des significations spécifiques et doivent être interprétés de la même manière, quel que soit l'endroit où ils sont utilisés. Si quelque chose n'est pas clair, ou si vous ne comprenez pas ce que nous disons, n'hésitez pas à nous contacter. Notre objectif est de maximiser la transparence et la compréhension du fonctionnement de Yester.</p>
       <p>Si vous ne souhaitez pas lire ou accepter les conditions d'utilisation, n'utilisez pas nos services, mais si vous utilisez nos services, vous acceptez d'être lié par les conditions d'utilisation.</p>
       <h2>1. Qui peut utiliser nos services ?</h2>
       <p>Pour utiliser nos services, vous devez être un vrai humain :
@@ -594,34 +521,28 @@
           <li>qui a au moins 13 ans. En fonction de votre lieu de résidence, si vous n'avez pas atteint l'âge du consentement dans votre pays, un parent ou un tuteur peut également devoir donner son accord pour que vous puissiez utiliser nos services ; ou</li>
           <li>qui a l'autorité légale de créer un compte au nom d'une autre personne, d'une entreprise, d'une organisation, d'un gouvernement ou d'une autre entité légale, si vous ne créez pas un compte pour vous-même.</li>
         </ul>
-        Toutes les références à "vous" et "votre" dans l'accord d'utilisation signifient à la fois vous, l'utilisateur final et/ou, pour les comptes créés au nom d'une autre personne, d'une société, d'une organisation, d'un gouvernement ou d'une autre entité juridique, la personne qui a l'autorité légale de créer et/ou d'exploiter le compte.
       </p>
       <h2>2. Protection des données et de la vie privée</h2>
       <p>Notre POLITIQUE DE CONFIDENTIALITÉ décrit les informations que vous partagez avec nous, le moment où elles sont partagées et la manière dont nous les traitons lorsque vous utilisez nos services. En utilisant nos services, vous comprenez et acceptez que nous devons collecter, utiliser, stocker, traiter, partager et transférer ces informations dans les pays où nous exploitons nos services et aux partenaires qui nous aident à fournir nos services.</p>
       <h2>3. Contenu</h2>
-      <p>Le contenu désigne les photos de profil et les photos partagées par l'intermédiaire de nos services. Vous êtes responsable du contenu que vous partagez, notamment en vous assurant que vous avez le droit d'utiliser ce contenu et qu'il est conforme aux lois, règles, règlements et à l'accord de l'utilisateur. Si vous partagez un contenu que vous n'avez pas le droit d'utiliser ou qui enfreint les lois, les règles, les règlements ou le contrat d'utilisation, nous avons le droit de le retirer. Nous ne tolérons pas le harcèlement, l'intimidation, la diffamation, les menaces, les contenus haineux, l'exploitation sexuelle des enfants, les abus sexuels, la promotion du suicide ou de l'automutilation, le vol de propriété intellectuelle ou d'autres activités illégales. Pour plus d'informations, voir notre Règlement qui font partie de l'accord d'utilisation. Vous êtes propriétaire du contenu que vous partagez et accordez à Yester une licence d'utilisation du contenu dans les conditions suivantes :
-        <ul>
-          <li>Le contenu est public et visible par tous les joueurs qui ont participé à la période de jeu en cours en partageant un contenu.</li>
-          <li>Le contenu partagé globalement désigne le contenu que vous avez partagé avec tout le monde sur Yester. En échange de l'utilisation de nos services, vous nous accordez une licence mondiale, non exclusive, libre de redevances et pouvant faire l'objet d'une sous-licence pour utiliser, copier, reproduire, traiter, adapter, modifier, publier, transmettre, afficher et distribuer le contenu dans tous les médias ou méthodes de distribution.</li>
-          <li>Cette licence nous autorise à mettre votre contenu partagé globalement à la disposition du reste du monde et à permettre à d'autres de faire de même. Vous acceptez que cette licence inclut le droit pour Yester de fournir, promouvoir et améliorer nos Services et de mettre le Contenu partagé globalement à la disposition d'autres sociétés, organisations ou individus pour la syndication, la diffusion, la distribution, la promotion ou la publication sur d'autres médias et services.</li>
-        </ul>
-      </p>
+      <p>Le contenu désigne les photos de profil et les photos partagées par l'intermédiaire de nos services. Vous êtes responsable du contenu que vous partagez. Nous ne tolérons pas le harcèlement, l'intimidation, la diffamation, les menaces, les contenus haineux, l'exploitation sexuelle des enfants, les abus sexuels, la promotion du suicide ou de l'automutilation, le vol de propriété intellectuelle ou d'autres activités illégales.</p>
       <h2>4. Signalement des contenus illicites</h2>
-      <p>Nous ne sommes pas tenus de contrôler le contenu que les utilisateurs partagent. Néanmoins, nous voulons que nos services soient un endroit sûr. Le contenu qui viole les droits d'une autre personne ou qui n'est pas conforme aux lois, règles, règlements ou à l'accord d'utilisation ("contenu violent") est interdit. Si vous voyez un contenu violent, vous pouvez nous le signaler via la fonction de signalement dans l'application. Si vous pensez que votre contenu a été copié d'une manière qui porte atteinte à vos droits de propriété intellectuelle, vous pouvez le signaler directement dans l'application.</p>
+      <p>Si vous voyez un contenu violent, vous pouvez nous le signaler via la fonction de signalement dans l'application.</p>
       <h2>5. Fin de nos services</h2>
-      <p>Nous pouvons suspendre temporairement ou définitivement votre compte et vous empêcher d'utiliser nos services si nous avons déterminé que vous avez partagé un contenu illicite ou utilisé nos services d'une manière qui viole les droits d'une autre personne ou qui n'est pas conforme aux lois, règles, règlements ou à l'accord d'utilisation. Certains contenus violents (ex. pédopornographie) entraîneront votre suspension immédiate et permanente de nos services. Nous supprimerons votre compte s'il est inactif pendant plus de deux ans. Auparavant, nous vous en informerons afin que vous puissiez empêcher la suppression si vous le souhaitez. Vous pouvez supprimer votre compte à tout moment via les paramètres de votre compte.</p>
+      <p>Nous pouvons suspendre temporairement ou définitivement votre compte si vous avez partagé un contenu illicite ou utilisé nos services d'une manière qui viole les droits d'une autre personne. Vous pouvez supprimer votre compte à tout moment via les paramètres de votre compte.</p>
       <h2>6. Licence d'utilisation de nos services</h2>
-      <p>Nos services sont protégés par des droits d'auteur, des marques, des secrets commerciaux et d'autres lois dans le monde entier. Rien dans l'accord d'utilisation ne vous donne le droit d'utiliser le nom Yester ou ses marques, logos, noms de domaine, autres caractéristiques distinctives ou droits de propriété. Pendant la durée d'utilisation de nos Services, Yakabi vous accorde une licence personnelle, mondiale, libre de droits, incessable et non exclusive d'utilisation du logiciel fourni dans le cadre de nos Services, uniquement pour utiliser et profiter de nos Services conformément à l'Accord d'utilisation. Cette licence prend fin lorsque vous cessez d'utiliser nos services.</p>
+      <p>Pendant la durée d'utilisation de nos Services, Yakabi vous accorde une licence personnelle, mondiale, libre de droits, incessable et non exclusive d'utilisation du logiciel fourni dans le cadre de nos Services. Cette licence prend fin lorsque vous cessez d'utiliser nos services.</p>
       <h2>7. Limitation de la responsabilité</h2>
-      <p>En utilisant nos services, vous acceptez que la responsabilité de Yester, de ses représentants, soit limitée à l'étendue maximale autorisée dans votre pays.</p>
+      <p>En utilisant nos services, vous acceptez que la responsabilité de Yester soit limitée à l'étendue maximale autorisée dans votre pays.</p>
       <h2>8. Droit applicable et juridiction</h2>
       <p>Vous et Yester consentez à la compétence exclusive des tribunaux de Paris et à la loi française. Tous litiges liés aux Conditions ou à l'Accord d'utilisation seront soumis aux tribunaux de Paris.</p>
       <h2>9. Généralités</h2>
-      <p>Yester peut mettre à jour l'accord d'utilisation à tout moment. Si une mise à jour a un impact sur vos droits ou obligations, nous vous informerons environ 30 jours avant l'entrée en vigueur. Si vous continuez à utiliser nos services après ces 30 jours, vous acceptez l'accord mis à jour. Si une partie de ces conditions est jugée inapplicable, les autres dispositions restent applicables. Le Contrat d'utilisation est conclu entre vous et Yester</p>
+      <p>Yester peut mettre à jour l'accord d'utilisation à tout moment. Si une mise à jour a un impact sur vos droits ou obligations, nous vous informerons environ 30 jours avant l'entrée en vigueur.</p>
       <h2>10. Contact ou questions</h2>
       <p>Votre avis nous permet d'améliorer nos services. Si vous avez une question, un commentaire ou un retour d'information, contactez-nous via notre centre d'aide dans l'application.</p>
     </div>
 
+    <!-- ===== PRIVACY ===== -->
     <div id="privacy" class="page privacy-section">
       <h1>Politique de Confidentialité</h1>
       <p><strong>Dernière mise à jour :</strong> 5 novembre 2025</p>
@@ -630,24 +551,27 @@
       <h2>1. Informations que nous traitons à votre sujet</h2>
       <p>Yester ("l'Application") recueille des informations que vous nous fournissez directement, par le biais de votre utilisation de l'Application.</p>
       <h3>1.1 Données que vous nous fournissez</h3>
-      <p>Données de création de compte : lorsque vous créez un compte sur notre Application, nous vous demandons les informations suivantes. Sans ces informations, nous ne pourrons pas vous donner accès à l'Application :</p>
-      <ul><li>Votre numéro de téléphone, votre nom, votre date de naissance, une photo de profil et votre nom d'utilisateur.</li></ul>
-      <p>Données liée au contenu: lorsque vous utilisez l'application, vous pouvez décider de partager les données suivantes :</p>
-      <ul><li>Les photos que vous partagez ("Contenu") à l'aide de l'application ou les photos que vous partagez à partir de votre bibliothèque. Vous pouvez créer un compte sans nous autoriser à accéder à la photothèque de votre appareil. Cependant, vous ne pourrez voir le contenu de vos amis que lorsque vous aurez publié votre propre photo. C'est un élément fondamental du fonctionnement de Yester.</li></ul>
-      <p>Echanges avec Yester : Lorsque vous signalez un problème dans notre Application ou demandez de l'aide, nous recueillons les données suivantes :</p>
+      <p>Données de création de compte : lorsque vous créez un compte sur notre Application, nous vous demandons les informations suivantes :</p>
+      <ul>
+        <li>Votre numéro de téléphone, votre nom, votre date de naissance, une photo de profil et votre nom d'utilisateur.</li>
+      </ul>
+      <p>Données liées au contenu : lorsque vous utilisez l'application, vous pouvez décider de partager les données suivantes :</p>
+      <ul>
+        <li>Les photos que vous partagez ("Contenu") à l'aide de l'application ou les photos que vous partagez à partir de votre bibliothèque.</li>
+      </ul>
+      <p>Échanges avec Yester : Lorsque vous signalez un problème dans notre Application ou demandez de l'aide, nous recueillons les données suivantes :</p>
       <ul>
         <li>Votre adresse électronique,</li>
         <li>Contenu de la communication avec nous,</li>
         <li>Les photos que vous pouvez décider de partager avec nous,</li>
-        <li>Copie d'une pièce d'identité délivrée par le gouvernement (uniquement lorsque cela est strictement nécessaire pour vous identifier avec certitude),</li>
+        <li>Copie d'une pièce d'identité délivrée par le gouvernement (uniquement lorsque cela est strictement nécessaire),</li>
         <li>Identifiants (par exemple, numéros de téléphone ou adresses électroniques),</li>
         <li>Toute autre information que vous pourriez décider de partager avec nous.</li>
       </ul>
-      <h3>1.2 Données que nous collectons lorsque vous utilisez notre App.</h3>
-      <p>Comme tous les services basés sur Internet, lorsque vous utilisez notre application, nous recevons automatiquement des informations sur vous à partir de votre appareil et de votre utilisation de notre application. La plupart des informations sont collectées par le biais de traceurs.</p>
+      <h3>1.2 Données que nous collectons lorsque vous utilisez notre App</h3>
       <p>Données de connexion et données techniques : Adresse IP, équipement terminal et port, système d'exploitation, données de configuration du système, type d'appareil, version du système d'exploitation, user_id, device_id.</p>
-      <p>Données d'utilisation : actions effectuées sur l'application, l'heure de publication du contenu, nombre de post, le fait que vous ayez supprimé du contenu ou que vous ayez bloqué des utilisateurs, plantages de l'Application.</p>
-      <p>Données du carnet d'adresses: Vous pouvez décider d'autoriser Yester à accéder à votre carnet d'adresses pour identifier les amis de votre carnet d'adresses qui pourraient déjà être sur Yester ou pour vous recommander de nouveaux amis.</p>
+      <p>Données d'utilisation : actions effectuées sur l'application, l'heure de publication du contenu, nombre de posts, plantages de l'Application.</p>
+      <p>Données du carnet d'adresses : Vous pouvez décider d'autoriser Yester à accéder à votre carnet d'adresses pour identifier les amis qui pourraient déjà être sur Yester.</p>
       <h2>2. Comment nous utilisons les informations</h2>
       <p>Nous utilisons vos données pour vous permettre de créer et conserver votre compte, publier et voir du Contenu, modérer le contenu, vous mettre en contact avec vos amis, assurer la sécurité de l'application, et répondre aux demandes des autorités nationales.</p>
       <h2>3. Quand nous partageons des informations vous concernant</h2>
@@ -661,11 +585,12 @@
       <h2>7. Vos contrôles</h2>
       <p>Vous pouvez gérer vos notifications, contrôler qui voit votre contenu, supprimer votre compte à tout moment et retirer votre consentement depuis les paramètres de l'application.</p>
       <h2>8. Vos droits</h2>
-      <p>Vous disposez des droits d'accès, de rectification, d'effacement, de limitation du traitement, d'opposition, de portabilité et de retrait du consentement. Vous pouvez exercer ces droits via l'application ou en nous contactant à <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="275e464c4448495346445367404a464e4b0944484a">[email&#160;protected]</a>.</p>
+      <p>Vous disposez des droits d'accès, de rectification, d'effacement, de limitation du traitement, d'opposition, de portabilité et de retrait du consentement. Vous pouvez exercer ces droits via l'application ou en nous contactant à <a href="mailto:y4kcontact@gmail.com">y4kcontact@gmail.com</a>.</p>
       <h2>9. Mise à jour de notre politique de confidentialité</h2>
       <p>Nous pouvons mettre à jour notre politique de confidentialité si cela s'avère nécessaire ou si la loi l'exige.</p>
     </div>
 
+    <!-- ===== RÈGLEMENT ===== -->
     <div id="rules" class="page section">
       <h1>Normes Communautaires</h1>
       <p>Dernière mise à jour : 26 novembre, 2025</p>
@@ -682,14 +607,16 @@
         <li><strong>Contenu violent :</strong> Interdit.</li>
       </ul>
       <h2>Comment nous avertir ?</h2>
-      <p>Tu peux signaler toute atteinte via les dispositifs de signalement de l'application Yakabi.</p>
+      <p>Tu peux signaler toute atteinte via les dispositifs de signalement de l'application.</p>
     </div>
 
+    <!-- ===== CONTACT ===== -->
     <div id="contact" class="page section">
       <h1>Contact</h1>
       <p>Pour toute question, problème ou suggestion concernant Yester, vous pouvez nous contacter par email :</p>
-      <p><a href="/cdn-cgi/l/email-protection#463f722d2529283227253206212b272f2a6825292b"><span class="__cf_email__" data-cfemail="443d702f272b2a30252730042329252d286a272b29">[email&#160;protected]</span></a></p>
+      <p><a href="mailto:y4kcontact@gmail.com">y4kcontact@gmail.com</a></p>
     </div>
+
   </main>
 
   <footer>
@@ -700,7 +627,43 @@
     <a href="#contact">Contact</a>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+  <!-- ===== I18N ===== -->
+  <script>
+    const i18n = {
+      fr: {
+        subtitle: "Que faisais-tu le\u00a0",
+        description: "Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.",
+        download: "Télécharger 🍏",
+        waitlist: "Rejoindre la waitlist",
+        modalTitle: "Rejoindre la waitlist",
+        modalSubtitle: "On te prévient dès que Yester est dispo dans ton pays.",
+        placeholder: "ton@email.com",
+        subscribe: "S'inscrire",
+        success: "✓ Inscrit !",
+        error: "Erreur, réessaie",
+        dates: ["3 mai 2018 ?", "29 novembre 2021 ?", "15 juin 2025 ?"],
+      },
+      en: {
+        subtitle: "What were you doing on\u00a0",
+        description: "One date every day. Rediscover what you and your friends were doing back then.",
+        download: "Download 🍏",
+        waitlist: "Join the waitlist",
+        modalTitle: "Join the waitlist",
+        modalSubtitle: "We'll notify you when Yester launches in your country.",
+        placeholder: "your@email.com",
+        subscribe: "Sign up",
+        success: "✓ Signed up!",
+        error: "Error, try again",
+        dates: ["May 3, 2018?", "November 29, 2021?", "June 15, 2025?"],
+      }
+    };
+    const lang = navigator.language?.startsWith('fr') ? 'fr' : 'en';
+    const t = i18n[lang];
+  </script>
+
+  <!-- ===== APP ===== -->
+  <script>
     const APP_CONFIG = {
       urlScheme: 'yester://',
       deepLinkPath: 'invite',
@@ -715,7 +678,6 @@
         targetPage.style.display = pageId === 'home' ? 'flex' : 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-      // Cacher le footer sur la home, l'afficher sur les autres pages
       const footer = document.querySelector('footer');
       if (footer) footer.style.display = pageId === 'home' ? 'none' : 'block';
     }
@@ -730,11 +692,8 @@
       const button = document.getElementById('joinGameBtn');
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
       if (!isMobile) { window.location.href = APP_CONFIG.appStoreUrl; return; }
-
       button.classList.add('loading');
-
       if (isIOS) {
         const deepLink = `${APP_CONFIG.urlScheme}${APP_CONFIG.deepLinkPath}`;
         const now = Date.now();
@@ -745,22 +704,16 @@
         document.addEventListener('visibilitychange', () => {
           if (!document.hidden) { clearTimeout(timeout); button.classList.remove('loading'); }
         });
-        window.addEventListener('blur', () => {
-          clearTimeout(timeout); button.classList.remove('loading');
-        });
+        window.addEventListener('blur', () => { clearTimeout(timeout); button.classList.remove('loading'); });
       } else {
         window.location.href = APP_CONFIG.appStoreUrl;
       }
-
       setTimeout(() => button.classList.remove('loading'), 3000);
     }
 
     document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
-
-    // Logo → retour home
     document.getElementById('logoBtn')?.addEventListener('click', () => navigateToPage('home'));
 
-    // Liens header desktop
     document.querySelectorAll('.header-nav a, footer a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -770,7 +723,6 @@
       });
     });
 
-    // Liens drawer mobile
     document.querySelectorAll('.mobile-menu a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -780,9 +732,8 @@
       });
     });
 
-    // Hamburger
     const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileMenu   = document.getElementById('mobileMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
 
     function closeMobileMenu() {
       hamburgerBtn?.classList.remove('open');
@@ -801,9 +752,20 @@
     });
 
     window.addEventListener("load", () => {
+      // Appliquer les traductions
+      const subtitleEl = document.getElementById('homeSubtitle');
+      if (subtitleEl) subtitleEl.childNodes[0].textContent = t.subtitle;
+      document.getElementById('homeDescription').textContent = t.description;
+      document.getElementById('joinGameBtn').textContent = t.download;
+      document.getElementById('openWaitlistBtn').textContent = t.waitlist;
+      document.getElementById('modalTitle').textContent = t.modalTitle;
+      document.getElementById('modalSubtitle').textContent = t.modalSubtitle;
+      document.getElementById('waitlistInput').placeholder = t.placeholder;
+      document.getElementById('waitlistBtn').textContent = t.subscribe;
+
+      // Navigation initiale
       const path = window.location.pathname.substring(1);
       const hash = window.location.hash.substring(1);
-
       if (hash && document.getElementById(hash)) {
         navigateToPage(hash);
       } else if (path && document.getElementById(path)) {
@@ -813,6 +775,7 @@
         history.replaceState({ page: 'home' }, '', '/');
       }
 
+      // Modal waitlist
       const openBtn = document.getElementById("openWaitlistBtn");
       const modal = document.getElementById("waitlistModal");
       const closeBtn = document.getElementById("closeModalBtn");
@@ -822,7 +785,6 @@
         setTimeout(() => modal.querySelector("input")?.focus(), 100);
         document.body.style.overflow = "hidden";
       }
-
       function closeModal() {
         modal.classList.remove("open");
         document.body.style.overflow = "";
@@ -830,68 +792,51 @@
 
       if (openBtn) openBtn.addEventListener("click", openModal);
       if (closeBtn) closeBtn.addEventListener("click", closeModal);
-
       if (modal) {
-        modal.addEventListener("click", (e) => {
-          if (e.target === modal) closeModal();
-        });
+        modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
       }
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal();
-      });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
     });
   </script>
 
-  <!-- ================= WAITLIST SUBMIT ================= -->
+  <!-- ===== WAITLIST SUBMIT ===== -->
   <script>
-    document.getElementById('waitlistForm')
-      .addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const btn = form.querySelector('.waitlist-button');
-
-        btn.textContent = '...';
-        btn.disabled = true;
-
-        try {
-          const email = form.querySelector('input[name="EMAIL"]').value;
-          const res = await fetch('https://www.yester.fyi/api/waitlist', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email })
-          });
-
-          if (res.ok) {
-            btn.textContent = '✓ Inscrit !';
-            setTimeout(() => {
-              document.getElementById('waitlistModal')?.classList.remove('open');
-              document.body.style.overflow = '';
-            }, 1200);
-          } else {
-            btn.textContent = 'Erreur, réessaie';
-          }
-          if (!res.ok) btn.disabled = false;
-        } catch (err) {
-          btn.textContent = 'Erreur, réessaie';
+    document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('waitlistBtn');
+      btn.textContent = '...';
+      btn.disabled = true;
+      try {
+        const email = form.querySelector('input[name="EMAIL"]').value;
+        const res = await fetch('https://www.yester.fyi/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        if (res.ok) {
+          btn.textContent = t.success;
+          setTimeout(() => {
+            document.getElementById('waitlistModal')?.classList.remove('open');
+            document.body.style.overflow = '';
+          }, 1200);
+        } else {
+          btn.textContent = t.error;
           btn.disabled = false;
         }
-      });
+      } catch (err) {
+        btn.textContent = t.error;
+        btn.disabled = false;
+      }
+    });
   </script>
 
-  <!-- ================= DATES DYNAMIQUES (typewriter) ================= -->
+  <!-- ===== TYPEWRITER ===== -->
   <script>
-    const dates = [
-      "3 mai 2018 ?",
-      "29 novembre 2021 ?",
-      "15 juin 2025 ?"
-    ];
-
-    const TYPE_SPEED  = 55;   // ms entre chaque lettre à l'écriture
-    const ERASE_SPEED = 35;   // ms entre chaque lettre à l'effacement
-    const PAUSE_FULL  = 2000; // pause après affichage complet
-    const PAUSE_EMPTY = 300;  // pause avant de taper la suivante
-
+    const TYPE_SPEED  = 55;
+    const ERASE_SPEED = 35;
+    const PAUSE_FULL  = 2000;
+    const PAUSE_EMPTY = 300;
     let dateIndex = 0;
     let charIndex = 0;
     let isErasing = false;
@@ -899,9 +844,7 @@
     function typeWriter() {
       const el = document.getElementById("dynamicDate");
       if (!el) return;
-
-      const currentText = dates[dateIndex];
-
+      const currentText = t.dates[dateIndex];
       if (!isErasing) {
         el.textContent = currentText.slice(0, charIndex + 1);
         charIndex++;
@@ -916,7 +859,7 @@
         charIndex--;
         if (charIndex === 0) {
           isErasing = false;
-          dateIndex = (dateIndex + 1) % dates.length;
+          dateIndex = (dateIndex + 1) % t.dates.length;
           setTimeout(typeWriter, PAUSE_EMPTY);
         } else {
           setTimeout(typeWriter, ERASE_SPEED);
@@ -930,5 +873,7 @@
       setTimeout(typeWriter, 400);
     });
   </script>
+
 </body>
 </html>
+
