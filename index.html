@@ -118,21 +118,6 @@
       height: auto;
       border-radius: 28px;
     }
-    .home-subtitle {
-      font-size: 42px;
-      font-weight: 800;
-      margin: 0;
-      max-width: 560px;
-      line-height: 1.2;
-      letter-spacing: -0.5px;
-    }
-    .home-description {
-      font-size: 18px;
-      color: rgba(255,255,255,0.6);
-      max-width: 480px;
-      line-height: 1.5;
-      margin-top: 10px;
-    }
     .cta-button {
       padding: 15px 26px;
       border-radius: 999px;
@@ -169,15 +154,20 @@
 
     /* ===================== AVAILABILITY & SOCIAL PROOF ===================== */
     .home-availability {
-      font-size: 14px;
-      color: rgba(255,255,255,0.5);
+      font-size: 16px;
+      color: #fff;
       margin: 16px 0 0 0;
+      font-weight: 700;
     }
     .home-social-proof {
       font-size: 13px;
-      color: rgba(255, 204, 102, 0.8);
-      margin: 8px 0 0 0;
-      font-weight: 500;
+      color: rgba(255, 255, 255, 0.45);
+      margin: 10px 0 0 0;
+      max-width: 320px;
+      line-height: 1.5;
+    }
+    .home-social-proof strong {
+      color: rgba(255, 255, 255, 0.6);
     }
 
     /* ===================== WAITLIST MODAL ===================== */
@@ -291,29 +281,6 @@
       transform: translateY(0);
     }
 
-    /* ===================== DATE TYPEWRITER ===================== */
-    .date-wrap {
-      display: inline-block;
-      position: relative;
-      width: 210px;
-      vertical-align: baseline;
-    }
-    #dynamicDate {
-      display: inline-block;
-      color: rgb(255, 204, 102);
-      white-space: nowrap;
-    }
-    #dynamicDate::after {
-      content: '|';
-      opacity: 1;
-      animation: blink 0.7s step-end infinite;
-      margin-left: 1px;
-      color: rgb(255, 204, 102);
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0; }
-    }
 </style>
 
   <style>
@@ -495,10 +462,7 @@
     }
     @media (max-width: 480px) {
       .cta-button { font-size: 14px; padding: 13px 22px; }
-      #normalContent .home-subtitle { font-size: 30px; max-width: 340px; }
-      #normalContent .home-description { font-size: 15px; }
       footer a { margin: 0 8px; font-size: 12px; }
-      .date-wrap { width: 200px; }
       .cta-group {
         flex-direction: row;
         align-items: center;
@@ -515,7 +479,6 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .cta-button, .waitlist-button { transition: none; }
-      #dynamicDate::after { animation: none; }
     }
   </style>
 </head>
@@ -552,14 +515,12 @@
     <div id="home" class="page">
       <div id="normalContent">
         <div class="home-text">
-          <p class="home-subtitle" id="homeSubtitle">Que faisais-tu le&nbsp;<span class="date-wrap"><span id="dynamicDate"></span></span></p>
-          <p class="home-description" id="homeDescription">Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.</p>
           <div class="cta-group">
             <button id="joinGameBtn" class="cta-button primary"><img src="/images/apple-logo.png" alt="" class="apple-icon">Télécharger</button>
             <button id="openWaitlistBtn" class="cta-button secondary">Réserver</button>
           </div>
           <p class="home-availability" id="homeAvailability">Disponible gratuitement sur l'App Store 🇫🇷</p>
-          <p class="home-social-proof" id="homeSocialProof">+1 200 personnes ont déjà rejoint Yester</p>
+          <p class="home-social-proof" id="homeSocialProof">Pas encore disponible dans ton pays ? Clique sur <strong>Réserver</strong>, on te prévient par e-mail dès que c'est bon.</p>
         </div>
         <div class="hero-video-wrap">
           <video autoplay loop muted playsinline disablepictureinpicture>
@@ -711,8 +672,6 @@
   <script>
     const i18n = {
       fr: {
-        subtitle: "Que faisais-tu le\u00a0",
-        description: "Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.",
         download: "Télécharger",
         waitlist: "Réserver",
         modalTitle: "Réserver ma place",
@@ -722,12 +681,9 @@
         success: "✓ Inscrit !",
         error: "Erreur, réessaie",
         availability: "Disponible gratuitement sur l'App Store 🇫🇷",
-        socialProof: "+1 200 personnes ont déjà rejoint Yester",
-        dates: ["3 mai 2018 ?", "29 novembre 2021 ?", "15 juin 2025 ?"],
+        socialProof: "Pas encore disponible dans ton pays ? Clique sur <strong>Réserver</strong>, on te prévient par e-mail dès que c'est bon.",
       },
       en: {
-        subtitle: "What were you doing on\u00a0",
-        description: "One date every day. Rediscover what you and your friends were doing back then.",
         download: "Download",
         waitlist: "Reserve",
         modalTitle: "Reserve your spot",
@@ -737,8 +693,7 @@
         success: "✓ Signed up!",
         error: "Error, try again",
         availability: "Available for free on the App Store 🇫🇷",
-        socialProof: "+1,200 people have already joined Yester",
-        dates: ["May 3, 2018?", "November 29, 2021?", "June 15, 2025?"],
+        socialProof: "Not available in your country yet? Tap <strong>Reserve</strong>, we'll email you when it's ready.",
       }
     };
     const lang = navigator.language?.startsWith('fr') ? 'fr' : 'en';
@@ -836,9 +791,6 @@
 
     window.addEventListener("load", () => {
       // Appliquer les traductions
-      const subtitleEl = document.getElementById('homeSubtitle');
-      if (subtitleEl) subtitleEl.childNodes[0].textContent = t.subtitle;
-      document.getElementById('homeDescription').textContent = t.description;
       document.getElementById('joinGameBtn').lastChild.textContent = t.download;
       document.getElementById('openWaitlistBtn').textContent = t.waitlist;
       document.getElementById('modalTitle').textContent = t.modalTitle;
@@ -846,7 +798,7 @@
       document.getElementById('waitlistInput').placeholder = t.placeholder;
       document.getElementById('waitlistBtn').textContent = t.subscribe;
       document.getElementById('homeAvailability').textContent = t.availability;
-      document.getElementById('homeSocialProof').textContent = t.socialProof;
+      document.getElementById('homeSocialProof').innerHTML = t.socialProof;
 
       // Navigation initiale
       const path = window.location.pathname.substring(1);
@@ -913,49 +865,6 @@
         btn.textContent = t.error;
         btn.disabled = false;
       }
-    });
-  </script>
-
-  <!-- ===== TYPEWRITER ===== -->
-  <script>
-    const TYPE_SPEED  = 55;
-    const ERASE_SPEED = 35;
-    const PAUSE_FULL  = 2000;
-    const PAUSE_EMPTY = 300;
-    let dateIndex = 0;
-    let charIndex = 0;
-    let isErasing = false;
-
-    function typeWriter() {
-      const el = document.getElementById("dynamicDate");
-      if (!el) return;
-      const currentText = t.dates[dateIndex];
-      if (!isErasing) {
-        el.textContent = currentText.slice(0, charIndex + 1);
-        charIndex++;
-        if (charIndex === currentText.length) {
-          isErasing = true;
-          setTimeout(typeWriter, PAUSE_FULL);
-        } else {
-          setTimeout(typeWriter, TYPE_SPEED);
-        }
-      } else {
-        el.textContent = currentText.slice(0, charIndex - 1);
-        charIndex--;
-        if (charIndex === 0) {
-          isErasing = false;
-          dateIndex = (dateIndex + 1) % t.dates.length;
-          setTimeout(typeWriter, PAUSE_EMPTY);
-        } else {
-          setTimeout(typeWriter, ERASE_SPEED);
-        }
-      }
-    }
-
-    window.addEventListener("load", () => {
-      const el = document.getElementById("dynamicDate");
-      if (!el) return;
-      setTimeout(typeWriter, 400);
     });
   </script>
 
