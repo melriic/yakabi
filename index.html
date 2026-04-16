@@ -151,12 +151,33 @@
       background: white;
       color: black;
       border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .apple-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
     }
     .cta-button.secondary {
       background: rgba(255,255,255,0.08);
       color: white;
       border: 1px solid rgba(255,255,255,0.25);
       backdrop-filter: blur(12px);
+    }
+
+    /* ===================== AVAILABILITY & SOCIAL PROOF ===================== */
+    .home-availability {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      margin: 16px 0 0 0;
+    }
+    .home-social-proof {
+      font-size: 13px;
+      color: rgba(255, 204, 102, 0.8);
+      margin: 8px 0 0 0;
+      font-weight: 500;
     }
 
     /* ===================== WAITLIST MODAL ===================== */
@@ -445,9 +466,13 @@
         box-sizing: border-box;
         gap: 28px;
         align-items: center;
+        text-align: center;
       }
       .home-text {
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
       .hero-video-wrap {
         width: 220px;
@@ -464,6 +489,9 @@
         min-height: 100vh;
         min-height: 100dvh;
       }
+      .cta-group {
+        justify-content: center;
+      }
     }
     @media (max-width: 480px) {
       .cta-button { font-size: 14px; padding: 13px 22px; }
@@ -472,8 +500,8 @@
       footer a { margin: 0 8px; font-size: 12px; }
       .date-wrap { width: 200px; }
       .cta-group {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
         gap: 10px;
       }
       .cta-button { width: auto; }
@@ -527,9 +555,11 @@
           <p class="home-subtitle" id="homeSubtitle">Que faisais-tu le&nbsp;<span class="date-wrap"><span id="dynamicDate"></span></span></p>
           <p class="home-description" id="homeDescription">Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.</p>
           <div class="cta-group">
-            <button id="joinGameBtn" class="cta-button primary">Télécharger 🍏</button>
-            <button id="openWaitlistBtn" class="cta-button secondary">Rejoindre la waitlist</button>
+            <button id="joinGameBtn" class="cta-button primary"><img src="/images/apple-logo.png" alt="" class="apple-icon">Télécharger</button>
+            <button id="openWaitlistBtn" class="cta-button secondary">Réserver</button>
           </div>
+          <p class="home-availability" id="homeAvailability">Disponible gratuitement sur l'App Store 🇫🇷</p>
+          <p class="home-social-proof" id="homeSocialProof">+1 200 personnes ont déjà rejoint Yester</p>
         </div>
         <div class="hero-video-wrap">
           <video autoplay loop muted playsinline disablepictureinpicture>
@@ -683,27 +713,31 @@
       fr: {
         subtitle: "Que faisais-tu le\u00a0",
         description: "Une date chaque jour. Redécouvre ce que toi et tes amis faisaient ce jour-là.",
-        download: "Télécharger 🍏",
-        waitlist: "Rejoindre la waitlist",
-        modalTitle: "Rejoindre la waitlist",
+        download: "Télécharger",
+        waitlist: "Réserver",
+        modalTitle: "Réserver ma place",
         modalSubtitle: "On te prévient dès que Yester est dispo dans ton pays.",
         placeholder: "ton@email.com",
         subscribe: "S'inscrire",
         success: "✓ Inscrit !",
         error: "Erreur, réessaie",
+        availability: "Disponible gratuitement sur l'App Store 🇫🇷",
+        socialProof: "+1 200 personnes ont déjà rejoint Yester",
         dates: ["3 mai 2018 ?", "29 novembre 2021 ?", "15 juin 2025 ?"],
       },
       en: {
         subtitle: "What were you doing on\u00a0",
         description: "One date every day. Rediscover what you and your friends were doing back then.",
-        download: "Download 🍏",
-        waitlist: "Join the waitlist",
-        modalTitle: "Join the waitlist",
+        download: "Download",
+        waitlist: "Reserve",
+        modalTitle: "Reserve your spot",
         modalSubtitle: "We'll notify you when Yester launches in your country.",
         placeholder: "your@email.com",
         subscribe: "Sign up",
         success: "✓ Signed up!",
         error: "Error, try again",
+        availability: "Available for free on the App Store 🇫🇷",
+        socialProof: "+1,200 people have already joined Yester",
         dates: ["May 3, 2018?", "November 29, 2021?", "June 15, 2025?"],
       }
     };
@@ -805,12 +839,14 @@
       const subtitleEl = document.getElementById('homeSubtitle');
       if (subtitleEl) subtitleEl.childNodes[0].textContent = t.subtitle;
       document.getElementById('homeDescription').textContent = t.description;
-      document.getElementById('joinGameBtn').textContent = t.download;
+      document.getElementById('joinGameBtn').lastChild.textContent = t.download;
       document.getElementById('openWaitlistBtn').textContent = t.waitlist;
       document.getElementById('modalTitle').textContent = t.modalTitle;
       document.getElementById('modalSubtitle').textContent = t.modalSubtitle;
       document.getElementById('waitlistInput').placeholder = t.placeholder;
       document.getElementById('waitlistBtn').textContent = t.subscribe;
+      document.getElementById('homeAvailability').textContent = t.availability;
+      document.getElementById('homeSocialProof').textContent = t.socialProof;
 
       // Navigation initiale
       const path = window.location.pathname.substring(1);
