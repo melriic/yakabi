@@ -1,6 +1,7 @@
 // ✅ Vercel Edge Function — Invitation Landing Page V2
-// Layout: Photo blur + @username le [date dorée] + accroche + CTA
-// Images: /images/invite1.webp → invite4.webp (photos normales, blur CSS)
+// Layout: Photo blur + @username + date dorée + accroche + CTA
+// i18n: FR/EN basé sur Accept-Language du navigateur
+// Images: /images/invite1.png → invite4.png (photos normales, blur CSS)
 
 export const config = {
   runtime: 'edge',
@@ -12,22 +13,53 @@ export default async function handler(request) {
   const ref = searchParams.get('ref') || '';
   const dateParam = searchParams.get('date') || ''; // Format: "DD/MM/YYYY"
 
-  // ✅ Formater la date lisible (DD/MM/YYYY → "13 juillet 2019")
-  // Si pas de date dans l'URL → fallback avec date aléatoire déterministe (basée sur ref)
+ // ✅ Détection langue via Accept-Language header
+  const acceptLang = request.headers.get('accept-language') || '';
+  const isFrench = /^fr/i.test(acceptLang);
+
+  // ✅ Textes localisés
+  const t = isFrench ? {
+    hookText: 'et toi, que faisais-tu ce jour-là ?',
+    hookNoUser: 'découvre ce que tes amis faisaient ce jour-là',
+    cta: 'Découvrir',
+    datePrefix: 'le',
+    datePrefixCap: 'Le',
+    ogShared: 'a partagé ce qu\'il faisait le',
+    ogSuffix: 'Et toi ?',
+    ogFriends: 'Découvre ce que tes amis faisaient ce jour-là',
+    fallbackDate: 'un jour passé',
+  } : {
+    hookText: 'what were you doing that day?',
+    hookNoUser: 'discover what your friends were doing that day',
+    cta: 'Discover',
+    datePrefix: 'on',
+    datePrefixCap: 'On',
+    ogShared: 'shared what they were doing on',
+    ogSuffix: 'What about you?',
+    ogFriends: 'Discover what your friends were doing that day',
+    fallbackDate: 'a past day',
+  };
+
+  // ✅ Date: utiliser la vraie si fournie, sinon fallback aléatoire déterministe 
   const effectiveDate = dateParam || generateFallbackDate(ref);
-  const formattedDate = formatDate(effectiveDate);
+  const formattedDate = formatDate(effectiveDate, isFrench);
+  
   // ✅ Sélection déterministe du placeholder basée sur hash du ref (userId)
   const placeholderIndex = hashToIndex(ref, 4);
   const placeholderImage = `https://yester.fyi/images/invite${placeholderIndex + 1}.png`;
 
   // ✅ Meta tags dynamiques pour previews iMessage/WhatsApp
-  const title = username ? `@${username} — le ${formattedDate}` : `Yester — le ${formattedDate}`;
-  const description = username
-    ? `@${username} a partagé ce qu'il faisait le ${formattedDate}. Et toi ?`
-    : 'Découvre ce que tes amis faisaient ce jour-là';
+  const title = username
+    ? `@${username} — ${t.datePrefix} ${formattedDate}`
+    : `Yester — ${t.datePrefix} ${formattedDate}`;
+    const description = username
+  ? `@${username} ${t.ogShared} ${formattedDate}. ${t.ogSuffix}`
+    : t.ogFriends;
+
+  const langAttr = isFrench ? 'fr' : 'en';
 
   const html = `<!DOCTYPE html>
-<html lang="fr">
+<html lang="${langAttr}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -107,12 +139,12 @@ export default async function handler(request) {
       border-radius: 20px;
     }
 
-    /* ===== @USERNAME LE [DATE] — une seule ligne ===== */
+    /* ===== @USERNAME + DATE ===== */
     .user-date-line {
       font-size: 18px;
       font-weight: 700;
       color: #fff;
-      line-height: 1.4;
+      line-height: 1.6;
     }
 
     .user-date-line .date {
@@ -177,19 +209,19 @@ export default async function handler(request) {
     ${username ? `
     <p class="user-date-line">
       @${escapeHtml(username)}<br>
-      <span class="date">le ${formattedDate}</span>
+      <span class="date">${t.datePrefix} ${formattedDate}</span>
     </p>
-    <p class="hook-text">et toi, que faisais-tu ce jour-là ?</p>
+    <p class="hook-text">${t.hookText}</p>
     ` : `
     <p class="user-date-line">
-      <span class="date">Le ${formattedDate}</span>
+      <span class="date">${t.datePrefixCap} ${formattedDate}</span>
     </p>
-    <p class="hook-text">découvre ce que tes amis faisaient ce jour-là</p>
+    <p class="hook-text">${t.hookNoUser}</p>
     `}
 
 
     <a href="https://apps.apple.com/fr/app/yester/id6759684119" class="cta-button" id="ctaBtn">
-      D\u00e9couvrir
+      ${t.cta}
     </a>
   </div>
 
@@ -231,19 +263,30 @@ function hashToIndex(str, max) {
   return Math.abs(hash) % max;
 }
 
-function formatDate(dateStr) {
-  if (!dateStr) return 'un jour pass\u00e9';
+function formatDate(dateStr, isFrench) {
+  if (!dateStr) return isFrench ? 'un jour passé' : 'a past day';
+
   const parts = dateStr.split('/');
   if (parts.length !== 3) return dateStr;
   const day = parseInt(parts[0], 10);
   const month = parseInt(parts[1], 10) - 1;
   const year = parseInt(parts[2], 10);
-  const months = [
-    'janvier', 'f\u00e9vrier', 'mars', 'avril', 'mai', 'juin',
-    'juillet', 'ao\u00fbt', 'septembre', 'octobre', 'novembre', 'd\u00e9cembre'
+  const monthsFr = [
+    'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
   ];
+  const monthsEn = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
   if (month < 0 || month > 11 || isNaN(day) || isNaN(year)) return dateStr;
-  return `${day} ${months[month]} ${year}`;
+  
+  if (isFrench) {
+    return `${day} ${monthsFr[month]} ${year}`;
+  } else {
+    return `${monthsEn[month]} ${day}, ${year}`;
+  }
 }
 
 function escapeHtml(str) {
