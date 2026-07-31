@@ -95,7 +95,7 @@ export default async function handler(request) {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: blur(10px) saturate(1.3) brightness(0.9);
+      filter: blur(6px) saturate(1.3) brightness(0.9);
       transform: scale(1.15);
     }
 
