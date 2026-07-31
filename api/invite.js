@@ -17,7 +17,7 @@ export default async function handler(request) {
 
   // ✅ Sélection déterministe du placeholder basée sur hash du ref (userId)
   const placeholderIndex = hashToIndex(ref, 4);
-  const placeholderImage = `https://yester.fyi/images/invite${placeholderIndex + 1}.webp`;
+  const placeholderImage = `https://yester.fyi/images/invite${placeholderIndex + 1}.png`;
 
   // ✅ Meta tags dynamiques pour previews iMessage/WhatsApp
   const title = username ? `@${username} le ${formattedDate}` : 'Yester';
