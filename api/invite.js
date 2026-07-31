@@ -13,8 +13,9 @@ export default async function handler(request) {
   const dateParam = searchParams.get('date') || ''; // Format: "DD/MM/YYYY"
 
   // ✅ Formater la date lisible (DD/MM/YYYY → "13 juillet 2019")
-  const formattedDate = formatDate(dateParam);
-
+  // Si pas de date dans l'URL → fallback avec date aléatoire déterministe (basée sur ref)
+  const effectiveDate = dateParam || generateFallbackDate(ref);
+  const formattedDate = formatDate(effectiveDate);
   // ✅ Sélection déterministe du placeholder basée sur hash du ref (userId)
   const placeholderIndex = hashToIndex(ref, 4);
   const placeholderImage = `https://yester.fyi/images/invite${placeholderIndex + 1}.png`;
