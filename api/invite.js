@@ -21,10 +21,10 @@ export default async function handler(request) {
   const placeholderImage = `https://yester.fyi/images/invite${placeholderIndex + 1}.png`;
 
   // ✅ Meta tags dynamiques pour previews iMessage/WhatsApp
-  const title = username ? `@${username} le ${formattedDate}` : 'Yester';
+  const title = username ? `@${username} — le ${formattedDate}` : `Yester — le ${formattedDate}`;
   const description = username
     ? `@${username} a partagé ce qu'il faisait le ${formattedDate}. Et toi ?`
-    : 'Découvre ce que toi et tes amis faisaient ce jour-là';
+    : 'Découvre ce que tes amis faisaient ce jour-là';
 
   const html = `<!DOCTYPE html>
 <html lang="fr">
@@ -176,12 +176,12 @@ export default async function handler(request) {
 
     ${username ? `
     <p class="user-date-line">
-      @${escapeHtml(username)} le <span class="date">${formattedDate}</span>
+      @${escapeHtml(username)}<br>
     </p>
     <p class="hook-text">et toi, que faisais-tu ce jour-l\u00e0 ?</p>
     ` : `
     <p class="user-date-line">
-      Le <span class="date">${formattedDate}</span>
+      <span class="date">Le ${formattedDate}</span>
     </p>
     <p class="hook-text">d\u00e9couvre ce que tes amis faisaient ce jour-l\u00e0</p>
     `}
@@ -252,4 +252,39 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+
+
+
+/**
+ * Fallback: générer une date aléatoire crédible quand &date= est absent
+ * Déterministe basé sur le ref (userId) → même user = même date fallback
+ * Plage: 01/01/2015 → 31/12/2023
+ */
+function generateFallbackDate(ref) {
+  let seed = 0;
+  const str = ref || 'yester';
+  for (let i = 0; i < str.length; i++) {
+    seed = ((seed << 5) - seed) + str.charCodeAt(i);
+    seed = seed & seed;
+  }
+
+  // Mulberry32 PRNG
+  seed = (seed + 0x6D2B79F5) | 0;
+  let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  const random = ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+
+  // Plage: 2015-01-01 → 2023-12-31
+  const minMs = new Date(2015, 0, 1).getTime();
+  const maxMs = new Date(2023, 11, 31).getTime();
+  const randomMs = minMs + random * (maxMs - minMs);
+  const date = new Date(randomMs);
+
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
 }
