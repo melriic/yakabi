@@ -20,25 +20,35 @@
   <link rel="alternate" href="https://apps.apple.com/fr/app/yester/id6759684119">
   <meta name="apple-itunes-app" content="app-id=6759684119">
 
-  <script>
-    (function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const username = urlParams.get('username');
-      if (username) {
-        const ogTitle = document.getElementById('og-title');
-        const ogDescription = document.getElementById('og-description');
-        const twitterTitle = document.getElementById('twitter-title');
-        const twitterDescription = document.getElementById('twitter-description');
-        const newTitle = `ajoute-moi: @${username}`;
-        const newDescription = `Rejoins ${username} sur Yester !`;
-        if (ogTitle) ogTitle.setAttribute('content', newTitle);
-        if (ogDescription) ogDescription.setAttribute('content', newDescription);
-        if (twitterTitle) twitterTitle.setAttribute('content', newTitle);
-        if (twitterDescription) twitterDescription.setAttribute('content', newDescription);
-        document.title = newTitle;
-      }
-    })();
-  </script>
+<script>
+  (function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    const date = urlParams.get('date');
+
+    if (username) {
+      const formattedDate = date || 'un jour passé';
+      const newTitle = `@${username} a partagé sur Yester`;
+      const newDescription = `${username} a partagé ce qu'il faisait le ${formattedDate}. Et toi ?`;
+
+      document.title = newTitle;
+
+      // Mettre à jour les meta tags OG/Twitter si ils ont des IDs
+      const metas = {
+        'og-title': newTitle,
+        'og-description': newDescription,
+        'twitter-title': newTitle,
+        'twitter-description': newDescription
+      };
+
+      Object.entries(metas).forEach(([id, content]) => {
+        const el = document.getElementById(id);
+        if (el) el.setAttribute('content', content);
+      });
+    }
+  })();
+</script>
+
 
   <style>
     html, body {
