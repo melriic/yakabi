@@ -177,14 +177,16 @@ export default async function handler(request) {
     ${username ? `
     <p class="user-date-line">
       @${escapeHtml(username)}<br>
+      <span class="date">le ${formattedDate}</span>
     </p>
-    <p class="hook-text">et toi, que faisais-tu ce jour-l\u00e0 ?</p>
+    <p class="hook-text">et toi, que faisais-tu ce jour-là ?</p>
     ` : `
     <p class="user-date-line">
       <span class="date">Le ${formattedDate}</span>
     </p>
-    <p class="hook-text">d\u00e9couvre ce que tes amis faisaient ce jour-l\u00e0</p>
+    <p class="hook-text">découvre ce que tes amis faisaient ce jour-là</p>
     `}
+
 
     <a href="https://apps.apple.com/fr/app/yester/id6759684119" class="cta-button" id="ctaBtn">
       D\u00e9couvrir
