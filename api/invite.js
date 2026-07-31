@@ -1,5 +1,6 @@
 // ✅ Vercel Edge Function — Invitation Landing Page V2
-// Photos placeholder blurées + username + date de période + CTA
+// Layout: Photo blur + @username le [date dorée] + accroche + CTA
+// Images: /images/invite1.webp → invite4.webp (photos normales, blur CSS)
 
 export const config = {
   runtime: 'edge',
@@ -9,19 +10,19 @@ export default async function handler(request) {
   const { searchParams } = new URL(request.url);
   const username = searchParams.get('username') || '';
   const ref = searchParams.get('ref') || '';
-  const dateParam = searchParams.get('date') || ''; // Format: "13/07/2019"
+  const dateParam = searchParams.get('date') || ''; // Format: "DD/MM/YYYY"
 
-  // ✅ Formater la date lisible (si passée en DD/MM/YYYY → "13 juillet 2019")
+  // ✅ Formater la date lisible (DD/MM/YYYY → "13 juillet 2019")
   const formattedDate = formatDate(dateParam);
 
-  // ✅ Sélection déterministe du placeholder basée sur le hash du ref (userId)
-  const placeholderIndex = hashToIndex(ref, 4); // 4 images: invite1.webp → invite4.webp
+  // ✅ Sélection déterministe du placeholder basée sur hash du ref (userId)
+  const placeholderIndex = hashToIndex(ref, 4);
   const placeholderImage = `https://yester.fyi/images/invite${placeholderIndex + 1}.webp`;
 
-  // Meta tags dynamiques
-  const title = username ? `@${username} a partagé sur Yester` : 'Yester';
+  // ✅ Meta tags dynamiques pour previews iMessage/WhatsApp
+  const title = username ? `@${username} le ${formattedDate}` : 'Yester';
   const description = username
-    ? `${username} a partagé ce qu'il faisait le ${formattedDate}. Et toi ?`
+    ? `@${username} a partagé ce qu'il faisait le ${formattedDate}. Et toi ?`
     : 'Découvre ce que toi et tes amis faisaient ce jour-là';
 
   const html = `<!DOCTYPE html>
@@ -34,7 +35,7 @@ export default async function handler(request) {
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yester.fyi/invite?ref=${ref}&username=${username}">
+  <meta property="og:url" content="https://yester.fyi/invite?ref=${ref}&username=${encodeURIComponent(username)}">
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
   <meta property="og:image" content="${placeholderImage}">
@@ -48,7 +49,7 @@ export default async function handler(request) {
   <meta name="twitter:description" content="${description}">
   <meta name="twitter:image" content="${placeholderImage}">
 
-  <!-- App Store -->
+  <!-- App Store Smart Banner -->
   <meta name="apple-itunes-app" content="app-id=6759684119">
 
   <style>
@@ -76,75 +77,61 @@ export default async function handler(request) {
       padding: 32px 24px;
       max-width: 380px;
       width: 100%;
-      gap: 20px;
+      gap: 24px;
     }
 
-    /* Photo placeholder avec blur */
+    /* ===== PHOTO PLACEHOLDER AVEC BLUR CSS ===== */
     .photo-wrap {
       width: 200px;
-      height: 260px;
+      height: 264px;
       border-radius: 20px;
       overflow: hidden;
       position: relative;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
     }
 
     .photo-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: blur(18px) saturate(1.2);
-      transform: scale(1.1); /* évite les bords blancs du blur */
+      filter: blur(16px) saturate(1.3) brightness(0.9);
+      transform: scale(1.15);
     }
 
-    /* Overlay subtil sur la photo */
     .photo-wrap::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.15);
+      background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.25) 100%);
       border-radius: 20px;
     }
 
-    /* Username + texte d'action */
-    .user-info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .username {
-      font-size: 20px;
-      font-weight: 800;
+    /* ===== @USERNAME LE [DATE] — une seule ligne ===== */
+    .user-date-line {
+      font-size: 18px;
+      font-weight: 700;
       color: #fff;
-      letter-spacing: -0.3px;
+      line-height: 1.4;
     }
 
-    .action-text {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    /* Date mise en avant */
-    .date-line {
-      font-size: 16px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.7);
-      line-height: 1.5;
-    }
-
-    .date-highlight {
+    .user-date-line .date {
       color: rgb(255, 204, 102);
       font-weight: 800;
     }
 
-    /* CTA Button */
+    /* ===== TEXTE D'ACCROCHE ===== */
+    .hook-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.5;
+      margin-top: -8px;
+    }
+
+    /* ===== CTA BUTTON ===== */
     .cta-button {
       display: inline-block;
-      margin-top: 8px;
-      padding: 14px 32px;
+      padding: 14px 36px;
       font-size: 16px;
       font-weight: 700;
       color: #000;
@@ -159,64 +146,63 @@ export default async function handler(request) {
       opacity: 0.9;
     }
 
-    /* Branding discret en bas */
+    /* ===== BRANDING DISCRET ===== */
     .branding {
       position: fixed;
-      bottom: 24px;
+      bottom: 28px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 12px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.25);
-      letter-spacing: 0.5px;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-height: 600px) {
+      .container { gap: 16px; padding: 20px 20px; }
+      .photo-wrap { width: 160px; height: 210px; }
+      .user-date-line { font-size: 16px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="photo-wrap">
-      <img src="${placeholderImage}" alt="" aria-hidden="true">
+      <img src="${placeholderImage}" alt="" aria-hidden="true" loading="eager">
     </div>
 
     ${username ? `
-    <div class="user-info">
-      <span class="username">@${escapeHtml(username)}</span>
-      <span class="action-text">a partagé un souvenir</span>
-    </div>
-
-    <p class="date-line">
-      que faisais-tu le <span class="date-highlight">${formattedDate}</span> ?
+    <p class="user-date-line">
+      @${escapeHtml(username)} le <span class="date">${formattedDate}</span>
     </p>
+    <p class="hook-text">et toi, que faisais-tu ce jour-l\u00e0 ?</p>
     ` : `
-    <p class="date-line">
-      Découvre ce que tes amis faisaient le <span class="date-highlight">${formattedDate}</span>
+    <p class="user-date-line">
+      Le <span class="date">${formattedDate}</span>
     </p>
+    <p class="hook-text">d\u00e9couvre ce que tes amis faisaient ce jour-l\u00e0</p>
     `}
 
     <a href="https://apps.apple.com/fr/app/yester/id6759684119" class="cta-button" id="ctaBtn">
-      Découvrir
+      D\u00e9couvrir
     </a>
   </div>
 
-  <span class="branding">YESTER</span>
+  <span class="branding">Yester</span>
 
   <script>
-    // Deep link vers l'app si installée, sinon App Store
     (function() {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      const ref = '${ref}';
+      var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      var ref = '${ref}';
 
       if (isIOS && ref) {
-        // Tenter d'ouvrir l'app via le scheme
-        window.location.href = 'yester://invite?ref=' + ref;
-
-        // Fallback App Store après 2s si l'app ne s'ouvre pas
+        window.location.href = 'yester://invite?ref=' + encodeURIComponent(ref);
         setTimeout(function() {
           window.location.href = 'https://apps.apple.com/fr/app/yester/id6759684119';
         }, 2000);
       }
-
-      // Sur Android ou desktop, le bouton redirige vers l'App Store (déjà dans le href)
     })();
   </script>
 </body>
@@ -230,39 +216,39 @@ export default async function handler(request) {
   });
 }
 
-// ✅ Hash déterministe pour choisir le placeholder (même ref → même image)
+// ===== HELPERS =====
+
 function hashToIndex(str, max) {
+  if (!str) return 0;
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = ((hash << 5) - hash) + str.charCodeAt(i);
-    hash = hash & hash; // 32-bit
+    hash = hash & hash;
   }
   return Math.abs(hash) % max;
 }
 
-// ✅ Formater DD/MM/YYYY → "13 juillet 2019"
 function formatDate(dateStr) {
-  if (!dateStr) return 'un jour passé';
-
+  if (!dateStr) return 'un jour pass\u00e9';
   const parts = dateStr.split('/');
   if (parts.length !== 3) return dateStr;
-
   const day = parseInt(parts[0], 10);
   const month = parseInt(parts[1], 10) - 1;
   const year = parseInt(parts[2], 10);
-
   const months = [
-    'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+    'janvier', 'f\u00e9vrier', 'mars', 'avril', 'mai', 'juin',
+    'juillet', 'ao\u00fbt', 'septembre', 'octobre', 'novembre', 'd\u00e9cembre'
   ];
-
   if (month < 0 || month > 11 || isNaN(day) || isNaN(year)) return dateStr;
-
   return `${day} ${months[month]} ${year}`;
 }
 
-// ✅ Échapper HTML pour éviter XSS
 function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '>').replace(/"/g, '"');
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
-
