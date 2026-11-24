@@ -3,930 +3,664 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Yester — Your past. Your friends. One date.</title>
-  <meta name="description" content="Every day, discover what you and your friends were doing on this day.">
+  <title>Yester</title>
+  <meta name="description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://yester.fyi/">
-  <meta property="og:title" content="Yester — Your past. Your friends. One date.">
-  <meta property="og:description" content="Every day, discover what you and your friends were doing on this day.">
+  <meta property="og:title" content="Yester">
+  <meta property="og:description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
   <meta property="og:image" content="https://yester.fyi/images/logo.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Yester">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Yester">
-  <meta name="twitter:description" content="Your past. Your friends. One date.">
+  <meta name="twitter:description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
   <meta name="twitter:image" content="https://yester.fyi/images/logo.webp">
+  <link rel="alternate" href="https://apps.apple.com/app/id6812065877">
+  <meta name="apple-itunes-app" content="app-id=6812065877">
 
-  <link rel="alternate" href="https://apps.apple.com/app/id6759684119">
-  <meta name="apple-itunes-app" content="app-id=6759684119">
+<script>
+  (function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    const date = urlParams.get('date');
+
+    if (username) {
+      const formattedDate = date || 'un jour passé';
+      const newTitle = `@${username} a partagé sur Yester`;
+      const newDescription = `${username} a partagé ce qu'il faisait le ${formattedDate}. Et toi ?`;
+
+      document.title = newTitle;
+
+      // Mettre à jour les meta tags OG/Twitter si ils ont des IDs
+      const metas = {
+        'og-title': newTitle,
+        'og-description': newDescription,
+        'twitter-title': newTitle,
+        'twitter-description': newDescription
+      };
+
+      Object.entries(metas).forEach(([id, content]) => {
+        const el = document.getElementById(id);
+        if (el) el.setAttribute('content', content);
+      });
+    }
+  })();
+</script>
+
 
   <style>
-    :root {
-      --background: #09090b;
-      --surface: #111113;
-      --text: #fafafa;
-      --muted: #92929a;
-      --border: rgba(255,255,255,0.10);
-      --accent: #ffffff;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
+    html, body {
       margin: 0;
+      height: 100%;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
-      background: var(--background);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    button, input {
-      font: inherit;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    /* HEADER */
-
-    .site-header {
-      position: fixed;
-      z-index: 500;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 72px;
-      padding: 0 7%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(9,9,11,0.78);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .header-logo {
-      font-size: 21px;
-      font-weight: 750;
-      letter-spacing: -0.8px;
-      cursor: pointer;
-    }
-
-    .header-nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-
-    .header-nav a {
-      color: #a1a1aa;
-      text-decoration: none;
-      font-size: 13px;
-      transition: color 0.2s;
-    }
-
-    .header-nav a:hover {
+      min-height: -webkit-fill-available;
+      background-color: #121212;
       color: white;
+      text-align: center;
     }
-
-    .hamburger {
-      display: none;
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: transparent;
-      cursor: pointer;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-    }
-
-    .hamburger span {
-      width: 17px;
-      height: 2px;
-      background: white;
-      border-radius: 2px;
-      transition: 0.2s;
-    }
-
-    .hamburger.open span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-
-    .hamburger.open span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.open span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      z-index: 499;
-      top: 72px;
-      left: 0;
-      right: 0;
-      padding: 12px 20px 20px;
-      background: rgba(9,9,11,0.98);
-      border-bottom: 1px solid var(--border);
-      flex-direction: column;
-    }
-
-    .mobile-menu.open {
-      display: flex;
-    }
-
-    .mobile-menu a {
-      padding: 14px 8px;
-      color: #d4d4d8;
-      text-decoration: none;
-      font-size: 15px;
-    }
-
-    /* HOME */
-
     .main {
-      min-height: 100vh;
-      padding-top: 72px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-top: 73px;
     }
-
+    #home {
+      margin-top: -73px;
+      padding-top: 73px;
+    }
     .page {
       display: none;
+      max-width: 800px;
       width: 100%;
     }
 
+    /* ===================== HOME PAGE ===================== */
     #home {
       display: flex;
-      min-height: calc(100vh - 72px);
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
-      padding: 70px 7%;
-      overflow: hidden;
-      background:
-        radial-gradient(
-          ellipse at 75% 45%,
-          rgba(255,255,255,0.055),
-          transparent 45%
-        );
-    }
-
-    .hero-container {
-      width: 100%;
-      max-width: 1240px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 0.9fr;
       align-items: center;
-      gap: 80px;
+      gap: 0;
+      flex: 1;
+      width: 100%;
+      max-width: none;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      background-image: url('/images/webback.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
-
-    .hero-text {
-      max-width: 540px;
+    @media (max-width: 768px) {
+      #home {
+        background-image: url('/images/mobileback.png');
+      }
+    }
+    #normalContent {
+      display: flex;
+      align-items: center;
+      gap: 48px;
       text-align: left;
     }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 26px;
-      color: #a1a1aa;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-
-    .hero-eyebrow::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #a3e6b1;
-      box-shadow: 0 0 12px rgba(163,230,177,0.5);
-    }
-
-    .hero-title {
-      margin: 0;
-      max-width: 560px;
-      font-size: clamp(44px, 5.5vw, 76px);
-      line-height: 1.04;
-      letter-spacing: -4px;
-      font-weight: 750;
-    }
-
-    .hero-title span {
-      color: #85858e;
-    }
-
-    .hero-description {
-      max-width: 430px;
-      margin: 25px 0 0;
-      color: #a1a1aa;
-      font-size: 17px;
-      line-height: 1.7;
-    }
-
-    .cta-group {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 34px;
-    }
-
-    .cta-button {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 0 21px;
-      border-radius: 9px;
-      font-size: 14px;
-      font-weight: 650;
-      text-decoration: none;
-      cursor: pointer;
-      transition: transform 0.2s, background 0.2s, border-color 0.2s;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-2px);
-    }
-
-    .cta-button.primary {
-      color: #09090b;
-      background: white;
-      border: 1px solid white;
-    }
-
-    .cta-button.primary:hover {
-      background: #e4e4e7;
-    }
-
-    .cta-button.secondary {
-      color: white;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.18);
-    }
-
-    .cta-button.secondary:hover {
-      background: rgba(255,255,255,0.09);
-      border-color: rgba(255,255,255,0.35);
-    }
-
-    .apple-icon {
-      width: 17px;
-      height: 17px;
-      object-fit: contain;
-    }
-
-    .hero-note {
-      margin-top: 18px;
-      color: #66666f;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    /* SCREENSHOT CAROUSEL */
-
-    .hero-visual {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .home-text {
+      flex: 1;
       min-width: 0;
     }
 
-    .screenshots-frame {
-      position: relative;
-      width: min(100%, 410px);
-      aspect-ratio: 0.82;
+    /* ===================== HERO & SCREENSHOT CAROUSEL ===================== */
+    #normalContent {
+      width: min(1120px, calc(100% - 48px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 34px;
+      text-align: center;
+      padding: 64px 0 48px;
+      box-sizing: border-box;
+    }
+    .home-text {
+      width: 100%;
+      max-width: 760px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hero-title {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.04;
+      letter-spacing: -0.055em;
+      font-weight: 800;
+      text-wrap: balance;
+    }
+    .hero-description {
+      margin: 18px 0 0;
+      max-width: 520px;
+      color: rgba(255,255,255,0.68);
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.55;
+      text-wrap: balance;
+    }
+    .home-social-proof {
+      margin: 14px 0 0;
+      max-width: 430px;
+      color: rgba(255,255,255,0.42);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .screenshots-viewport {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 2px 18px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.25) transparent;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x pan-y;
+    }
+    .screenshots-track {
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 20px;
+      width: max-content;
+      min-width: 100%;
+      padding: 0 8px;
+      box-sizing: border-box;
     }
-
-    .screenshots-glow {
-      position: absolute;
-      width: 85%;
-      height: 75%;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.10);
-      filter: blur(85px);
-      pointer-events: none;
+    .screenshot-card {
+      flex: 0 0 clamp(190px, 21vw, 250px);
+      scroll-snap-align: center;
+      overflow: hidden;
+      border-radius: 26px;
+      background: #1c1c1e;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 22px 60px rgba(0,0,0,0.38);
     }
-
-    .screenshot-image {
-      position: relative;
-      z-index: 1;
+    .screenshot-card img {
       display: block;
       width: 100%;
-      height: 100%;
-      object-fit: contain;
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.45s ease, transform 0.45s ease;
-      filter: drop-shadow(0 30px 45px rgba(0,0,0,0.45));
+      height: auto;
+      aspect-ratio: 9 / 19.5;
+      object-fit: cover;
     }
-
-    .screenshot-image.changing {
-      opacity: 0;
-      transform: translateY(8px);
+    .carousel-hint {
+      margin: -8px 0 0;
+      color: rgba(255,255,255,0.38);
+      font-size: 12px;
+      letter-spacing: 0.02em;
     }
-
-    .carousel-dots {
-      position: absolute;
-      z-index: 2;
-      bottom: -25px;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      gap: 7px;
-    }
-
-    .carousel-dot {
-      width: 6px;
-      height: 6px;
-      padding: 0;
-      border: none;
-      border-radius: 50%;
-      background: #494950;
+    .cta-button {
+      padding: 15px 26px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
+      transition: transform 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
     }
-
-    .carousel-dot.active {
+    .cta-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .cta-button.primary {
       background: white;
-      transform: scale(1.25);
+      color: black;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .apple-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
+    .cta-button.secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(12px);
     }
 
-    /* WAITLIST MODAL */
-
+    /* ===================== WAITLIST MODAL ===================== */
     .modal-overlay {
       display: none;
       position: fixed;
-      z-index: 1000;
       inset: 0;
-      padding: 20px;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 1000;
       align-items: center;
       justify-content: center;
-      background: rgba(0,0,0,0.72);
-      backdrop-filter: blur(8px);
+      padding: 20px;
     }
-
     .modal-overlay.open {
       display: flex;
     }
-
     .modal {
       position: relative;
+      background: #1c1c1e;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 36px 28px 32px;
       width: 100%;
-      max-width: 390px;
-      padding: 38px 30px 30px;
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 16px;
-      background: #151518;
-      text-align: center;
-      animation: modalIn 0.2s ease;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: modalIn 0.22s ease;
     }
-
     @keyframes modalIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      from { opacity: 0; transform: scale(0.95) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
     }
-
+    .modal-header {
+      position: relative;
+      text-align: center;
+    }
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      color: #fff;
+    }
+    .modal-subtitle {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      margin: 0;
+      line-height: 1.5;
+    }
     .modal-close {
       position: absolute;
-      top: 13px;
-      right: 13px;
-      width: 30px;
-      height: 30px;
-      border: 0;
-      border-radius: 7px;
-      color: #aaa;
-      background: rgba(255,255,255,0.07);
+      top: 14px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
       cursor: pointer;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
     }
-
-    .modal-title {
-      margin: 0 0 10px;
-      font-size: 19px;
-      font-weight: 700;
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
     }
-
-    .modal-subtitle {
-      margin: 0 auto 22px;
-      max-width: 290px;
-      color: #9999a1;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
     .waitlist-form {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-
     .waitlist-input {
-      width: 100%;
-      padding: 14px 15px;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 9px;
+      padding: 13px 16px;
+      font-size: 15px;
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
       outline: none;
-      color: white;
-      background: rgba(255,255,255,0.05);
-      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
     }
-
-    .waitlist-input:focus {
-      border-color: rgba(255,255,255,0.5);
-    }
-
     .waitlist-input::placeholder {
-      color: #66666f;
+      color: rgba(255, 255, 255, 0.3);
+    }
+    .waitlist-input:focus {
+      border-color: rgba(255, 204, 102, 0.7);
+    }
+    .waitlist-button {
+      padding: 13px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #121212;
+      background: rgb(255, 204, 102);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .waitlist-button:hover {
+      background: rgb(255, 214, 130);
+      transform: translateY(-1px);
+    }
+    .waitlist-button:active {
+      transform: translateY(0);
     }
 
-    .waitlist-button {
-      padding: 14px;
-      border: 0;
-      border-radius: 9px;
-      color: #09090b;
-      background: white;
-      font-size: 14px;
-      font-weight: 700;
+</style>
+
+  <style>
+    /* ===================== HEADER & NAV ===================== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background: rgba(18, 18, 18, 0.6);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .header-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.3px;
       cursor: pointer;
     }
-
-    .waitlist-button:disabled {
-      opacity: 0.55;
-      cursor: wait;
+    .header-nav {
+      display: flex;
+      gap: 4px;
     }
-
-    /* LEGAL PAGES */
-
-    .legal-section {
-      max-width: 850px;
-      margin: 0 auto;
-      padding: 65px 25px 90px;
-      color: #d4d4d8;
-      text-align: left;
-      line-height: 1.7;
-    }
-
-    .legal-section h1 {
-      margin-bottom: 12px;
-      color: white;
-      font-size: 32px;
-      letter-spacing: -1px;
-    }
-
-    .legal-section h2 {
-      margin-top: 32px;
-      color: white;
-      font-size: 20px;
-    }
-
-    .legal-section h3 {
-      margin-top: 24px;
-      color: white;
-      font-size: 16px;
-    }
-
-    .legal-section p,
-    .legal-section li {
-      color: #a1a1aa;
+    .header-nav a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
       font-size: 14px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
     }
-
-    .legal-section li {
-      margin-bottom: 8px;
+    .header-nav a:hover {
+      color: white;
+      background: rgba(255,255,255,0.08);
     }
-
-    .legal-section a {
+    .hamburger {
+      display: none;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: background 0.2s;
+    }
+    .hamburger:hover {
+      background: rgba(255,255,255,0.14);
+    }
+    .hamburger span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+      transform-origin: center;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 73px;
+      left: 0;
+      right: 0;
+      background: rgba(18, 18, 18, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 499;
+      flex-direction: column;
+      padding: 8px 16px 16px;
+      gap: 4px;
+      animation: slideDown 0.2s ease;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .mobile-menu.open {
+      display: flex;
+    }
+    .mobile-menu a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 13px 12px;
+      border-radius: 10px;
+      text-align: left;
+      transition: background 0.15s, color 0.15s;
+    }
+    .mobile-menu a:hover {
+      background: rgba(255,255,255,0.08);
       color: white;
     }
-
-    #contact {
-      text-align: center;
+    @media (max-width: 768px) {
+      .header-nav { display: none; }
+      .hamburger  { display: flex; }
     }
 
-    /* FOOTER */
+    /* ===================== SECTIONS ===================== */
+    .cgu-section, .privacy-section, .section {
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: left;
+      color: #ffffff;
+    }
+    .cgu-section h2, .privacy-section h2, .section h2 { margin-top: 30px; color: #fff; }
+    .cgu-section p, .privacy-section p, .section p { margin-bottom: 15px; line-height: 1.6; color: #ccc; }
+    .cgu-section ul li, .privacy-section ul li, .section ul li,
+    .cgu-section ol li, .privacy-section ol li, .section ol li { color: #ccc; margin-bottom: 8px; }
+    #contact { text-align: center; }
+    #contact h1 { color: #fff; }
+    #contact p { color: #ccc; }
+    #contact a { color: #667eea; text-decoration: none; }
+    #contact a:hover { text-decoration: underline; }
 
     footer {
-      display: none;
-      padding: 23px 15px;
-      border-top: 1px solid rgba(255,255,255,0.07);
-      background: #09090b;
-      text-align: center;
+      background-color: #000;
+      padding: 15px 0;
     }
-
     footer a {
-      display: inline-block;
-      margin: 5px 12px;
-      color: #777780;
-      text-decoration: none;
-      font-size: 12px;
-    }
-
-    footer a:hover {
       color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 14px;
+      transition: color 0.3s ease;
     }
+    footer a:hover { color: #667eea; text-decoration: underline; }
 
-    /* RESPONSIVE */
-
-    @media (max-width: 900px) {
-      .hero-container {
-        gap: 35px;
+    @media (max-width: 768px) {
+      #normalContent {
+        width: 100%;
+        padding: 54px 0 34px;
+        gap: 30px;
       }
-
-      .hero-title {
-        letter-spacing: -2.5px;
+      .home-text {
+        width: calc(100% - 40px);
       }
-
-      .screenshots-frame {
-        width: min(100%, 340px);
+      .screenshots-viewport {
+        padding-left: 20px;
+        padding-right: 20px;
       }
-    }
-
-    @media (max-width: 700px) {
-      .site-header {
-        padding: 0 22px;
+      .screenshots-track {
+        justify-content: flex-start;
+        gap: 14px;
+        padding: 0 2px;
       }
-
-      .header-nav {
-        display: none;
+      .screenshot-card {
+        flex-basis: min(70vw, 270px);
+        border-radius: 22px;
       }
-
-      .hamburger {
-        display: flex;
-      }
-
       #home {
-        padding: 55px 24px 75px;
-        min-height: calc(100vh - 72px);
+        justify-content: center;
+        padding-top: 80px;
+        padding-bottom: 40px;
+        min-height: 100vh;
+        min-height: 100dvh;
       }
-
-      .hero-container {
-        grid-template-columns: 1fr;
-        gap: 45px;
-        max-width: 500px;
-      }
-
-      .hero-text {
-        text-align: center;
-        margin: 0 auto;
-      }
-
-      .hero-title {
-        font-size: clamp(43px, 11vw, 62px);
-        letter-spacing: -2.5px;
-      }
-
-      .hero-description {
-        margin-left: auto;
-        margin-right: auto;
-        font-size: 15px;
-      }
-
-      .hero-eyebrow {
-        margin-bottom: 20px;
-      }
-
       .cta-group {
         justify-content: center;
-        margin-top: 27px;
-      }
-
-      .hero-note {
-        max-width: 320px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .screenshots-frame {
-        width: min(78vw, 330px);
-      }
-
-      .carousel-dots {
-        bottom: -18px;
       }
     }
-
-    @media (max-width: 380px) {
+    @media (max-width: 480px) {
+      .cta-button { font-size: 14px; padding: 13px 22px; }
+      footer a { margin: 0 8px; font-size: 12px; }
       .cta-group {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
       }
-
-      .cta-button {
-        width: 100%;
-      }
+      .cta-button { width: auto; }
     }
-
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
+      .cta-button, .waitlist-button { transition: none; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
-
-  <header class="site-header">
+  <!-- ===== HEADER FIXE ===== -->
+  <header class="site-header" id="siteHeader">
     <div class="header-logo" id="logoBtn">Yester</div>
-
     <nav class="header-nav">
-      <a href="#home" data-page="home">Home</a>
-      <a href="#cgu" data-page="cgu">Terms</a>
-      <a href="#privacy" data-page="privacy">Privacy</a>
-      <a href="#rules" data-page="rules">Guidelines</a>
+      <a href="#home" data-page="home">Accueil</a>
+      <a href="#cgu" data-page="cgu">CGU</a>
+      <a href="#privacy" data-page="privacy">Confidentialité</a>
+      <a href="#rules" data-page="rules">Règlement</a>
       <a href="#contact" data-page="contact">Contact</a>
     </nav>
-
-    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
-      <span></span>
-      <span></span>
-      <span></span>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
     </button>
   </header>
 
+  <!-- Drawer mobile -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#home" data-page="home">Home</a>
-    <a href="#cgu" data-page="cgu">Terms</a>
-    <a href="#privacy" data-page="privacy">Privacy</a>
-    <a href="#rules" data-page="rules">Guidelines</a>
-    <a href="#contact" data-page="contact">Contact</a>
+    <a href="#home" data-page="home">🏠 Accueil</a>
+    <a href="#cgu" data-page="cgu">📄 CGU</a>
+    <a href="#privacy" data-page="privacy">🔒 Confidentialité</a>
+    <a href="#rules" data-page="rules">📋 Règlement</a>
+    <a href="#contact" data-page="contact">✉️ Contact</a>
   </div>
 
   <main class="main">
 
-    <!-- HOME -->
-
-    <section id="home" class="page">
-
-      <div class="hero-container">
-
-        <div class="hero-text">
-
-          <div class="hero-eyebrow">
-            A different kind of social app
-          </div>
-
-          <h1 class="hero-title">
-            Your past.<br>
-            Your friends.<br>
-            <span>One date.</span>
-          </h1>
-
-          <p class="hero-description" id="heroDescription">
-            Every day, discover what you and your friends were doing on this day.
-          </p>
-
+    <!-- ===== HOME ===== -->
+    <div id="home" class="page">
+      <div id="normalContent">
+        <div class="home-text">
+          <h1 class="hero-title">Your past. Your friends. One date.</h1>
+          <p class="hero-description">Chaque jour, découvre ce que toi et tes amis faisiez ce jour-là.</p>
           <div class="cta-group">
-
-            <a
-              id="joinGameBtn"
-              class="cta-button primary"
-              href="https://apps.apple.com/app/id6759684119"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/images/apple-logo.png"
-                alt=""
-                class="apple-icon"
-              >
-              <span id="downloadLabel">Pre-order on the App Store</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-
-            <button
-              id="openWaitlistBtn"
-              class="cta-button secondary"
-              type="button"
-            >
-              Join the waitlist
-            </button>
-
+            <button id="joinGameBtn" class="cta-button primary"><img src="/images/apple-logo.png" alt="" class="apple-icon"><span id="downloadLabel">Précommander sur l’App Store</span></button>
+            <button id="openWaitlistBtn" class="cta-button secondary">Rejoindre la waitlist</button>
           </div>
-
-          <p class="hero-note" id="heroNote">
-            Not available in your country yet? Join the waitlist and we'll let you know when Yester launches.
-          </p>
-
+          <p class="home-social-proof" id="homeSocialProof">Yester n’est pas encore disponible dans ton pays ? Rejoins la waitlist et on te prévient dès son lancement.</p>
         </div>
-
-        <!-- SCREENSHOTS -->
-
-        <div class="hero-visual">
-
-          <div class="screenshots-frame">
-
-            <div class="screenshots-glow"></div>
-
-            <img
-              id="screenshotImage"
-              class="screenshot-image"
-              src="/images/ASS1.png"
-              alt="Yester app screenshot"
-            >
-
-            <div class="carousel-dots" id="carouselDots">
-              <button class="carousel-dot active" data-index="0" aria-label="Screenshot 1"></button>
-              <button class="carousel-dot" data-index="1" aria-label="Screenshot 2"></button>
-              <button class="carousel-dot" data-index="2" aria-label="Screenshot 3"></button>
-              <button class="carousel-dot" data-index="3" aria-label="Screenshot 4"></button>
-              <button class="carousel-dot" data-index="4" aria-label="Screenshot 5"></button>
-            </div>
-
+        <div class="screenshots-viewport" aria-label="Captures d’écran de Yester">
+          <div class="screenshots-track">
+            <div class="screenshot-card"><img src="/images/ASS1.png" alt="Yester — capture d’écran 1" loading="eager"></div>
+            <div class="screenshot-card"><img src="/images/ASS2.png" alt="Yester — capture d’écran 2" loading="lazy"></div>
+            <div class="screenshot-card"><img src="/images/ASS3.png" alt="Yester — capture d’écran 3" loading="lazy"></div>
+            <div class="screenshot-card"><img src="/images/ASS4.png" alt="Yester — capture d’écran 4" loading="lazy"></div>
+            <div class="screenshot-card"><img src="/images/ASS5.png" alt="Yester — capture d’écran 5" loading="lazy"></div>
           </div>
-
         </div>
-
+        <p class="carousel-hint">Fais glisser pour découvrir Yester</p>
       </div>
-
-    </section>
-
-    <!-- WAITLIST MODAL -->
-
-    <div class="modal-overlay" id="waitlistModal">
-
-      <div
-        class="modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modalTitle"
-      >
-
-        <button
-          class="modal-close"
-          id="closeModalBtn"
-          aria-label="Close"
-          type="button"
-        >✕</button>
-
-        <h2 class="modal-title" id="modalTitle">
-          Join the waitlist
-        </h2>
-
-        <p class="modal-subtitle" id="modalSubtitle">
-          We'll let you know when Yester becomes available in your country.
-        </p>
-
-        <form class="waitlist-form" id="waitlistForm">
-
-          <input
-            type="email"
-            name="EMAIL"
-            id="waitlistInput"
-            class="waitlist-input"
-            placeholder="your@email.com"
-            required
-            aria-label="Email address"
-          >
-
-          <button
-            type="submit"
-            class="waitlist-button"
-            id="waitlistBtn"
-          >
-            Join
-          </button>
-
-        </form>
-
-      </div>
-
     </div>
 
-    <!-- TERMS -->
+    <!-- ===== MODAL WAITLIST ===== -->
+    <div class="modal-overlay" id="waitlistModal">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" id="closeModalBtn" aria-label="Fermer">✕</button>
+        <div class="modal-header">
+          <p class="modal-title" id="modalTitle">Rejoindre la waitlist</p>
+          <p class="modal-subtitle" id="modalSubtitle">On te prévient dès que Yester est dispo dans ton pays.</p>
+        </div>
+        <form class="waitlist-form" id="waitlistForm">
+          <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" id="waitlistInput" aria-label="Adresse email">
+          <button type="submit" class="waitlist-button" id="waitlistBtn">S'inscrire</button>
+        </form>
+      </div>
+    </div>
 
-    <section id="cgu" class="page legal-section">
 
+    <!-- ===== CGU ===== -->
+    <div id="cgu" class="page cgu-section">
       <h1>Conditions Générales d'Utilisation</h1>
-
       <p><strong>Dernière mise à jour :</strong> 5 novembre 2025</p>
-
       <p>Bienvenue !</p>
-
       <p>Notre mission est de créer une app pour redécouvrir des memories entre amis.</p>
-
       <p>Pour y parvenir, nous voulons que vous sachiez ce que vous pouvez attendre de nous, ce que nous attendons de vous et comment, ensemble, nous pouvons améliorer Yester pour vous et vos amis.</p>
-
       <p>Pour ce faire, nous avons créé les présentes conditions de service ("conditions"), nos POLITIQUE DE CONFIDENTIALITÉ et Règlement (ensemble, le "contrat d'utilisation"). Dans l'accord d'utilisation, certains mots ont des significations spécifiques et doivent être interprétés de la même manière, quel que soit l'endroit où ils sont utilisés. Si quelque chose n'est pas clair, ou si vous ne comprenez pas ce que nous disons, n'hésitez pas à nous contacter. Notre objectif est de maximiser la transparence et la compréhension du fonctionnement de Yester.</p>
-
       <p>Si vous ne souhaitez pas lire ou accepter les conditions d'utilisation, n'utilisez pas nos services, mais si vous utilisez nos services, vous acceptez d'être lié par les conditions d'utilisation.</p>
-
       <h2>1. Qui peut utiliser nos services ?</h2>
-
-      <p>Pour utiliser nos services, vous devez être un vrai humain :</p>
-
-      <ul>
-        <li>qui a au moins 13 ans. En fonction de votre lieu de résidence, si vous n'avez pas atteint l'âge du consentement dans votre pays, un parent ou un tuteur peut également devoir donner son accord pour que vous puissiez utiliser nos services ; ou</li>
-        <li>qui a l'autorité légale de créer un compte au nom d'une autre personne, d'une entreprise, d'une organisation, d'un gouvernement ou d'une autre entité légale, si vous ne créez pas un compte pour vous-même.</li>
-      </ul>
-
+      <p>Pour utiliser nos services, vous devez être un vrai humain :
+        <ul>
+          <li>qui a au moins 13 ans. En fonction de votre lieu de résidence, si vous n'avez pas atteint l'âge du consentement dans votre pays, un parent ou un tuteur peut également devoir donner son accord pour que vous puissiez utiliser nos services ; ou</li>
+          <li>qui a l'autorité légale de créer un compte au nom d'une autre personne, d'une entreprise, d'une organisation, d'un gouvernement ou d'une autre entité légale, si vous ne créez pas un compte pour vous-même.</li>
+        </ul>
+      </p>
       <h2>2. Protection des données et de la vie privée</h2>
-
       <p>Notre POLITIQUE DE CONFIDENTIALITÉ décrit les informations que vous partagez avec nous, le moment où elles sont partagées et la manière dont nous les traitons lorsque vous utilisez nos services. En utilisant nos services, vous comprenez et acceptez que nous devons collecter, utiliser, stocker, traiter, partager et transférer ces informations dans les pays où nous exploitons nos services et aux partenaires qui nous aident à fournir nos services.</p>
-
       <h2>3. Contenu</h2>
-
       <p>Le contenu désigne les photos de profil et les photos partagées par l'intermédiaire de nos services. Vous êtes responsable du contenu que vous partagez. Nous ne tolérons pas le harcèlement, l'intimidation, la diffamation, les menaces, les contenus haineux, l'exploitation sexuelle des enfants, les abus sexuels, la promotion du suicide ou de l'automutilation, le vol de propriété intellectuelle ou d'autres activités illégales.</p>
-
       <h2>4. Signalement des contenus illicites</h2>
-
       <p>Si vous voyez un contenu violent, vous pouvez nous le signaler via la fonction de signalement dans l'application.</p>
-
       <h2>5. Fin de nos services</h2>
-
       <p>Nous pouvons suspendre temporairement ou définitivement votre compte si vous avez partagé un contenu illicite ou utilisé nos services d'une manière qui viole les droits d'une autre personne. Vous pouvez supprimer votre compte à tout moment via les paramètres de votre compte.</p>
-
       <h2>6. Licence d'utilisation de nos services</h2>
-
       <p>Pendant la durée d'utilisation de nos Services, Yakabi vous accorde une licence personnelle, mondiale, libre de droits, incessable et non exclusive d'utilisation du logiciel fourni dans le cadre de nos Services. Cette licence prend fin lorsque vous cessez d'utiliser nos services.</p>
-
       <h2>7. Limitation de la responsabilité</h2>
-
       <p>En utilisant nos services, vous acceptez que la responsabilité de Yester soit limitée à l'étendue maximale autorisée dans votre pays.</p>
-
       <h2>8. Droit applicable et juridiction</h2>
-
       <p>Vous et Yester consentez à la compétence exclusive des tribunaux de Paris et à la loi française. Tous litiges liés aux Conditions ou à l'Accord d'utilisation seront soumis aux tribunaux de Paris.</p>
-
       <h2>9. Généralités</h2>
-
       <p>Yester peut mettre à jour l'accord d'utilisation à tout moment. Si une mise à jour a un impact sur vos droits ou obligations, nous vous informerons environ 30 jours avant l'entrée en vigueur.</p>
-
       <h2>10. Contact ou questions</h2>
-
       <p>Votre avis nous permet d'améliorer nos services. Si vous avez une question, un commentaire ou un retour d'information, contactez-nous via notre centre d'aide dans l'application.</p>
+    </div>
 
-    </section>
-
-    <!-- PRIVACY -->
-
-    <section id="privacy" class="page legal-section">
-
+    <!-- ===== PRIVACY ===== -->
+    <div id="privacy" class="page privacy-section">
       <h1>Politique de Confidentialité</h1>
-
       <p><strong>Dernière mise à jour :</strong> 5 novembre 2025</p>
-
       <p>Si vous êtes mineur et que vous n'êtes pas sûr de comprendre l'ensemble de la présente politique, veuillez vous adresser à un adulte de confiance avant d'utiliser Yester. N'oubliez pas non plus que Yester n'est pas destiné à être utilisé si vous avez moins de 13 ans. Si vous avez plus de 13 ans mais moins de 16 ans, votre parent ou tuteur doit approuver votre utilisation de l'application.</p>
-
       <p>Dans la présente politique de confidentialité, nous expliquons quelles informations nous recueillons à votre sujet, comment nous les utilisons, quand nous les partageons et les contrôles que nous vous fournissons pour gérer les informations que vous partagez avec nous.</p>
-
       <h2>1. Informations que nous traitons à votre sujet</h2>
-
       <p>Yester ("l'Application") recueille des informations que vous nous fournissez directement, par le biais de votre utilisation de l'Application.</p>
-
       <h3>1.1 Données que vous nous fournissez</h3>
-
       <p>Données de création de compte : lorsque vous créez un compte sur notre Application, nous vous demandons les informations suivantes :</p>
-
       <ul>
         <li>Votre numéro de téléphone, votre nom, votre date de naissance, une photo de profil et votre nom d'utilisateur.</li>
       </ul>
-
       <p>Données liées au contenu : lorsque vous utilisez l'application, vous pouvez décider de partager les données suivantes :</p>
-
       <ul>
         <li>Les photos que vous partagez ("Contenu") à l'aide de l'application ou les photos que vous partagez à partir de votre bibliothèque.</li>
       </ul>
-
       <p>Échanges avec Yester : Lorsque vous signalez un problème dans notre Application ou demandez de l'aide, nous recueillons les données suivantes :</p>
-
       <ul>
         <li>Votre adresse électronique,</li>
         <li>Contenu de la communication avec nous,</li>
@@ -935,59 +669,33 @@
         <li>Identifiants (par exemple, numéros de téléphone ou adresses électroniques),</li>
         <li>Toute autre information que vous pourriez décider de partager avec nous.</li>
       </ul>
-
       <h3>1.2 Données que nous collectons lorsque vous utilisez notre App</h3>
-
       <p>Données de connexion et données techniques : Adresse IP, équipement terminal et port, système d'exploitation, données de configuration du système, type d'appareil, version du système d'exploitation, user_id, device_id.</p>
-
       <p>Données d'utilisation : actions effectuées sur l'application, l'heure de publication du contenu, nombre de posts, plantages de l'Application.</p>
-
       <p>Données du carnet d'adresses : Vous pouvez décider d'autoriser Yester à accéder à votre carnet d'adresses pour identifier les amis qui pourraient déjà être sur Yester.</p>
-
       <h2>2. Comment nous utilisons les informations</h2>
-
       <p>Nous utilisons vos données pour vous permettre de créer et conserver votre compte, publier et voir du Contenu, modérer le contenu, vous mettre en contact avec vos amis, assurer la sécurité de l'application, et répondre aux demandes des autorités nationales.</p>
-
       <h2>3. Quand nous partageons des informations vous concernant</h2>
-
       <p>Nous partageons vos informations avec notre personnel autorisé, nos fournisseurs de services (hébergement, notifications, modération), et nos conseillers juridiques et financiers dans le cadre de nos obligations légales.</p>
-
       <h2>4. Données sur les enfants</h2>
-
       <p>Yester ne collecte jamais sciemment ou volontairement des données personnelles concernant des enfants de moins de 13 ans.</p>
-
       <h2>5. Transferts internationaux</h2>
-
       <p>Certains partenaires sont situés en dehors de l'Union européenne. Nous veillons à ce que les transferts respectent les mécanismes de protection appropriés (clauses contractuelles types de la Commission européenne).</p>
-
       <h2>6. Conservation des données</h2>
-
       <p>Nous ne conservons vos informations que le temps nécessaire pour vous fournir nos services, conformément aux exigences légales.</p>
-
       <h2>7. Vos contrôles</h2>
-
       <p>Vous pouvez gérer vos notifications, contrôler qui voit votre contenu, supprimer votre compte à tout moment et retirer votre consentement depuis les paramètres de l'application.</p>
-
       <h2>8. Vos droits</h2>
-
       <p>Vous disposez des droits d'accès, de rectification, d'effacement, de limitation du traitement, d'opposition, de portabilité et de retrait du consentement. Vous pouvez exercer ces droits via l'application ou en nous contactant à <a href="mailto:y4kcontact@gmail.com">y4kcontact@gmail.com</a>.</p>
-
       <h2>9. Mise à jour de notre politique de confidentialité</h2>
-
       <p>Nous pouvons mettre à jour notre politique de confidentialité si cela s'avère nécessaire ou si la loi l'exige.</p>
+    </div>
 
-    </section>
-
-    <!-- COMMUNITY GUIDELINES -->
-
-    <section id="rules" class="page legal-section">
-
+    <!-- ===== RÈGLEMENT ===== -->
+    <div id="rules" class="page section">
       <h1>Normes Communautaires</h1>
-
       <p>Dernière mise à jour : 26 novembre, 2025</p>
-
       <p>Yester, c'est une affaire de découverte. Nous prônons l'authenticité, la spontanéité et la bienveillance, et nous sommes fiers d'offrir une plateforme qui donne à des utilisateurs comme toi la possibilité de découvrir ce que vous et vos amis faisiez à un moment précis dans le passé.</p>
-
       <ul>
         <li><strong>Intimidation, abus et harcèlement :</strong> Il est interdit de partager du contenu destiné à intimider, abuser ou harceler des tiers.</li>
         <li><strong>Exploitation sexuelle des enfants :</strong> Tolérance zéro.</li>
@@ -999,340 +707,226 @@
         <li><strong>Suicide et automutilation :</strong> Interdit de promouvoir ou glorifier.</li>
         <li><strong>Contenu violent :</strong> Interdit.</li>
       </ul>
-
       <h2>Comment nous avertir ?</h2>
-
       <p>Tu peux signaler toute atteinte via les dispositifs de signalement de l'application.</p>
+    </div>
 
-    </section>
-
-    <!-- CONTACT -->
-
-    <section id="contact" class="page legal-section">
-
+    <!-- ===== CONTACT ===== -->
+    <div id="contact" class="page section">
       <h1>Contact</h1>
-
       <p>Pour toute question, problème ou suggestion concernant Yester, vous pouvez nous contacter par email :</p>
-
       <p><a href="mailto:y4kcontact@gmail.com">y4kcontact@gmail.com</a></p>
-
-    </section>
+    </div>
 
   </main>
 
-  <!-- FOOTER -->
-
-  <footer id="siteFooter">
-    <a href="#home" data-page="home">Home</a>
-    <a href="#cgu" data-page="cgu">CGU</a>
-    <a href="#privacy" data-page="privacy">Privacy</a>
-    <a href="#rules" data-page="rules">Guidelines</a>
-    <a href="#contact" data-page="contact">Contact</a>
+  <footer>
+    <a href="#home">Accueil</a>
+    <a href="#cgu">CGU</a>
+    <a href="#privacy">Politique de Confidentialité</a>
+    <a href="#rules">Règlement</a>
+    <a href="#contact">Contact</a>
   </footer>
 
+
+  <!-- ===== I18N ===== -->
   <script>
-    /* =========================================
-       CONFIGURATION
-    ========================================= */
-
-    const APP_CONFIG = {
-      appStoreUrl: "https://apps.apple.com/app/id6759684119",
-      waitlistUrl: "https://www.yester.fyi/api/waitlist"
-    };
-
-    /* =========================================
-       LANGUAGE
-    ========================================= */
-
-    const translations = {
+    const i18n = {
       fr: {
-        eyebrow: "Une autre façon de vivre le social",
-        description: "Chaque jour, découvre ce que toi et tes amis faisiez à cette même date, dans le passé.",
-        download: "Précommander sur l'App Store",
-        waitlist: "Rejoindre la liste d'attente",
-        note: "Pas encore disponible dans ton pays ? Inscris-toi et nous te préviendrons dès le lancement.",
-        modalTitle: "Rejoindre la liste d'attente",
-        modalSubtitle: "Nous te préviendrons dès que Yester sera disponible dans ton pays.",
+        download: "Précommander sur l’App Store",
+        waitlist: "Rejoindre la waitlist",
+        modalTitle: "Réserver ma place",
+        modalSubtitle: "On te prévient dès que Yester est dispo dans ton pays.",
         placeholder: "ton@email.com",
         subscribe: "S'inscrire",
-        success: "✓ Inscription réussie !",
-        error: "Erreur, réessaie."
+        success: "✓ Inscrit !",
+        error: "Erreur, réessaie",
+        socialProof: "Yester n’est pas encore disponible dans ton pays ? Rejoins la waitlist et on te prévient dès son lancement.",
       },
       en: {
-        eyebrow: "A different kind of social app",
-        description: "Every day, discover what you and your friends were doing on this day.",
         download: "Pre-order on the App Store",
         waitlist: "Join the waitlist",
-        note: "Not available in your country yet? Join the waitlist and we'll let you know when Yester launches.",
-        modalTitle: "Join the waitlist",
-        modalSubtitle: "We'll let you know when Yester becomes available in your country.",
+        modalTitle: "Reserve your spot",
+        modalSubtitle: "We'll notify you when Yester launches in your country.",
         placeholder: "your@email.com",
-        subscribe: "Join",
-        success: "✓ Successfully signed up!",
-        error: "Something went wrong. Try again."
+        subscribe: "Sign up",
+        success: "✓ Signed up!",
+        error: "Error, try again",
+        socialProof: "Yester isn’t available in your country yet? Join the waitlist and we’ll let you know when it launches.",
       }
     };
+    const lang = navigator.language?.startsWith('fr') ? 'fr' : 'en';
+    const t = i18n[lang];
+  </script>
 
-    const language = navigator.language?.startsWith("fr") ? "fr" : "en";
-    const t = translations[language];
-
-    document.querySelector(".hero-eyebrow").textContent = t.eyebrow;
-    document.getElementById("heroDescription").textContent = t.description;
-    document.getElementById("downloadLabel").textContent = t.download;
-    document.getElementById("openWaitlistBtn").textContent = t.waitlist;
-    document.getElementById("heroNote").textContent = t.note;
-    document.getElementById("modalTitle").textContent = t.modalTitle;
-    document.getElementById("modalSubtitle").textContent = t.modalSubtitle;
-    document.getElementById("waitlistInput").placeholder = t.placeholder;
-    document.getElementById("waitlistBtn").textContent = t.subscribe;
-
-    /* =========================================
-       SCREENSHOT CAROUSEL
-    ========================================= */
-
-    const screenshotImage = document.getElementById("screenshotImage");
-    const screenshotNames = ["ASS1", "ASS2", "ASS3", "ASS4", "ASS5"];
-    const screenshotExtensions = [".png", ".webp", ".jpg", ".jpeg", ".PNG", ".JPG"];
-
-    let currentScreenshot = 0;
-    let currentExtension = ".png";
-    let carouselTimer = null;
-
-    function loadScreenshot(index) {
-      const name = screenshotNames[index];
-      let extensionIndex = 0;
-
-      screenshotImage.classList.add("changing");
-
-      function tryNextExtension() {
-        if (extensionIndex >= screenshotExtensions.length) {
-          screenshotImage.onerror = null;
-          screenshotImage.classList.remove("changing");
-          console.error("Impossible de charger l'image " + name);
-          return;
-        }
-
-        const extension = screenshotExtensions[extensionIndex];
-        extensionIndex++;
-
-        screenshotImage.src = "/images/" + name + extension;
-      }
-
-      screenshotImage.onload = () => {
-        screenshotImage.classList.remove("changing");
-        screenshotImage.onerror = null;
-        currentExtension = screenshotImage.src.match(/\.[^.]+$/)?.[0] || ".png";
-      };
-
-      screenshotImage.onerror = () => {
-        tryNextExtension();
-      };
-
-      tryNextExtension();
-
-      document.querySelectorAll(".carousel-dot").forEach((dot, i) => {
-        dot.classList.toggle("active", i === index);
-      });
-    }
-
-    function showNextScreenshot() {
-      currentScreenshot = (currentScreenshot + 1) % screenshotNames.length;
-      loadScreenshot(currentScreenshot);
-    }
-
-    function startCarousel() {
-      stopCarousel();
-      carouselTimer = setInterval(showNextScreenshot, 3000);
-    }
-
-    function stopCarousel() {
-      if (carouselTimer) {
-        clearInterval(carouselTimer);
-        carouselTimer = null;
-      }
-    }
-
-    document.querySelectorAll(".carousel-dot").forEach(dot => {
-      dot.addEventListener("click", () => {
-        currentScreenshot = Number(dot.dataset.index);
-        loadScreenshot(currentScreenshot);
-        startCarousel();
-      });
-    });
-
-    loadScreenshot(0);
-    startCarousel();
-
-    /* =========================================
-       NAVIGATION
-    ========================================= */
-
-    const footer = document.getElementById("siteFooter");
-    const hamburgerBtn = document.getElementById("hamburgerBtn");
-    const mobileMenu = document.getElementById("mobileMenu");
+  <!-- ===== APP ===== -->
+  <script>
+    const APP_CONFIG = {
+      urlScheme: 'yester://',
+      deepLinkPath: 'invite',
+      appStoreId: '6812065877',
+      appStoreUrl: 'https://apps.apple.com/app/id6812065877'
+    };
 
     function switchPage(pageId) {
-      const target = document.getElementById(pageId);
-
-      if (!target || !target.classList.contains("page")) {
-        return;
+      document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+      const targetPage = document.getElementById(pageId);
+      if (targetPage) {
+        targetPage.style.display = pageId === 'home' ? 'flex' : 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-
-      document.querySelectorAll(".page").forEach(page => {
-        page.style.display = "none";
-      });
-
-      target.style.display = pageId === "home" ? "flex" : "block";
-
-      footer.style.display = pageId === "home" ? "none" : "block";
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-      closeMobileMenu();
+      const footer = document.querySelector('footer');
+      if (footer) footer.style.display = pageId === 'home' ? 'none' : 'block';
     }
 
     function navigateToPage(pageId) {
       switchPage(pageId);
-
-      const url = pageId === "home" ? "/" : "/" + pageId;
-
-      history.pushState({ page: pageId }, "", url);
+      const url = pageId === 'home' ? '/' : `/${pageId}`;
+      history.pushState({ page: pageId }, '', url);
     }
 
-    function closeMobileMenu() {
-      hamburgerBtn.classList.remove("open");
-      mobileMenu.classList.remove("open");
-      document.body.style.overflow = "";
+    function joinGame() {
+      const button = document.getElementById('joinGameBtn');
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (!isMobile) { window.location.href = APP_CONFIG.appStoreUrl; return; }
+      button.classList.add('loading');
+      if (isIOS) {
+        const deepLink = `${APP_CONFIG.urlScheme}${APP_CONFIG.deepLinkPath}`;
+        const now = Date.now();
+        window.location.href = deepLink;
+        const timeout = setTimeout(() => {
+          if (Date.now() - now < 3000) window.location.href = APP_CONFIG.appStoreUrl;
+        }, 2000);
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) { clearTimeout(timeout); button.classList.remove('loading'); }
+        });
+        window.addEventListener('blur', () => { clearTimeout(timeout); button.classList.remove('loading'); });
+      } else {
+        window.location.href = APP_CONFIG.appStoreUrl;
+      }
+      setTimeout(() => button.classList.remove('loading'), 3000);
     }
 
-    document.getElementById("logoBtn").addEventListener("click", () => {
-      navigateToPage("home");
-    });
+    document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
+    document.getElementById('logoBtn')?.addEventListener('click', () => navigateToPage('home'));
 
-    document.querySelectorAll("[data-page]").forEach(link => {
-      link.addEventListener("click", event => {
-        event.preventDefault();
-        navigateToPage(link.dataset.page);
+    document.querySelectorAll('.header-nav a, footer a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = link.getAttribute('data-page') || link.getAttribute('href').substring(1);
+        closeMobileMenu();
+        navigateToPage(target);
       });
     });
 
-    hamburgerBtn.addEventListener("click", () => {
-      const isOpen = mobileMenu.classList.toggle("open");
-      hamburgerBtn.classList.toggle("open", isOpen);
-      document.body.style.overflow = isOpen ? "hidden" : "";
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = link.getAttribute('data-page');
+        closeMobileMenu();
+        navigateToPage(target);
+      });
     });
 
-    window.addEventListener("popstate", event => {
-      const pageId = event.state?.page || "home";
-      switchPage(pageId);
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    function closeMobileMenu() {
+      hamburgerBtn?.classList.remove('open');
+      mobileMenu?.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    hamburgerBtn?.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburgerBtn.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
-    /* =========================================
-       INITIAL PAGE
-    ========================================= */
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.page) switchPage(event.state.page);
+    });
 
-    function initializePage() {
-      const hash = window.location.hash.replace("#", "");
-      const path = window.location.pathname.replace(/^\/|\/$/g, "");
+    window.addEventListener("load", () => {
+      // Appliquer les traductions
+      document.getElementById('downloadLabel').textContent = t.download;
+      document.getElementById('openWaitlistBtn').textContent = t.waitlist;
+      document.getElementById('modalTitle').textContent = t.modalTitle;
+      document.getElementById('modalSubtitle').textContent = t.modalSubtitle;
+      document.getElementById('waitlistInput').placeholder = t.placeholder;
+      document.getElementById('waitlistBtn').textContent = t.subscribe;
+      document.getElementById('homeSocialProof').innerHTML = t.socialProof;
 
-      if (hash && document.getElementById(hash)?.classList.contains("page")) {
-        switchPage(hash);
-      } else if (path && document.getElementById(path)?.classList.contains("page")) {
+      // Navigation initiale
+      const path = window.location.pathname.substring(1);
+      const hash = window.location.hash.substring(1);
+      if (hash && document.getElementById(hash)) {
+        navigateToPage(hash);
+      } else if (path && document.getElementById(path)) {
         switchPage(path);
       } else {
-        switchPage("home");
-        history.replaceState({ page: "home" }, "", "/");
+        switchPage('home');
+        history.replaceState({ page: 'home' }, '', '/');
       }
-    }
 
-    initializePage();
+      // Modal waitlist
+      const openBtn = document.getElementById("openWaitlistBtn");
+      const modal = document.getElementById("waitlistModal");
+      const closeBtn = document.getElementById("closeModalBtn");
 
-    /* =========================================
-       WAITLIST MODAL
-    ========================================= */
-
-    const modal = document.getElementById("waitlistModal");
-    const openModalBtn = document.getElementById("openWaitlistBtn");
-    const closeModalBtn = document.getElementById("closeModalBtn");
-
-    function openModal() {
-      modal.classList.add("open");
-      document.body.style.overflow = "hidden";
-
-      setTimeout(() => {
-        document.getElementById("waitlistInput").focus();
-      }, 100);
-    }
-
-    function closeModal() {
-      modal.classList.remove("open");
-      document.body.style.overflow = "";
-    }
-
-    openModalBtn.addEventListener("click", openModal);
-    closeModalBtn.addEventListener("click", closeModal);
-
-    modal.addEventListener("click", event => {
-      if (event.target === modal) {
-        closeModal();
+      function openModal() {
+        modal.classList.add("open");
+        setTimeout(() => modal.querySelector("input")?.focus(), 100);
+        document.body.style.overflow = "hidden";
       }
+      function closeModal() {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      if (openBtn) openBtn.addEventListener("click", openModal);
+      if (closeBtn) closeBtn.addEventListener("click", closeModal);
+      if (modal) {
+        modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+      }
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
     });
+  </script>
 
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        closeModal();
-      }
-    });
-
-    /* =========================================
-       WAITLIST SUBMISSION
-    ========================================= */
-
-    document.getElementById("waitlistForm").addEventListener("submit", async event => {
-      event.preventDefault();
-
-      const form = event.target;
-      const button = document.getElementById("waitlistBtn");
-      const email = form.querySelector('input[name="EMAIL"]').value.trim();
-
-      if (!email) return;
-
-      button.disabled = true;
-      button.textContent = "...";
-
+  <!-- ===== WAITLIST SUBMIT ===== -->
+  <script>
+    document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('waitlistBtn');
+      btn.textContent = '...';
+      btn.disabled = true;
       try {
-        const response = await fetch(APP_CONFIG.waitlistUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+        const email = form.querySelector('input[name="EMAIL"]').value;
+        const res = await fetch('https://www.yester.fyi/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email })
         });
-
-        if (!response.ok) {
-          throw new Error("Waitlist request failed");
+        if (res.ok) {
+          btn.textContent = t.success;
+          setTimeout(() => {
+            document.getElementById('waitlistModal')?.classList.remove('open');
+            document.body.style.overflow = '';
+          }, 1200);
+        } else {
+          btn.textContent = t.error;
+          btn.disabled = false;
         }
-
-        button.textContent = t.success;
-        form.reset();
-
-        setTimeout(() => {
-          closeModal();
-          button.disabled = false;
-          button.textContent = t.subscribe;
-        }, 1500);
-
-      } catch (error) {
-        console.error("Waitlist error:", error);
-        button.textContent = t.error;
-        button.disabled = false;
+      } catch (err) {
+        btn.textContent = t.error;
+        btn.disabled = false;
       }
     });
   </script>
 
 </body>
 </html>
+
 
