@@ -13,41 +13,10 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Yester">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Yester">
-  <meta name="twitter:description" content="Découvre ce que toi et tes amis faisaient ce jour-là">
-  <meta name="twitter:image" content="https://yester.fyi/images/logo.webp">
   <link rel="alternate" href="https://apps.apple.com/app/id6812065877">
   <meta name="apple-itunes-app" content="app-id=6812065877">
 
-<script>
-  (function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get('username');
-    const date = urlParams.get('date');
 
-    if (username) {
-      const formattedDate = date || 'un jour passé';
-      const newTitle = `@${username} a partagé sur Yester`;
-      const newDescription = `${username} a partagé ce qu'il faisait le ${formattedDate}. Et toi ?`;
-
-      document.title = newTitle;
-
-      // Mettre à jour les meta tags OG/Twitter si ils ont des IDs
-      const metas = {
-        'og-title': newTitle,
-        'og-description': newDescription,
-        'twitter-title': newTitle,
-        'twitter-description': newDescription
-      };
-
-      Object.entries(metas).forEach(([id, content]) => {
-        const el = document.getElementById(id);
-        if (el) el.setAttribute('content', content);
-      });
-    }
-  })();
-</script>
 
 
   <style>
@@ -93,15 +62,12 @@
       max-width: none;
       min-height: 100vh;
       min-height: -webkit-fill-available;
-      background-image: url('/images/webback.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-    @media (max-width: 768px) {
-      #home {
-        background-image: url('/images/mobileback.png');
-      }
+      background:
+        radial-gradient(ellipse at 18% 22%, rgba(72, 83, 125, 0.22) 0%, transparent 42%),
+        radial-gradient(ellipse at 84% 68%, rgba(74, 53, 105, 0.16) 0%, transparent 38%),
+        linear-gradient(145deg, #090a0f 0%, #101116 48%, #08090d 100%);
+      position: relative;
+      overflow: hidden;
     }
     #normalContent {
       display: flex;
@@ -109,52 +75,62 @@
       gap: 48px;
       text-align: left;
     }
-    .home-text {
-      flex: 1;
-      min-width: 0;
-    }
 
     /* ===================== HERO & SCREENSHOT CAROUSEL ===================== */
     #normalContent {
-      width: min(1120px, calc(100% - 48px));
+      width: min(1120px, calc(100% - 64px));
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 34px;
-      text-align: center;
-      padding: 64px 0 48px;
+      align-items: stretch;
+      gap: 38px;
+      text-align: left;
+      padding: 76px 0 48px;
       box-sizing: border-box;
+    }
+    .home-hero-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+      align-items: center;
+      gap: clamp(32px, 6vw, 88px);
+      width: 100%;
     }
     .home-text {
       width: 100%;
-      max-width: 760px;
+      max-width: 620px;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
     }
     .hero-title {
       margin: 0;
       color: #fff;
-      font-size: clamp(38px, 6vw, 68px);
-      line-height: 1.04;
-      letter-spacing: -0.055em;
+      max-width: 430px;
+      font-size: clamp(44px, 5.6vw, 70px);
+      line-height: 1.02;
+      letter-spacing: -0.06em;
       font-weight: 800;
       text-wrap: balance;
     }
     .hero-description {
-      margin: 18px 0 0;
-      max-width: 520px;
-      color: rgba(255,255,255,0.68);
-      font-size: clamp(16px, 2vw, 19px);
+      margin: 20px 0 0;
+      max-width: 490px;
+      color: rgba(255,255,255,0.72);
+      font-size: clamp(16px, 1.7vw, 19px);
       line-height: 1.55;
-      text-wrap: balance;
+      text-wrap: pretty;
+    }
+    .hero-actions {
+      width: 100%;
+      max-width: 360px;
+      justify-self: end;
     }
     .home-social-proof {
-      margin: 14px 0 0;
-      max-width: 430px;
-      color: rgba(255,255,255,0.42);
+      margin: 15px 0 0;
+      max-width: 360px;
+      color: rgba(255,255,255,0.48);
       font-size: 12px;
-      line-height: 1.5;
+      line-height: 1.55;
+      text-align: left;
     }
     .screenshots-viewport {
       width: 100%;
@@ -211,9 +187,11 @@
     }
     .cta-group {
       display: flex;
+      flex-direction: column;
       gap: 12px;
-      margin-top: 18px;
+      width: 100%;
     }
+    .cta-group .cta-button { width: 100%; justify-content: center; }
     .cta-button.primary {
       background: white;
       color: black;
@@ -364,6 +342,25 @@
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
+    .header-left { display: flex; align-items: center; gap: 18px; }
+    .language-select {
+      appearance: none;
+      -webkit-appearance: none;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 9px;
+      padding: 7px 26px 7px 10px;
+      color: rgba(255,255,255,0.88);
+      background: rgba(255,255,255,0.07);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      background-image: linear-gradient(45deg, transparent 50%, #aaa 50%), linear-gradient(135deg, #aaa 50%, transparent 50%);
+      background-position: calc(100% - 11px) 11px, calc(100% - 7px) 11px;
+      background-size: 4px 4px, 4px 4px;
+      background-repeat: no-repeat;
+    }
+    .language-select option { color: #111; background: #fff; }
     .header-logo {
       font-size: 18px;
       font-weight: 800;
@@ -492,12 +489,21 @@
     @media (max-width: 768px) {
       #normalContent {
         width: 100%;
-        padding: 54px 0 34px;
-        gap: 30px;
+        padding: 38px 20px 32px;
+        gap: 28px;
       }
-      .home-text {
-        width: calc(100% - 40px);
+      .home-hero-row {
+        grid-template-columns: 1fr;
+        gap: 22px;
       }
+      .home-text, .hero-actions {
+        width: 100%;
+        max-width: none;
+      }
+      .hero-title { font-size: clamp(39px, 10vw, 54px); }
+      .hero-description { margin-top: 14px; }
+      .home-social-proof { max-width: none; text-align: center; }
+      .hero-actions { justify-self: stretch; }
       .screenshots-viewport {
         padding-left: 20px;
         padding-right: 20px;
@@ -512,25 +518,18 @@
         border-radius: 22px;
       }
       #home {
-        justify-content: center;
-        padding-top: 80px;
-        padding-bottom: 40px;
+        justify-content: flex-start;
+        padding-top: 73px;
+        padding-bottom: 12px;
         min-height: 100vh;
         min-height: 100dvh;
-      }
-      .cta-group {
-        justify-content: center;
       }
     }
     @media (max-width: 480px) {
       .cta-button { font-size: 14px; padding: 13px 22px; }
       footer a { margin: 0 8px; font-size: 12px; }
-      .cta-group {
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-      }
-      .cta-button { width: auto; }
+      .cta-group { flex-direction: column; gap: 10px; }
+      .cta-button { width: 100%; }
     }
     @media (prefers-reduced-motion: reduce) {
       .cta-button, .waitlist-button { transition: none; }
@@ -542,13 +541,19 @@
 
   <!-- ===== HEADER FIXE ===== -->
   <header class="site-header" id="siteHeader">
-    <div class="header-logo" id="logoBtn">Yester</div>
+    <div class="header-left">
+      <div class="header-logo" id="logoBtn">Yester</div>
+      <select class="language-select" id="languageSelect" aria-label="Language / Langue">
+        <option value="fr">FR</option>
+        <option value="en">EN</option>
+      </select>
+    </div>
     <nav class="header-nav">
-      <a href="#home" data-page="home">Accueil</a>
-      <a href="#cgu" data-page="cgu">CGU</a>
-      <a href="#privacy" data-page="privacy">Confidentialité</a>
-      <a href="#rules" data-page="rules">Règlement</a>
-      <a href="#contact" data-page="contact">Contact</a>
+      <a href="#home" data-page="home" data-i18n="navHome">Accueil</a>
+      <a href="#cgu" data-page="cgu" data-i18n="navTerms">CGU</a>
+      <a href="#privacy" data-page="privacy" data-i18n="navPrivacy">Confidentialité</a>
+      <a href="#rules" data-page="rules" data-i18n="navRules">Règlement</a>
+      <a href="#contact" data-page="contact" data-i18n="navContact">Contact</a>
     </nav>
     <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -557,11 +562,11 @@
 
   <!-- Drawer mobile -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#home" data-page="home">🏠 Accueil</a>
-    <a href="#cgu" data-page="cgu">📄 CGU</a>
-    <a href="#privacy" data-page="privacy">🔒 Confidentialité</a>
-    <a href="#rules" data-page="rules">📋 Règlement</a>
-    <a href="#contact" data-page="contact">✉️ Contact</a>
+    <a href="#home" data-page="home">🏠 <span data-i18n="navHome">Accueil</span></a>
+    <a href="#cgu" data-page="cgu">📄 <span data-i18n="navTerms">CGU</span></a>
+    <a href="#privacy" data-page="privacy">🔒 <span data-i18n="navPrivacy">Confidentialité</span></a>
+    <a href="#rules" data-page="rules">📋 <span data-i18n="navRules">Règlement</span></a>
+    <a href="#contact" data-page="contact">✉️ <span data-i18n="navContact">Contact</span></a>
   </div>
 
   <main class="main">
@@ -569,16 +574,20 @@
     <!-- ===== HOME ===== -->
     <div id="home" class="page">
       <div id="normalContent">
-        <div class="home-text">
-          <h1 class="hero-title">Your past. Your friends. One date.</h1>
-          <p class="hero-description">Chaque jour, découvre ce que toi et tes amis faisiez ce jour-là.</p>
-          <div class="cta-group">
-            <button id="joinGameBtn" class="cta-button primary"><img src="/images/apple-logo.png" alt="" class="apple-icon"><span id="downloadLabel">Précommander sur l’App Store</span></button>
-            <button id="openWaitlistBtn" class="cta-button secondary">Rejoindre la waitlist</button>
+        <div class="home-hero-row">
+          <div class="home-text">
+            <h1 class="hero-title" id="heroTitle">Une nouvelle date chaque jour.</h1>
+            <p class="hero-description" id="heroDescription">Découvre ce que toi et tes amis faisiez ce jour-là.</p>
           </div>
-          <p class="home-social-proof" id="homeSocialProof">Yester n’est pas encore disponible dans ton pays ? Rejoins la waitlist et on te prévient dès son lancement.</p>
+          <div class="hero-actions">
+            <div class="cta-group">
+              <button id="joinGameBtn" class="cta-button primary"><img src="/images/apple-logo.png" alt="" class="apple-icon"><span id="downloadLabel">Précommander</span></button>
+              <button id="openWaitlistBtn" class="cta-button secondary">Rejoindre la waitlist</button>
+            </div>
+            <p class="home-social-proof" id="homeSocialProof">Yester n’est pas encore disponible dans ton pays ? Rejoins la waitlist et on te prévient dès son lancement.</p>
+          </div>
         </div>
-        <div class="screenshots-viewport" aria-label="Captures d’écran de Yester">
+        <div class="screenshots-viewport" id="screenshotsViewport" aria-label="Captures d’écran de Yester">
           <div class="screenshots-track">
             <div class="screenshot-card"><img src="/images/ASS1.png" alt="Yester — capture d’écran 1" loading="eager"></div>
             <div class="screenshot-card"><img src="/images/ASS2.png" alt="Yester — capture d’écran 2" loading="lazy"></div>
@@ -587,7 +596,7 @@
             <div class="screenshot-card"><img src="/images/ASS5.png" alt="Yester — capture d’écran 5" loading="lazy"></div>
           </div>
         </div>
-        <p class="carousel-hint">Fais glisser pour découvrir Yester</p>
+        <p class="carousel-hint" id="carouselHint">Fais glisser pour découvrir Yester</p>
       </div>
     </div>
 
@@ -596,12 +605,12 @@
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <button class="modal-close" id="closeModalBtn" aria-label="Fermer">✕</button>
         <div class="modal-header">
-          <p class="modal-title" id="modalTitle">Rejoindre la waitlist</p>
-          <p class="modal-subtitle" id="modalSubtitle">On te prévient dès que Yester est dispo dans ton pays.</p>
+          <p class="modal-title" id="modalTitle" data-i18n="modalTitle">Réserver ma place</p>
+          <p class="modal-subtitle" id="modalSubtitle" data-i18n="modalSubtitle">On te prévient dès que Yester est dispo dans ton pays.</p>
         </div>
         <form class="waitlist-form" id="waitlistForm">
           <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" id="waitlistInput" aria-label="Adresse email">
-          <button type="submit" class="waitlist-button" id="waitlistBtn">S'inscrire</button>
+          <button type="submit" class="waitlist-button" id="waitlistBtn" data-i18n="subscribe">S'inscrire</button>
         </form>
       </div>
     </div>
@@ -713,19 +722,19 @@
 
     <!-- ===== CONTACT ===== -->
     <div id="contact" class="page section">
-      <h1>Contact</h1>
-      <p>Pour toute question, problème ou suggestion concernant Yester, vous pouvez nous contacter par email :</p>
+      <h1 data-i18n="contactTitle">Contact</h1>
+      <p><span data-i18n="contactText">Pour toute question, problème ou suggestion concernant Yester, vous pouvez nous contacter par email :</span></p>
       <p><a href="mailto:y4kcontact@gmail.com">y4kcontact@gmail.com</a></p>
     </div>
 
   </main>
 
   <footer>
-    <a href="#home">Accueil</a>
-    <a href="#cgu">CGU</a>
-    <a href="#privacy">Politique de Confidentialité</a>
-    <a href="#rules">Règlement</a>
-    <a href="#contact">Contact</a>
+    <a href="#home" data-i18n="navHome">Accueil</a>
+    <a href="#cgu" data-i18n="navTerms">CGU</a>
+    <a href="#privacy" data-i18n="footerPrivacy">Politique de Confidentialité</a>
+    <a href="#rules" data-i18n="navRules">Règlement</a>
+    <a href="#contact" data-i18n="navContact">Contact</a>
   </footer>
 
 
@@ -733,30 +742,71 @@
   <script>
     const i18n = {
       fr: {
-        download: "Précommander sur l’App Store",
-        waitlist: "Rejoindre la waitlist",
-        modalTitle: "Réserver ma place",
-        modalSubtitle: "On te prévient dès que Yester est dispo dans ton pays.",
-        placeholder: "ton@email.com",
-        subscribe: "S'inscrire",
-        success: "✓ Inscrit !",
-        error: "Erreur, réessaie",
+        pageTitle: "Yester — Une nouvelle date chaque jour",
+        pageDescription: "Découvre ce que toi et tes amis faisiez ce jour-là.",
+        navHome: "Accueil", navTerms: "CGU", navPrivacy: "Confidentialité", navRules: "Règlement", navContact: "Contact",
+        footerPrivacy: "Politique de confidentialité",
+        heroTitle: "Une nouvelle date chaque jour.",
+        heroDescription: "Découvre ce que toi et tes amis faisiez ce jour-là.",
+        download: "Précommander", waitlist: "Rejoindre la waitlist",
         socialProof: "Yester n’est pas encore disponible dans ton pays ? Rejoins la waitlist et on te prévient dès son lancement.",
+        carouselHint: "Fais glisser pour découvrir Yester",
+        modalTitle: "Réserver ma place",
+        modalSubtitle: "On te prévient dès que Yester est disponible dans ton pays.",
+        placeholder: "ton@email.com", subscribe: "S'inscrire", success: "✓ Inscrit !", error: "Erreur, réessaie",
+        contactTitle: "Contact", contactText: "Pour toute question, problème ou suggestion concernant Yester, tu peux nous contacter par email :",
+        menuLabel: "Menu", closeLabel: "Fermer", screenshotLabel: "Captures d’écran de Yester", emailLabel: "Adresse email"
       },
       en: {
-        download: "Pre-order on the App Store",
-        waitlist: "Join the waitlist",
-        modalTitle: "Reserve your spot",
-        modalSubtitle: "We'll notify you when Yester launches in your country.",
-        placeholder: "your@email.com",
-        subscribe: "Sign up",
-        success: "✓ Signed up!",
-        error: "Error, try again",
-        socialProof: "Yester isn’t available in your country yet? Join the waitlist and we’ll let you know when it launches.",
+        pageTitle: "Yester — A new date every day",
+        pageDescription: "Discover what you and your friends were doing on this day.",
+        navHome: "Home", navTerms: "Terms", navPrivacy: "Privacy", navRules: "Community rules", navContact: "Contact",
+        footerPrivacy: "Privacy policy",
+        heroTitle: "A new date every day.",
+        heroDescription: "Discover what you and your friends were doing on this day.",
+        download: "Pre-order", waitlist: "Join the waitlist",
+        socialProof: "Yester isn't available in your country yet? Join the waitlist and we'll let you know when it launches.",
+        carouselHint: "Swipe to discover Yester",
+        modalTitle: "Save your spot",
+        modalSubtitle: "We'll let you know as soon as Yester is available in your country.",
+        placeholder: "your@email.com", subscribe: "Sign up", success: "✓ You're on the list!", error: "Something went wrong. Try again.",
+        contactTitle: "Contact", contactText: "For any questions, issues or suggestions about Yester, you can reach us by email:",
+        menuLabel: "Menu", closeLabel: "Close", screenshotLabel: "Yester screenshots", emailLabel: "Email address"
       }
     };
-    const lang = navigator.language?.startsWith('fr') ? 'fr' : 'en';
-    const t = i18n[lang];
+    const preferredLanguage = (navigator.language || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en';
+    let lang = localStorage.getItem('yester-language') || preferredLanguage;
+    if (!i18n[lang]) lang = preferredLanguage;
+    let t = i18n[lang];
+
+    function applyLanguage(nextLanguage) {
+      lang = i18n[nextLanguage] ? nextLanguage : 'en';
+      t = i18n[lang];
+      localStorage.setItem('yester-language', lang);
+      document.documentElement.lang = lang;
+      document.title = t.pageTitle;
+      document.querySelector('meta[name="description"]')?.setAttribute('content', t.pageDescription);
+      document.querySelector('meta[property="og:description"]')?.setAttribute('content', t.pageDescription);
+      document.querySelector('meta[property="og:title"]')?.setAttribute('content', t.pageTitle);
+      document.querySelectorAll('[data-i18n]').forEach((element) => {
+        const key = element.dataset.i18n;
+        if (t[key]) element.textContent = t[key];
+      });
+      document.getElementById('heroTitle').textContent = t.heroTitle;
+      document.getElementById('heroDescription').textContent = t.heroDescription;
+      document.getElementById('downloadLabel').textContent = t.download;
+      document.getElementById('openWaitlistBtn').textContent = t.waitlist;
+      document.getElementById('homeSocialProof').textContent = t.socialProof;
+      document.getElementById('carouselHint').textContent = t.carouselHint;
+      document.getElementById('modalTitle').textContent = t.modalTitle;
+      document.getElementById('modalSubtitle').textContent = t.modalSubtitle;
+      document.getElementById('waitlistInput').placeholder = t.placeholder;
+      document.getElementById('waitlistInput').setAttribute('aria-label', t.emailLabel);
+      document.getElementById('hamburgerBtn').setAttribute('aria-label', t.menuLabel);
+      document.getElementById('closeModalBtn').setAttribute('aria-label', t.closeLabel);
+      document.getElementById('screenshotsViewport').setAttribute('aria-label', t.screenshotLabel);
+      document.getElementById('languageSelect').value = lang;
+    }
   </script>
 
   <!-- ===== APP ===== -->
@@ -808,6 +858,7 @@
       setTimeout(() => button.classList.remove('loading'), 3000);
     }
 
+    document.getElementById('languageSelect')?.addEventListener('change', (event) => applyLanguage(event.target.value));
     document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
     document.getElementById('logoBtn')?.addEventListener('click', () => navigateToPage('home'));
 
@@ -849,14 +900,9 @@
     });
 
     window.addEventListener("load", () => {
-      // Appliquer les traductions
-      document.getElementById('downloadLabel').textContent = t.download;
-      document.getElementById('openWaitlistBtn').textContent = t.waitlist;
-      document.getElementById('modalTitle').textContent = t.modalTitle;
-      document.getElementById('modalSubtitle').textContent = t.modalSubtitle;
-      document.getElementById('waitlistInput').placeholder = t.placeholder;
+      // Appliquer la langue du navigateur ou le choix mémorisé.
+      applyLanguage(lang);
       document.getElementById('waitlistBtn').textContent = t.subscribe;
-      document.getElementById('homeSocialProof').innerHTML = t.socialProof;
 
       // Navigation initiale
       const path = window.location.pathname.substring(1);
@@ -928,5 +974,6 @@
 
 </body>
 </html>
+
 
 
