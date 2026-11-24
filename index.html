@@ -1,5 +1,33 @@
+COLLÉ
+ok va pour et si on remontait le temps ? ensuite dans la description Une nouvelle date chaque jour. Découvre ce que toi et tes amis faisiez ce jour-là. le reste reste comme il est maj pour copier coller . et le selecteur de langue par defaut est englais . ensuite dans le header y a le nom de l'app yester. mais je veux que logoy.png le precede c le nom de mon image et je le veux un peu plus large sur les cotes et moins haut vertical un peu comme youtube
+
+Mise en place de l'interface en anglais par défaut
+Je mets à jour le fichier : nouveau titre, nouvelle description, anglais par défaut et logo dans le header.
+
+Partagé un fichier, lu un fichier, exécuté 2 commandes
+Le fichier index.html est à jour. Tout le reste est inchangé.
+
+Titre : « Et si on remontait le temps ? » (en anglais : « What if we went back in time? »).
+Description : « Une nouvelle date chaque jour. Découvre ce que toi et tes amis faisiez ce jour-là. » (en anglais : « A new date every day. Discover what you and your friends were doing on this day. »).
+Langue : le site s’ouvre en anglais. J’ai supprimé la détection de la langue du navigateur, donc un visiteur francophone verra aussi l’anglais tant qu’il n’a pas choisi FR. Ensuite, son choix est gardé en mémoire. EN est aussi passé en premier dans le menu.
+Logo : logoy.png s’affiche avant « Yester », en 30×21 px avec les coins arrondis, à la façon de YouTube. Les deux forment un seul bouton qui ramène à l’accueil.
+J’ai mis le chemin /images/logoy.png, comme tes autres images. Si ton fichier est ailleurs, change le src à la ligne du header-logo.
+
+L’affichage remplit le cadre 30×21 et coupe ce qui dépasse. Si ton image est carrée, elle perdra un peu en haut et en bas. Si tu préfères la voir entière, remplace object-fit: cover par contain dans .header-logo-img.
+
+Index
+Code
+·HTML
+
+Auto est désormais le mode par défaut. Une vérification automatique bloque les actions qu’elle signale comme risquées ; sinon, il se peut que Claude agisse sans vous demander votre accord. Vous pouvez régler un outil sur « Toujours demander » dans les paramètres des connecteurs pour que Claude vous demande votre accord même en mode Auto. Vous pouvez passer en mode Manuel à tout moment. En savoir plus.
+
+
+Claude est une IA et peut commettre des erreurs.
+Index · HTML
+
+
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,10 +43,10 @@
   <meta property="og:site_name" content="Yester">
   <link rel="alternate" href="https://apps.apple.com/app/id6812065877">
   <meta name="apple-itunes-app" content="app-id=6812065877">
-
-
-
-
+ 
+ 
+ 
+ 
   <style>
     html, body {
       margin: 0;
@@ -49,7 +77,7 @@
       max-width: 800px;
       width: 100%;
     }
-
+ 
     /* ===================== HOME PAGE ===================== */
     #home {
       display: flex;
@@ -75,7 +103,7 @@
       gap: 48px;
       text-align: left;
     }
-
+ 
     /* ===================== HERO & SCREENSHOT CAROUSEL ===================== */
     #normalContent {
       width: min(1120px, calc(100% - 64px));
@@ -211,7 +239,7 @@
       border: 1px solid rgba(255,255,255,0.25);
       backdrop-filter: blur(12px);
     }
-
+ 
     /* ===================== WAITLIST MODAL ===================== */
     .modal-overlay {
       display: none;
@@ -322,9 +350,9 @@
     .waitlist-button:active {
       transform: translateY(0);
     }
-
+ 
 </style>
-
+ 
   <style>
     /* ===================== HEADER & NAV ===================== */
     .site-header {
@@ -362,11 +390,21 @@
     }
     .language-select option { color: #111; background: #fff; }
     .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       font-size: 18px;
       font-weight: 800;
       color: white;
       letter-spacing: -0.3px;
       cursor: pointer;
+    }
+    .header-logo-img {
+      width: 30px;
+      height: 21px;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
     }
     .header-nav {
       display: flex;
@@ -455,7 +493,7 @@
       .header-nav { display: none; }
       .hamburger  { display: flex; }
     }
-
+ 
     /* ===================== SECTIONS ===================== */
     .cgu-section, .privacy-section, .section {
       margin: 0 auto;
@@ -472,7 +510,7 @@
     #contact p { color: #ccc; }
     #contact a { color: #667eea; text-decoration: none; }
     #contact a:hover { text-decoration: underline; }
-
+ 
     footer {
       background-color: #000;
       padding: 15px 0;
@@ -485,7 +523,7 @@
       transition: color 0.3s ease;
     }
     footer a:hover { color: #667eea; text-decoration: underline; }
-
+ 
     @media (max-width: 768px) {
       #normalContent {
         width: 100%;
@@ -536,16 +574,16 @@
     }
   </style>
 </head>
-
+ 
 <body>
-
+ 
   <!-- ===== HEADER FIXE ===== -->
   <header class="site-header" id="siteHeader">
     <div class="header-left">
-      <div class="header-logo" id="logoBtn">Yester</div>
+      <div class="header-logo" id="logoBtn"><img src="/images/logoy.png" alt="" class="header-logo-img"><span>Yester</span></div>
       <select class="language-select" id="languageSelect" aria-label="Language / Langue">
+        <option value="en" selected>EN</option>
         <option value="fr">FR</option>
-        <option value="en">EN</option>
       </select>
     </div>
     <nav class="header-nav">
@@ -559,7 +597,7 @@
       <span></span><span></span><span></span>
     </button>
   </header>
-
+ 
   <!-- Drawer mobile -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="#home" data-page="home">🏠 <span data-i18n="navHome">Accueil</span></a>
@@ -568,16 +606,16 @@
     <a href="#rules" data-page="rules">📋 <span data-i18n="navRules">Règlement</span></a>
     <a href="#contact" data-page="contact">✉️ <span data-i18n="navContact">Contact</span></a>
   </div>
-
+ 
   <main class="main">
-
+ 
     <!-- ===== HOME ===== -->
     <div id="home" class="page">
       <div id="normalContent">
         <div class="home-hero-row">
           <div class="home-text">
-            <h1 class="hero-title" id="heroTitle">Une nouvelle date chaque jour.</h1>
-            <p class="hero-description" id="heroDescription">Découvre ce que toi et tes amis faisiez ce jour-là.</p>
+            <h1 class="hero-title" id="heroTitle">Et si on remontait le temps ?</h1>
+            <p class="hero-description" id="heroDescription">Une nouvelle date chaque jour. Découvre ce que toi et tes amis faisiez ce jour-là.</p>
           </div>
           <div class="hero-actions">
             <div class="cta-group">
@@ -599,7 +637,7 @@
         <p class="carousel-hint" id="carouselHint">Fais glisser pour découvrir Yester</p>
       </div>
     </div>
-
+ 
     <!-- ===== MODAL WAITLIST ===== -->
     <div class="modal-overlay" id="waitlistModal">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -614,8 +652,8 @@
         </form>
       </div>
     </div>
-
-
+ 
+ 
     <!-- ===== CGU ===== -->
     <div id="cgu" class="page cgu-section">
       <h1>Conditions Générales d'Utilisation</h1>
@@ -651,7 +689,7 @@
       <h2>10. Contact ou questions</h2>
       <p>Votre avis nous permet d'améliorer nos services. Si vous avez une question, un commentaire ou un retour d'information, contactez-nous via notre centre d'aide dans l'application.</p>
     </div>
-
+ 
     <!-- ===== PRIVACY ===== -->
     <div id="privacy" class="page privacy-section">
       <h1>Politique de Confidentialité</h1>
@@ -699,7 +737,7 @@
       <h2>9. Mise à jour de notre politique de confidentialité</h2>
       <p>Nous pouvons mettre à jour notre politique de confidentialité si cela s'avère nécessaire ou si la loi l'exige.</p>
     </div>
-
+ 
     <!-- ===== RÈGLEMENT ===== -->
     <div id="rules" class="page section">
       <h1>Normes Communautaires</h1>
@@ -719,16 +757,16 @@
       <h2>Comment nous avertir ?</h2>
       <p>Tu peux signaler toute atteinte via les dispositifs de signalement de l'application.</p>
     </div>
-
+ 
     <!-- ===== CONTACT ===== -->
     <div id="contact" class="page section">
       <h1 data-i18n="contactTitle">Contact</h1>
       <p><span data-i18n="contactText">Pour toute question, problème ou suggestion concernant Yester, vous pouvez nous contacter par email :</span></p>
       <p><a href="mailto:y4kcontact@gmail.com">y4kcontact@gmail.com</a></p>
     </div>
-
+ 
   </main>
-
+ 
   <footer>
     <a href="#home" data-i18n="navHome">Accueil</a>
     <a href="#cgu" data-i18n="navTerms">CGU</a>
@@ -736,8 +774,8 @@
     <a href="#rules" data-i18n="navRules">Règlement</a>
     <a href="#contact" data-i18n="navContact">Contact</a>
   </footer>
-
-
+ 
+ 
   <!-- ===== I18N ===== -->
   <script>
     const i18n = {
@@ -746,8 +784,8 @@
         pageDescription: "Découvre ce que toi et tes amis faisiez ce jour-là.",
         navHome: "Accueil", navTerms: "CGU", navPrivacy: "Confidentialité", navRules: "Règlement", navContact: "Contact",
         footerPrivacy: "Politique de confidentialité",
-        heroTitle: "Une nouvelle date chaque jour.",
-        heroDescription: "Découvre ce que toi et tes amis faisiez ce jour-là.",
+        heroTitle: "Et si on remontait le temps ?",
+        heroDescription: "Une nouvelle date chaque jour. Découvre ce que toi et tes amis faisiez ce jour-là.",
         download: "Précommander", waitlist: "Rejoindre la waitlist",
         socialProof: "Yester n’est pas encore disponible dans ton pays ? Rejoins la waitlist et on te prévient dès son lancement.",
         carouselHint: "Fais glisser pour découvrir Yester",
@@ -762,8 +800,8 @@
         pageDescription: "Discover what you and your friends were doing on this day.",
         navHome: "Home", navTerms: "Terms", navPrivacy: "Privacy", navRules: "Community rules", navContact: "Contact",
         footerPrivacy: "Privacy policy",
-        heroTitle: "A new date every day.",
-        heroDescription: "Discover what you and your friends were doing on this day.",
+        heroTitle: "What if we went back in time?",
+        heroDescription: "A new date every day. Discover what you and your friends were doing on this day.",
         download: "Pre-order", waitlist: "Join the waitlist",
         socialProof: "Yester isn't available in your country yet? Join the waitlist and we'll let you know when it launches.",
         carouselHint: "Swipe to discover Yester",
@@ -774,11 +812,11 @@
         menuLabel: "Menu", closeLabel: "Close", screenshotLabel: "Yester screenshots", emailLabel: "Email address"
       }
     };
-    const preferredLanguage = (navigator.language || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en';
-    let lang = localStorage.getItem('yester-language') || preferredLanguage;
-    if (!i18n[lang]) lang = preferredLanguage;
+    const DEFAULT_LANGUAGE = 'en';
+    let lang = localStorage.getItem('yester-language') || DEFAULT_LANGUAGE;
+    if (!i18n[lang]) lang = DEFAULT_LANGUAGE;
     let t = i18n[lang];
-
+ 
     function applyLanguage(nextLanguage) {
       lang = i18n[nextLanguage] ? nextLanguage : 'en';
       t = i18n[lang];
@@ -808,7 +846,7 @@
       document.getElementById('languageSelect').value = lang;
     }
   </script>
-
+ 
   <!-- ===== APP ===== -->
   <script>
     const APP_CONFIG = {
@@ -817,7 +855,7 @@
       appStoreId: '6812065877',
       appStoreUrl: 'https://apps.apple.com/app/id6812065877'
     };
-
+ 
     function switchPage(pageId) {
       document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
       const targetPage = document.getElementById(pageId);
@@ -828,13 +866,13 @@
       const footer = document.querySelector('footer');
       if (footer) footer.style.display = pageId === 'home' ? 'none' : 'block';
     }
-
+ 
     function navigateToPage(pageId) {
       switchPage(pageId);
       const url = pageId === 'home' ? '/' : `/${pageId}`;
       history.pushState({ page: pageId }, '', url);
     }
-
+ 
     function joinGame() {
       const button = document.getElementById('joinGameBtn');
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -857,11 +895,11 @@
       }
       setTimeout(() => button.classList.remove('loading'), 3000);
     }
-
+ 
     document.getElementById('languageSelect')?.addEventListener('change', (event) => applyLanguage(event.target.value));
     document.getElementById('joinGameBtn')?.addEventListener('click', joinGame);
     document.getElementById('logoBtn')?.addEventListener('click', () => navigateToPage('home'));
-
+ 
     document.querySelectorAll('.header-nav a, footer a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -870,7 +908,7 @@
         navigateToPage(target);
       });
     });
-
+ 
     document.querySelectorAll('.mobile-menu a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -879,31 +917,31 @@
         navigateToPage(target);
       });
     });
-
+ 
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const mobileMenu = document.getElementById('mobileMenu');
-
+ 
     function closeMobileMenu() {
       hamburgerBtn?.classList.remove('open');
       mobileMenu?.classList.remove('open');
       document.body.style.overflow = '';
     }
-
+ 
     hamburgerBtn?.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.toggle('open');
       hamburgerBtn.classList.toggle('open', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
-
+ 
     window.addEventListener('popstate', (event) => {
       if (event.state && event.state.page) switchPage(event.state.page);
     });
-
+ 
     window.addEventListener("load", () => {
       // Appliquer la langue du navigateur ou le choix mémorisé.
       applyLanguage(lang);
       document.getElementById('waitlistBtn').textContent = t.subscribe;
-
+ 
       // Navigation initiale
       const path = window.location.pathname.substring(1);
       const hash = window.location.hash.substring(1);
@@ -915,12 +953,12 @@
         switchPage('home');
         history.replaceState({ page: 'home' }, '', '/');
       }
-
+ 
       // Modal waitlist
       const openBtn = document.getElementById("openWaitlistBtn");
       const modal = document.getElementById("waitlistModal");
       const closeBtn = document.getElementById("closeModalBtn");
-
+ 
       function openModal() {
         modal.classList.add("open");
         setTimeout(() => modal.querySelector("input")?.focus(), 100);
@@ -930,7 +968,7 @@
         modal.classList.remove("open");
         document.body.style.overflow = "";
       }
-
+ 
       if (openBtn) openBtn.addEventListener("click", openModal);
       if (closeBtn) closeBtn.addEventListener("click", closeModal);
       if (modal) {
@@ -939,7 +977,7 @@
       document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
     });
   </script>
-
+ 
   <!-- ===== WAITLIST SUBMIT ===== -->
   <script>
     document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
@@ -971,9 +1009,9 @@
       }
     });
   </script>
-
+ 
 </body>
 </html>
-
+ 
 
 
