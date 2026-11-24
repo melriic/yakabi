@@ -1,31 +1,3 @@
-COLLÉ
-ok va pour et si on remontait le temps ? ensuite dans la description Une nouvelle date chaque jour. Découvre ce que toi et tes amis faisiez ce jour-là. le reste reste comme il est maj pour copier coller . et le selecteur de langue par defaut est englais . ensuite dans le header y a le nom de l'app yester. mais je veux que logoy.png le precede c le nom de mon image et je le veux un peu plus large sur les cotes et moins haut vertical un peu comme youtube
-
-Mise en place de l'interface en anglais par défaut
-Je mets à jour le fichier : nouveau titre, nouvelle description, anglais par défaut et logo dans le header.
-
-Partagé un fichier, lu un fichier, exécuté 2 commandes
-Le fichier index.html est à jour. Tout le reste est inchangé.
-
-Titre : « Et si on remontait le temps ? » (en anglais : « What if we went back in time? »).
-Description : « Une nouvelle date chaque jour. Découvre ce que toi et tes amis faisiez ce jour-là. » (en anglais : « A new date every day. Discover what you and your friends were doing on this day. »).
-Langue : le site s’ouvre en anglais. J’ai supprimé la détection de la langue du navigateur, donc un visiteur francophone verra aussi l’anglais tant qu’il n’a pas choisi FR. Ensuite, son choix est gardé en mémoire. EN est aussi passé en premier dans le menu.
-Logo : logoy.png s’affiche avant « Yester », en 30×21 px avec les coins arrondis, à la façon de YouTube. Les deux forment un seul bouton qui ramène à l’accueil.
-J’ai mis le chemin /images/logoy.png, comme tes autres images. Si ton fichier est ailleurs, change le src à la ligne du header-logo.
-
-L’affichage remplit le cadre 30×21 et coupe ce qui dépasse. Si ton image est carrée, elle perdra un peu en haut et en bas. Si tu préfères la voir entière, remplace object-fit: cover par contain dans .header-logo-img.
-
-Index
-Code
-·HTML
-
-Auto est désormais le mode par défaut. Une vérification automatique bloque les actions qu’elle signale comme risquées ; sinon, il se peut que Claude agisse sans vous demander votre accord. Vous pouvez régler un outil sur « Toujours demander » dans les paramètres des connecteurs pour que Claude vous demande votre accord même en mode Auto. Vous pouvez passer en mode Manuel à tout moment. En savoir plus.
-
-
-Claude est une IA et peut commettre des erreurs.
-Index · HTML
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
