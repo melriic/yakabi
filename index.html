@@ -94,23 +94,17 @@
       gap: clamp(32px, 6vw, 88px);
       width: 100%;
     }
-    .home-text {
-      width: 100%;
-      max-width: 620px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  
+    .home-text { container-type: inline-size; }
     .hero-title {
       margin: 0;
       color: #fff;
-      max-width: 640px;
-      font-size: clamp(44px, 5.6vw, 70px);
+      font-size: min(64px, 8.2cqi);
       line-height: 1.02;
       letter-spacing: -0.06em;
       font-weight: 800;
-      text-wrap: balance;
     }
+    .hero-title-part { white-space: nowrap; }
     .hero-description {
       margin: 20px 0 0;
       max-width: 490px;
