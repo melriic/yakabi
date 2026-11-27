@@ -324,6 +324,54 @@
       transform: translateY(0);
     }
 
+    /* ===================== HERO : DATE + FOND PHOTO DYNAMIQUE ===================== */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-bg-layer {
+      position: absolute;
+      inset: -60px; /* déborde pour que le flou n'ait pas de bords clairs */
+      background-size: cover;
+      background-position: center;
+      filter: blur(28px) saturate(1.1);
+      transform: scale(1.08);
+      opacity: 0;
+      transition: opacity 1.1s ease;
+    }
+    .hero-bg-layer.active { opacity: 1; }
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(8, 9, 13, 0.55) 0%,
+        rgba(8, 9, 13, 0.70) 60%,
+        rgba(8, 9, 13, 0.92) 100%);
+    }
+    #normalContent {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-prefix {
+      display: block;
+      color: rgba(255, 255, 255, 0.78);
+    }
+    .hero-date {
+      display: block;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+      transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+    }
+    .hero-date.is-changing {
+      opacity: 0;
+      transform: translateY(10px);
+      filter: blur(6px);
+    }
+
 </style>
 
   <style>
@@ -543,7 +591,7 @@
       .cta-button { width: 100%; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .cta-button, .waitlist-button { transition: none; }
+      .cta-button, .waitlist-button, .hero-date, .hero-bg-layer { transition: none; }
     }
   </style>
 </head>
@@ -584,12 +632,13 @@
 
     <!-- ===== HOME ===== -->
     <div id="home" class="page">
+      <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
       <div id="normalContent">
         <div class="home-hero-row">
           <div class="home-text">
-            <h1 class="hero-title" id="heroTitle">Et si on remontait le temps ?</h1>
-            <p class="hero-description" id="heroDescription">Chaque jour, une nouvelle date.
-Partage ta photo de ce jour-là et découvre ce que faisaient tes amis.</p>
+            <h1 class="hero-title" id="heroTitle"><span class="hero-prefix" id="heroPrefix">What were you doing on</span><span class="hero-date" id="heroDate">June 21, 2015?</span></h1>
+            <p class="hero-description" id="heroDescription">A new date drops every day.
+Share your photo from that day and see what your friends were up to.</p>
           </div>
           <div class="hero-actions">
             <div class="cta-group">
@@ -758,7 +807,7 @@ Partage ta photo de ce jour-là et découvre ce que faisaient tes amis.</p>
         pageDescription: "Découvre ce que toi et tes amis faisiez ce jour-là.",
         navHome: "Accueil", navTerms: "CGU", navPrivacy: "Confidentialité", navRules: "Règlement", navContact: "Contact",
         footerPrivacy: "Politique de confidentialité",
-        heroTitle: "Et si on remontait le temps ?",
+        heroPrefix: "Tu faisais quoi le",
         heroDescription: "Chaque jour, une nouvelle date.\nPartage ta photo de ce jour-là et découvre ce que faisaient tes amis.",
         download: "Précommander", waitlist: "Rejoindre la waitlist",
         socialProof: "Yester n’est pas encore disponible dans ton pays ? Rejoins la waitlist et on te prévient dès son lancement.",
@@ -774,8 +823,8 @@ Partage ta photo de ce jour-là et découvre ce que faisaient tes amis.</p>
         pageDescription: "Discover what you and your friends were doing on this day.",
         navHome: "Home", navTerms: "Terms", navPrivacy: "Privacy", navRules: "Community rules", navContact: "Contact",
         footerPrivacy: "Privacy policy",
-        heroTitle: "What if we went back in time?",
-        heroDescription: "Every day, a day from your past.\nShare your photo from that day and see what your friends were up to.",
+        heroPrefix: "What were you doing on",
+        heroDescription: "A new date drops every day.\nShare your photo from that day and see what your friends were up to.",
         download: "Pre-order", waitlist: "Join the waitlist",
         socialProof: "Yester isn't available in your country yet? Join the waitlist and we'll let you know when it launches.",
         carouselHint: "Swipe to discover Yester",
@@ -804,7 +853,8 @@ Partage ta photo de ce jour-là et découvre ce que faisaient tes amis.</p>
         const key = element.dataset.i18n;
         if (t[key]) element.textContent = t[key];
       });
-      document.getElementById('heroTitle').textContent = t.heroTitle;
+      document.getElementById('heroPrefix').textContent = t.heroPrefix;
+      renderHeroDate();
       document.getElementById('heroDescription').textContent = t.heroDescription;
       document.getElementById('downloadLabel').textContent = t.download;
       document.getElementById('openWaitlistBtn').textContent = t.waitlist;
@@ -819,6 +869,75 @@ Partage ta photo de ce jour-là et découvre ce que faisaient tes amis.</p>
       document.getElementById('screenshotsViewport').setAttribute('aria-label', t.screenshotLabel);
       document.getElementById('languageSelect').value = lang;
     }
+  </script>
+
+  <!-- ===== HERO : DATES + PHOTOS SYNCHRO ===== -->
+  <script>
+    // Chaque date est liée à la photo du même rang (date 1 ↔ foto1, etc.).
+    // Change l'extension ici si tes photos ne sont pas en .jpg.
+    const HERO_SLIDES = [
+      { date: '2015-06-21', photo: '/images/foto1.jpg' },
+      { date: '2016-07-14', photo: '/images/foto2.jpg' },
+      { date: '2017-06-03', photo: '/images/foto3.jpg' },
+      { date: '2018-07-15', photo: '/images/foto4.jpg' },
+      { date: '2019-12-31', photo: '/images/foto5.jpg' },
+      { date: '2021-08-07', photo: '/images/foto6.jpg' },
+      { date: '2022-05-28', photo: '/images/foto7.jpg' },
+      { date: '2023-08-12', photo: '/images/foto8.jpg' }
+    ];
+    const HERO_INTERVAL = 2600; // ms entre deux dates
+    const HERO_FADE = 350;      // ms, doit matcher la transition CSS de .hero-date
+    const heroReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let heroIndex = 0;
+
+    function formatHeroDate(iso) {
+      const [y, m, d] = iso.split('-').map(Number);
+      const date = new Date(y, m - 1, d);
+      const locale = lang === 'fr' ? 'fr-FR' : 'en-US';
+      const text = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+      return lang === 'fr' ? text + ' ?' : text + '?';
+    }
+
+    function renderHeroDate() {
+      const el = document.getElementById('heroDate');
+      if (el) el.textContent = formatHeroDate(HERO_SLIDES[heroIndex].date);
+    }
+
+    const heroLayers = HERO_SLIDES.map(() => {
+      const layer = document.createElement('div');
+      layer.className = 'hero-bg-layer';
+      document.getElementById('heroBg').appendChild(layer);
+      return layer;
+    });
+
+    // Charge une photo seulement quand on en a besoin (l'actuelle + la suivante).
+    function loadHeroLayer(i) {
+      const layer = heroLayers[i];
+      if (layer && !layer.style.backgroundImage) {
+        layer.style.backgroundImage = `url("${HERO_SLIDES[i].photo}")`;
+      }
+    }
+
+    function showHeroSlide(i) {
+      loadHeroLayer(i);
+      loadHeroLayer((i + 1) % HERO_SLIDES.length);
+      heroLayers.forEach((layer, k) => layer.classList.toggle('active', k === i));
+    }
+
+    function nextHeroSlide() {
+      if (document.hidden) return;
+      const dateEl = document.getElementById('heroDate');
+      heroIndex = (heroIndex + 1) % HERO_SLIDES.length;
+      showHeroSlide(heroIndex);
+      dateEl.classList.add('is-changing');
+      setTimeout(() => {
+        renderHeroDate();
+        dateEl.classList.remove('is-changing');
+      }, HERO_FADE);
+    }
+
+    showHeroSlide(0);
+    if (!heroReduceMotion) setInterval(nextHeroSlide, HERO_INTERVAL);
   </script>
 
   <!-- ===== APP ===== -->
