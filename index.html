@@ -324,6 +324,101 @@
       transform: translateY(0);
     }
 
+     /* ===================== BETA STEP (après inscription waitlist) ===================== */
+    .modal [hidden] { display: none !important; }
+    .waitlist-step, .beta-step {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .beta-step { animation: modalIn 0.25s ease; text-align: center; }
+    .beta-done {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 auto;
+      padding: 6px 12px 6px 6px;
+      border-radius: 999px;
+      background: rgba(52, 199, 89, 0.12);
+      color: #34c759;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .beta-done-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #34c759;
+      color: #121212;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .beta-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+      margin: 4px 0;
+    }
+    .beta-tag {
+      display: inline-block;
+      margin: 0 auto 8px;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: rgba(255, 204, 102, 0.14);
+      color: rgb(255, 204, 102);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+    .beta-title {
+      margin: 0 0 8px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+    .beta-subtitle {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .beta-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px;
+      border-radius: 12px;
+      background: rgb(255, 204, 102);
+      color: #121212;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .beta-button:hover { background: rgb(255, 214, 130); transform: translateY(-1px); }
+    .beta-later {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.45);
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .beta-later:hover { color: #fff; }
+    .beta-hint {
+      margin: -6px 0 0;
+      color: rgba(255, 255, 255, 0.35);
+      font-size: 12px;
+    }
+
     /* ===================== HERO : DATE + FOND PHOTO DYNAMIQUE ===================== */
     .hero-bg {
       position: absolute;
@@ -661,18 +756,36 @@ Share your photo from that day and see what your friends were up to.</p>
       </div>
     </div>
 
-    <!-- ===== MODAL WAITLIST ===== -->
+  <!-- ===== MODAL WAITLIST ===== -->
     <div class="modal-overlay" id="waitlistModal">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <button class="modal-close" id="closeModalBtn" aria-label="Fermer">✕</button>
-        <div class="modal-header">
-          <p class="modal-title" id="modalTitle" data-i18n="modalTitle">Réserver ma place</p>
-          <p class="modal-subtitle" id="modalSubtitle" data-i18n="modalSubtitle">On te prévient dès que Yester est dispo dans ton pays.</p>
+        <button class="modal-close" id="closeModalBtn" aria-label="Close">✕</button>
+
+        <!-- Étape 1 : email -->
+        <div class="waitlist-step" id="waitlistStep">
+          <div class="modal-header">
+            <p class="modal-title" id="modalTitle" data-i18n="modalTitle">Save your spot</p>
+            <p class="modal-subtitle" id="modalSubtitle" data-i18n="modalSubtitle">We'll let you know as soon as Yester is available in your country.</p>
+          </div>
+          <form class="waitlist-form" id="waitlistForm">
+            <input type="email" name="EMAIL" placeholder="your@email.com" required class="waitlist-input" id="waitlistInput" aria-label="Email address">
+            <button type="submit" class="waitlist-button" id="waitlistBtn" data-i18n="subscribe">Sign up</button>
+          </form>
         </div>
-        <form class="waitlist-form" id="waitlistForm">
-          <input type="email" name="EMAIL" placeholder="ton@email.com" required class="waitlist-input" id="waitlistInput" aria-label="Adresse email">
-          <button type="submit" class="waitlist-button" id="waitlistBtn" data-i18n="subscribe">Me notifier</button>
-        </form>
+
+        <!-- Étape 2 : proposition bêta -->
+        <div class="beta-step" id="betaStep" hidden>
+          <div class="beta-done"><span class="beta-done-icon">✓</span><span data-i18n="betaDone">You're on the list!</span></div>
+          <div class="beta-divider"></div>
+          <div>
+            <span class="beta-tag">BETA</span>
+            <p class="beta-title" data-i18n="betaTitle">Want to try Yester before everyone else?</p>
+            <p class="beta-subtitle" data-i18n="betaSubtitle">Spots are limited. Join the beta on TestFlight and help shape the app.</p>
+          </div>
+          <a class="beta-button" id="betaLink" href="https://testflight.apple.com/join/Mpy3B2hG" target="_blank" rel="noopener" data-i18n="betaCta">Join the beta</a>
+          <p class="beta-hint" id="betaHint" data-i18n="betaHint" hidden>Open this link on your iPhone.</p>
+          <button type="button" class="beta-later" id="betaLaterBtn" data-i18n="betaLater">Maybe later</button>
+        </div>
       </div>
     </div>
 
@@ -816,7 +929,13 @@ Share your photo from that day and see what your friends were up to.</p>
         modalSubtitle: "On te prévient dès que Yester est disponible dans ton pays.",
         placeholder: "ton@email.com", subscribe: "Me notifier", success: "Validé", error: "Erreur, réessaie",
         contactTitle: "Contact", contactText: "Pour toute question, problème ou suggestion concernant Yester, tu peux nous contacter par email :",
-        menuLabel: "Menu", closeLabel: "Fermer", screenshotLabel: "Captures d’écran de Yester", emailLabel: "Adresse email"
+        menuLabel: "Menu", closeLabel: "Fermer", screenshotLabel: "Captures d’écran de Yester", emailLabel: "Adresse email",
+                betaDone: "Tu es sur la liste !",
+        betaTitle: "Tu veux tester Yester avant tout le monde ?",
+        betaSubtitle: "Les places sont limitées. Rejoins la bêta sur TestFlight et aide-nous à façonner l'app.",
+        betaCta: "Rejoindre la bêta",
+        betaLater: "Plus tard",
+        betaHint: "Ouvre ce lien sur ton iPhone.",
       },
       en: {
         pageTitle: "Yester — A new date every day",
@@ -832,7 +951,13 @@ Share your photo from that day and see what your friends were up to.</p>
         modalSubtitle: "We'll let you know as soon as Yester is available in your country.",
         placeholder: "your@email.com", subscribe: "Notify me", success: "✓ You're on the list!", error: "Something went wrong. Try again.",
         contactTitle: "Contact", contactText: "For any questions, issues or suggestions about Yester, you can reach us by email:",
-        menuLabel: "Menu", closeLabel: "Close", screenshotLabel: "Yester screenshots", emailLabel: "Email address"
+        menuLabel: "Menu", closeLabel: "Close", screenshotLabel: "Yester screenshots", emailLabel: "Email address",
+                betaDone: "You're on the list!",
+        betaTitle: "Want to try Yester before everyone else?",
+        betaSubtitle: "Spots are limited. Join the beta on TestFlight and help shape the app.",
+        betaCta: "Join the beta",
+        betaLater: "Maybe later",
+        betaHint: "Open this link on your iPhone.",
       }
     };
     const DEFAULT_LANGUAGE = 'en';
@@ -1057,9 +1182,10 @@ Share your photo from that day and see what your friends were up to.</p>
         setTimeout(() => modal.querySelector("input")?.focus(), 100);
         document.body.style.overflow = "hidden";
       }
-      function closeModal() {
+            function closeModal() {
         modal.classList.remove("open");
         document.body.style.overflow = "";
+        window.resetWaitlistModal?.();
       }
 
       if (openBtn) openBtn.addEventListener("click", openModal);
@@ -1073,6 +1199,34 @@ Share your photo from that day and see what your friends were up to.</p>
 
   <!-- ===== WAITLIST SUBMIT ===== -->
   <script>
+    const waitlistStep = document.getElementById('waitlistStep');
+    const betaStep = document.getElementById('betaStep');
+    const isIPhone = /iPhone|iPod/.test(navigator.userAgent);
+
+    function showBetaStep() {
+      waitlistStep.hidden = true;
+      betaStep.hidden = false;
+      document.getElementById('betaHint').hidden = isIPhone;
+    }
+
+    // Remet la modale à l'état initial (appelé à la fermeture)
+    window.resetWaitlistModal = function () {
+      setTimeout(() => {
+        waitlistStep.hidden = false;
+        betaStep.hidden = true;
+        const btn = document.getElementById('waitlistBtn');
+        btn.textContent = t.subscribe;
+        btn.disabled = false;
+        document.getElementById('waitlistForm').reset();
+      }, 250);
+    };
+
+    document.getElementById('betaLaterBtn').addEventListener('click', () => {
+      document.getElementById('waitlistModal').classList.remove('open');
+      document.body.style.overflow = '';
+      window.resetWaitlistModal();
+    });
+
     document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
@@ -1087,11 +1241,7 @@ Share your photo from that day and see what your friends were up to.</p>
           body: JSON.stringify({ email })
         });
         if (res.ok) {
-          btn.textContent = t.success;
-          setTimeout(() => {
-            document.getElementById('waitlistModal')?.classList.remove('open');
-            document.body.style.overflow = '';
-          }, 1200);
+          showBetaStep();
         } else {
           btn.textContent = t.error;
           btn.disabled = false;
